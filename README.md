@@ -1,4 +1,4 @@
-# Transfer Summary RI Client
+# CPCDS Reference Implementation Client
 
 Reference implementation client for the [Consumer-Directed Payer Data Exchange IG](https://build.fhir.org/ig/HL7/carin-bb/index.html).
 
