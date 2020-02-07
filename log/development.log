@@ -13740,3 +13740,1283 @@ Processing by DashboardController#index as HTML
 Completed 200 OK in 430ms (Views: 87.8ms | ActiveRecord: 0.0ms)
 
 
+Started GET "/" for ::1 at 2020-01-29 17:02:11 -0500
+  
+ActiveRecord::NoDatabaseError (FATAL:  database "transfer-summary_development" does not exist
+):
+  
+activerecord (5.2.4.1) lib/active_record/connection_adapters/postgresql_adapter.rb:696:in `rescue in connect'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/postgresql_adapter.rb:691:in `connect'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/postgresql_adapter.rb:223:in `initialize'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/postgresql_adapter.rb:48:in `new'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/postgresql_adapter.rb:48:in `postgresql_connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:830:in `new_connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:874:in `checkout_new_connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:853:in `try_to_checkout_new_connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:814:in `acquire_connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:538:in `checkout'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:382:in `connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:1033:in `retrieve_connection'
+activerecord (5.2.4.1) lib/active_record/connection_handling.rb:118:in `retrieve_connection'
+activerecord (5.2.4.1) lib/active_record/connection_handling.rb:90:in `connection'
+activerecord (5.2.4.1) lib/active_record/migration.rb:554:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/callbacks.rb:28:in `block in call'
+activesupport (5.2.4.1) lib/active_support/callbacks.rb:98:in `run_callbacks'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/debug_exceptions.rb:61:in `call'
+web-console (3.7.0) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.7.0) lib/web_console/middleware.rb:30:in `block in call'
+web-console (3.7.0) lib/web_console/middleware.rb:20:in `catch'
+web-console (3.7.0) lib/web_console/middleware.rb:20:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (5.2.4.1) lib/rails/rack/logger.rb:38:in `call_app'
+railties (5.2.4.1) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:71:in `block in tagged'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:71:in `tagged'
+railties (5.2.4.1) lib/rails/rack/logger.rb:26:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.0.8) lib/rack/method_override.rb:22:in `call'
+rack (2.0.8) lib/rack/runtime.rb:22:in `call'
+activesupport (5.2.4.1) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/static.rb:127:in `call'
+rack (2.0.8) lib/rack/sendfile.rb:111:in `call'
+railties (5.2.4.1) lib/rails/engine.rb:524:in `call'
+puma (3.12.2) lib/puma/configuration.rb:227:in `call'
+puma (3.12.2) lib/puma/server.rb:674:in `handle_request'
+puma (3.12.2) lib/puma/server.rb:476:in `process_client'
+puma (3.12.2) lib/puma/server.rb:334:in `block in run'
+puma (3.12.2) lib/puma/thread_pool.rb:135:in `block in spawn_thread'
+Started GET "/" for ::1 at 2020-01-29 17:02:29 -0500
+  
+ActiveRecord::NoDatabaseError (FATAL:  database "transfer-summary_development" does not exist
+):
+  
+activerecord (5.2.4.1) lib/active_record/connection_adapters/postgresql_adapter.rb:696:in `rescue in connect'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/postgresql_adapter.rb:691:in `connect'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/postgresql_adapter.rb:223:in `initialize'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/postgresql_adapter.rb:48:in `new'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/postgresql_adapter.rb:48:in `postgresql_connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:830:in `new_connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:874:in `checkout_new_connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:853:in `try_to_checkout_new_connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:814:in `acquire_connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:538:in `checkout'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:382:in `connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:1033:in `retrieve_connection'
+activerecord (5.2.4.1) lib/active_record/connection_handling.rb:118:in `retrieve_connection'
+activerecord (5.2.4.1) lib/active_record/connection_handling.rb:90:in `connection'
+activerecord (5.2.4.1) lib/active_record/migration.rb:554:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/callbacks.rb:28:in `block in call'
+activesupport (5.2.4.1) lib/active_support/callbacks.rb:98:in `run_callbacks'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/debug_exceptions.rb:61:in `call'
+web-console (3.7.0) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.7.0) lib/web_console/middleware.rb:30:in `block in call'
+web-console (3.7.0) lib/web_console/middleware.rb:20:in `catch'
+web-console (3.7.0) lib/web_console/middleware.rb:20:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (5.2.4.1) lib/rails/rack/logger.rb:38:in `call_app'
+railties (5.2.4.1) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:71:in `block in tagged'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:71:in `tagged'
+railties (5.2.4.1) lib/rails/rack/logger.rb:26:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.0.8) lib/rack/method_override.rb:22:in `call'
+rack (2.0.8) lib/rack/runtime.rb:22:in `call'
+activesupport (5.2.4.1) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/static.rb:127:in `call'
+rack (2.0.8) lib/rack/sendfile.rb:111:in `call'
+railties (5.2.4.1) lib/rails/engine.rb:524:in `call'
+puma (3.12.2) lib/puma/configuration.rb:227:in `call'
+puma (3.12.2) lib/puma/server.rb:674:in `handle_request'
+puma (3.12.2) lib/puma/server.rb:476:in `process_client'
+puma (3.12.2) lib/puma/server.rb:334:in `block in run'
+puma (3.12.2) lib/puma/thread_pool.rb:135:in `block in spawn_thread'
+Started GET "/" for ::1 at 2020-01-29 17:03:49 -0500
+  
+ActiveRecord::NoDatabaseError (FATAL:  database "transfer-summary_development" does not exist
+):
+  
+activerecord (5.2.4.1) lib/active_record/connection_adapters/postgresql_adapter.rb:696:in `rescue in connect'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/postgresql_adapter.rb:691:in `connect'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/postgresql_adapter.rb:223:in `initialize'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/postgresql_adapter.rb:48:in `new'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/postgresql_adapter.rb:48:in `postgresql_connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:830:in `new_connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:874:in `checkout_new_connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:853:in `try_to_checkout_new_connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:814:in `acquire_connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:538:in `checkout'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:382:in `connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:1033:in `retrieve_connection'
+activerecord (5.2.4.1) lib/active_record/connection_handling.rb:118:in `retrieve_connection'
+activerecord (5.2.4.1) lib/active_record/connection_handling.rb:90:in `connection'
+activerecord (5.2.4.1) lib/active_record/migration.rb:554:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/callbacks.rb:28:in `block in call'
+activesupport (5.2.4.1) lib/active_support/callbacks.rb:98:in `run_callbacks'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/debug_exceptions.rb:61:in `call'
+web-console (3.7.0) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.7.0) lib/web_console/middleware.rb:30:in `block in call'
+web-console (3.7.0) lib/web_console/middleware.rb:20:in `catch'
+web-console (3.7.0) lib/web_console/middleware.rb:20:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (5.2.4.1) lib/rails/rack/logger.rb:38:in `call_app'
+railties (5.2.4.1) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:71:in `block in tagged'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:71:in `tagged'
+railties (5.2.4.1) lib/rails/rack/logger.rb:26:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.0.8) lib/rack/method_override.rb:22:in `call'
+rack (2.0.8) lib/rack/runtime.rb:22:in `call'
+activesupport (5.2.4.1) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/static.rb:127:in `call'
+rack (2.0.8) lib/rack/sendfile.rb:111:in `call'
+railties (5.2.4.1) lib/rails/engine.rb:524:in `call'
+puma (3.12.2) lib/puma/configuration.rb:227:in `call'
+puma (3.12.2) lib/puma/server.rb:674:in `handle_request'
+puma (3.12.2) lib/puma/server.rb:476:in `process_client'
+puma (3.12.2) lib/puma/server.rb:334:in `block in run'
+puma (3.12.2) lib/puma/thread_pool.rb:135:in `block in spawn_thread'
+Started GET "/" for ::1 at 2020-01-29 17:24:06 -0500
+  
+ActiveRecord::NoDatabaseError (FATAL:  database "transfer-summary_development" does not exist
+):
+  
+activerecord (5.2.4.1) lib/active_record/connection_adapters/postgresql_adapter.rb:696:in `rescue in connect'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/postgresql_adapter.rb:691:in `connect'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/postgresql_adapter.rb:223:in `initialize'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/postgresql_adapter.rb:48:in `new'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/postgresql_adapter.rb:48:in `postgresql_connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:830:in `new_connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:874:in `checkout_new_connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:853:in `try_to_checkout_new_connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:814:in `acquire_connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:538:in `checkout'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:382:in `connection'
+activerecord (5.2.4.1) lib/active_record/connection_adapters/abstract/connection_pool.rb:1033:in `retrieve_connection'
+activerecord (5.2.4.1) lib/active_record/connection_handling.rb:118:in `retrieve_connection'
+activerecord (5.2.4.1) lib/active_record/connection_handling.rb:90:in `connection'
+activerecord (5.2.4.1) lib/active_record/migration.rb:554:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/callbacks.rb:28:in `block in call'
+activesupport (5.2.4.1) lib/active_support/callbacks.rb:98:in `run_callbacks'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/debug_exceptions.rb:61:in `call'
+web-console (3.7.0) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.7.0) lib/web_console/middleware.rb:30:in `block in call'
+web-console (3.7.0) lib/web_console/middleware.rb:20:in `catch'
+web-console (3.7.0) lib/web_console/middleware.rb:20:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (5.2.4.1) lib/rails/rack/logger.rb:38:in `call_app'
+railties (5.2.4.1) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:71:in `block in tagged'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:71:in `tagged'
+railties (5.2.4.1) lib/rails/rack/logger.rb:26:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.0.8) lib/rack/method_override.rb:22:in `call'
+rack (2.0.8) lib/rack/runtime.rb:22:in `call'
+activesupport (5.2.4.1) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/static.rb:127:in `call'
+rack (2.0.8) lib/rack/sendfile.rb:111:in `call'
+railties (5.2.4.1) lib/rails/engine.rb:524:in `call'
+puma (3.12.2) lib/puma/configuration.rb:227:in `call'
+puma (3.12.2) lib/puma/server.rb:674:in `handle_request'
+puma (3.12.2) lib/puma/server.rb:476:in `process_client'
+puma (3.12.2) lib/puma/server.rb:334:in `block in run'
+puma (3.12.2) lib/puma/thread_pool.rb:135:in `block in spawn_thread'
+  [1m[35m (587.6ms)[0m  [1m[35mCREATE DATABASE "transfer-summary_development" ENCODING = 'unicode'[0m
+  ↳ /Users/skravitz/.rvm/gems/ruby-2.6.3/bin/rake:23
+  [1m[35m (516.3ms)[0m  [1m[35mCREATE DATABASE "transfer-summary_test" ENCODING = 'unicode'[0m
+  ↳ /Users/skravitz/.rvm/gems/ruby-2.6.3/bin/rake:23
+Started GET "/" for ::1 at 2020-01-29 17:36:38 -0500
+Processing by WelcomeController#index as HTML
+  Rendering welcome/index.html.erb within layouts/application
+  Rendered welcome/index.html.erb within layouts/application (5.4ms)
+  Rendered partials/_head.html.erb (6292.8ms)
+  Rendered partials/_header.html.erb (1.2ms)
+  Rendered partials/_messages.html.erb (1.0ms)
+  Rendered partials/_footer.html.erb (0.8ms)
+Completed 200 OK in 6347ms (Views: 6337.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/home?utf8=%E2%9C%93&server_url=&button=" for ::1 at 2020-01-29 17:36:57 -0500
+Processing by HomeController#index as HTML
+  Parameters: {"utf8"=>"✓", "server_url"=>"", "button"=>""}
+Redirected to http://localhost:3000/
+Filter chain halted as :establish_session_handler rendered or redirected
+Completed 302 Found in 2ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for ::1 at 2020-01-29 17:36:57 -0500
+Processing by WelcomeController#index as HTML
+  Rendering welcome/index.html.erb within layouts/application
+  Rendered welcome/index.html.erb within layouts/application (0.9ms)
+  Rendered partials/_head.html.erb (221.9ms)
+  Rendered partials/_header.html.erb (0.7ms)
+  Rendered partials/_messages.html.erb (0.5ms)
+  Rendered partials/_footer.html.erb (0.4ms)
+Completed 200 OK in 290ms (Views: 250.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/home?utf8=%E2%9C%93&server_url=http%3A%2F%2Fhapi.fhir.org%2Ffhir&button=" for ::1 at 2020-01-29 17:37:20 -0500
+Processing by HomeController#index as HTML
+  Parameters: {"utf8"=>"✓", "server_url"=>"http://hapi.fhir.org/fhir", "button"=>""}
+Redirected to http://localhost:3000/
+Completed 302 Found in 539ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for ::1 at 2020-01-29 17:37:20 -0500
+Processing by WelcomeController#index as HTML
+  Rendering welcome/index.html.erb within layouts/application
+  Rendered welcome/index.html.erb within layouts/application (0.8ms)
+  Rendered partials/_head.html.erb (49.2ms)
+  Rendered partials/_header.html.erb (0.9ms)
+  Rendered partials/_messages.html.erb (1.2ms)
+  Rendered partials/_footer.html.erb (0.8ms)
+Completed 200 OK in 61ms (Views: 59.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/home?utf8=%E2%9C%93&server_url=http%3A%2F%2Fhapi.fhir.org%2FbaseR4&button=" for ::1 at 2020-01-29 17:37:34 -0500
+Processing by HomeController#index as HTML
+  Parameters: {"utf8"=>"✓", "server_url"=>"http://hapi.fhir.org/baseR4", "button"=>""}
+  Rendering home/index.html.erb within layouts/application
+  Rendered home/index.html.erb within layouts/application (1.7ms)
+  Rendered partials/_head.html.erb (158.5ms)
+  Rendered partials/_header.html.erb (0.7ms)
+  Rendered partials/_messages.html.erb (1.0ms)
+  Rendered partials/_footer.html.erb (0.6ms)
+Completed 200 OK in 1020ms (Views: 181.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard?patient=cms-patient-01" for ::1 at 2020-01-29 17:37:40 -0500
+Processing by DashboardController#index as HTML
+  Parameters: {"patient"=>"cms-patient-01"}
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered partials/_address.html.erb (1.8ms)
+  Rendered partials/_address.html.erb (1.0ms)
+  Rendered dashboard/_patient-card.html.erb (49.1ms)
+  Rendered dashboard/index.html.erb within layouts/application (52.2ms)
+  Rendered partials/_head.html.erb (49.9ms)
+  Rendered partials/_header.html.erb (1.1ms)
+  Rendered partials/_messages.html.erb (0.6ms)
+  Rendered partials/_footer.html.erb (0.3ms)
+Completed 200 OK in 975ms (Views: 109.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/eobs" for ::1 at 2020-02-05 13:18:14 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/eobs"):
+  
+actionpack (5.2.4.1) lib/action_dispatch/middleware/debug_exceptions.rb:65:in `call'
+web-console (3.7.0) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.7.0) lib/web_console/middleware.rb:30:in `block in call'
+web-console (3.7.0) lib/web_console/middleware.rb:20:in `catch'
+web-console (3.7.0) lib/web_console/middleware.rb:20:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (5.2.4.1) lib/rails/rack/logger.rb:38:in `call_app'
+railties (5.2.4.1) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:71:in `block in tagged'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:71:in `tagged'
+railties (5.2.4.1) lib/rails/rack/logger.rb:26:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.0.8) lib/rack/method_override.rb:22:in `call'
+rack (2.0.8) lib/rack/runtime.rb:22:in `call'
+activesupport (5.2.4.1) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/static.rb:127:in `call'
+rack (2.0.8) lib/rack/sendfile.rb:111:in `call'
+railties (5.2.4.1) lib/rails/engine.rb:524:in `call'
+puma (3.12.2) lib/puma/configuration.rb:227:in `call'
+puma (3.12.2) lib/puma/server.rb:674:in `handle_request'
+puma (3.12.2) lib/puma/server.rb:476:in `process_client'
+puma (3.12.2) lib/puma/server.rb:334:in `block in run'
+puma (3.12.2) lib/puma/thread_pool.rb:135:in `block in spawn_thread'
+Started GET "/eob" for ::1 at 2020-02-05 13:18:21 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/eob"):
+  
+actionpack (5.2.4.1) lib/action_dispatch/middleware/debug_exceptions.rb:65:in `call'
+web-console (3.7.0) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.7.0) lib/web_console/middleware.rb:30:in `block in call'
+web-console (3.7.0) lib/web_console/middleware.rb:20:in `catch'
+web-console (3.7.0) lib/web_console/middleware.rb:20:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (5.2.4.1) lib/rails/rack/logger.rb:38:in `call_app'
+railties (5.2.4.1) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:71:in `block in tagged'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:71:in `tagged'
+railties (5.2.4.1) lib/rails/rack/logger.rb:26:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.0.8) lib/rack/method_override.rb:22:in `call'
+rack (2.0.8) lib/rack/runtime.rb:22:in `call'
+activesupport (5.2.4.1) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/static.rb:127:in `call'
+rack (2.0.8) lib/rack/sendfile.rb:111:in `call'
+railties (5.2.4.1) lib/rails/engine.rb:524:in `call'
+puma (3.12.2) lib/puma/configuration.rb:227:in `call'
+puma (3.12.2) lib/puma/server.rb:674:in `handle_request'
+puma (3.12.2) lib/puma/server.rb:476:in `process_client'
+puma (3.12.2) lib/puma/server.rb:334:in `block in run'
+puma (3.12.2) lib/puma/thread_pool.rb:135:in `block in spawn_thread'
+Started GET "/eobs" for ::1 at 2020-02-05 13:18:40 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/eobs"):
+  
+actionpack (5.2.4.1) lib/action_dispatch/middleware/debug_exceptions.rb:65:in `call'
+web-console (3.7.0) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.7.0) lib/web_console/middleware.rb:30:in `block in call'
+web-console (3.7.0) lib/web_console/middleware.rb:20:in `catch'
+web-console (3.7.0) lib/web_console/middleware.rb:20:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (5.2.4.1) lib/rails/rack/logger.rb:38:in `call_app'
+railties (5.2.4.1) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:71:in `block in tagged'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:71:in `tagged'
+railties (5.2.4.1) lib/rails/rack/logger.rb:26:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.0.8) lib/rack/method_override.rb:22:in `call'
+rack (2.0.8) lib/rack/runtime.rb:22:in `call'
+activesupport (5.2.4.1) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/static.rb:127:in `call'
+rack (2.0.8) lib/rack/sendfile.rb:111:in `call'
+railties (5.2.4.1) lib/rails/engine.rb:524:in `call'
+puma (3.12.2) lib/puma/configuration.rb:227:in `call'
+puma (3.12.2) lib/puma/server.rb:674:in `handle_request'
+puma (3.12.2) lib/puma/server.rb:476:in `process_client'
+puma (3.12.2) lib/puma/server.rb:334:in `block in run'
+puma (3.12.2) lib/puma/thread_pool.rb:135:in `block in spawn_thread'
+Started GET "/eob" for ::1 at 2020-02-05 13:20:57 -0500
+  
+ActionController::RoutingError (No route matches [GET] "/eob"):
+  
+actionpack (5.2.4.1) lib/action_dispatch/middleware/debug_exceptions.rb:65:in `call'
+web-console (3.7.0) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.7.0) lib/web_console/middleware.rb:30:in `block in call'
+web-console (3.7.0) lib/web_console/middleware.rb:20:in `catch'
+web-console (3.7.0) lib/web_console/middleware.rb:20:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (5.2.4.1) lib/rails/rack/logger.rb:38:in `call_app'
+railties (5.2.4.1) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:71:in `block in tagged'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (5.2.4.1) lib/active_support/tagged_logging.rb:71:in `tagged'
+railties (5.2.4.1) lib/rails/rack/logger.rb:26:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.0.8) lib/rack/method_override.rb:22:in `call'
+rack (2.0.8) lib/rack/runtime.rb:22:in `call'
+activesupport (5.2.4.1) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.4.1) lib/action_dispatch/middleware/static.rb:127:in `call'
+rack (2.0.8) lib/rack/sendfile.rb:111:in `call'
+railties (5.2.4.1) lib/rails/engine.rb:524:in `call'
+puma (3.12.2) lib/puma/configuration.rb:227:in `call'
+puma (3.12.2) lib/puma/server.rb:674:in `handle_request'
+puma (3.12.2) lib/puma/server.rb:476:in `process_client'
+puma (3.12.2) lib/puma/server.rb:334:in `block in run'
+puma (3.12.2) lib/puma/thread_pool.rb:135:in `block in spawn_thread'
+Started GET "/eob/index" for ::1 at 2020-02-05 13:21:20 -0500
+Processing by EobController#index as HTML
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (2.4ms)
+  Rendered partials/_head.html.erb (5735.5ms)
+  Rendered partials/_header.html.erb (2.1ms)
+  Rendered partials/_messages.html.erb (1.0ms)
+  Rendered partials/_footer.html.erb (0.6ms)
+Completed 200 OK in 813074ms (Views: 5769.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/eob/index" for ::1 at 2020-02-05 13:35:37 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 97ms (ActiveRecord: 0.0ms)
+
+
+  
+NoMethodError (undefined method `resource' for #<Hash:0x00007f9a8c5e3e58>
+Did you mean?  rescue):
+  
+app/controllers/eob_controller.rb:7:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-05 13:38:23 -0500
+Processing by EobController#index as HTML
+Started GET "/eob/index" for ::1 at 2020-02-05 13:42:16 -0500
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (0.8ms)
+  Rendered partials/_head.html.erb (906.3ms)
+  Rendered partials/_header.html.erb (1.1ms)
+  Rendered partials/_messages.html.erb (1.4ms)
+  Rendered partials/_footer.html.erb (0.6ms)
+Completed 200 OK in 247209ms (Views: 938.3ms | ActiveRecord: 0.0ms)
+
+
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 34ms (ActiveRecord: 0.0ms)
+
+
+  
+NoMethodError (undefined method `resource' for #<Hash:0x00007f9a8f388200>
+Did you mean?  rescue):
+  
+app/controllers/eob_controller.rb:9:in `map'
+app/controllers/eob_controller.rb:9:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-05 13:42:54 -0500
+Processing by EobController#index as HTML
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (2.5ms)
+  Rendered partials/_head.html.erb (198.9ms)
+  Rendered partials/_header.html.erb (3.2ms)
+  Rendered partials/_messages.html.erb (1.2ms)
+  Rendered partials/_footer.html.erb (1.0ms)
+Completed 200 OK in 2626665ms (Views: 234.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/eob/index" for ::1 at 2020-02-05 14:27:25 -0500
+  
+SyntaxError (/Users/skravitz/git/cpcds-client-ri/app/controllers/eob_controller.rb:37: syntax error, unexpected tCONSTANT, expecting end-of-input
+ "Location",
+  ^~~~~~~~):
+  
+app/controllers/eob_controller.rb:37: syntax error, unexpected tCONSTANT, expecting end-of-input
+Started GET "/eob/index" for ::1 at 2020-02-05 14:27:49 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 584ms (ActiveRecord: 0.0ms)
+
+
+  
+NameError (uninitialized constant FHIR::ExplanationOfBenefits):
+  
+app/controllers/eob_controller.rb:20:in `block in index'
+app/controllers/eob_controller.rb:20:in `select'
+app/controllers/eob_controller.rb:20:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-05 14:28:58 -0500
+Processing by EobController#index as HTML
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (0.3ms)
+  Rendered partials/_head.html.erb (645.2ms)
+  Rendered partials/_header.html.erb (0.8ms)
+  Rendered partials/_messages.html.erb (0.7ms)
+  Rendered partials/_footer.html.erb (0.5ms)
+Completed 200 OK in 48883ms (Views: 671.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/eob/index" for ::1 at 2020-02-05 14:29:58 -0500
+Processing by EobController#index as HTML
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (0.5ms)
+  Rendered partials/_head.html.erb (156.2ms)
+  Rendered partials/_header.html.erb (1.0ms)
+  Rendered partials/_messages.html.erb (1.0ms)
+  Rendered partials/_footer.html.erb (0.8ms)
+Completed 200 OK in 419427ms (Views: 182.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/eob/index" for ::1 at 2020-02-05 14:41:20 -0500
+Processing by EobController#index as HTML
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (954.4ms)
+Completed 500 Internal Server Error in 1553943ms (ActiveRecord: 0.0ms)
+
+
+  
+ActionView::Template::Error (undefined method `eobs_path' for #<#<Class:0x00007fee49a12310>:0x00007fee4a2385d0>
+Did you mean?  eob_index_path):
+    4: 		<div class='col-12'>
+    5: 			<h3 class='float-left text-white'>Explanation of Benefits - Index</h3>
+    6: 			<div class='btn-group float-right mt-2' role='group'>
+    7: 				<%= link_to 'Previous', eobs_path(page: 'previous'), class: 'btn btn-outline-primary' %>
+    8: 				<%= link_to 'Next', 		eobs_path(page: 'next'), 		class: 'btn btn-outline-primary' %>
+    9: 			</div>
+   10: 		</div>
+  
+app/views/eob/index.html.erb:7:in `_app_views_eob_index_html_erb__3868905476485884243_70330707122400'
+Started GET "/eob/index" for ::1 at 2020-02-05 15:07:43 -0500
+Processing by EobController#index as HTML
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (1346.1ms)
+Completed 500 Internal Server Error in 3944ms (ActiveRecord: 0.0ms)
+
+
+  
+ActionView::Template::Error (undefined method `eobs_path' for #<#<Class:0x00007fabcbe0ba40>:0x00007fabcbe089d0>
+Did you mean?  eob_index_path):
+    4: 		<div class='col-12'>
+    5: 			<h3 class='float-left text-white'>Explanation of Benefits - Index</h3>
+    6: 			<div class='btn-group float-right mt-2' role='group'>
+    7: 				<%= link_to 'Previous', eobs_path(page: 'previous'), class: 'btn btn-outline-primary' %>
+    8: 				<%= link_to 'Next', 		eobs_path(page: 'next'), 		class: 'btn btn-outline-primary' %>
+    9: 			</div>
+   10: 		</div>
+  
+app/views/eob/index.html.erb:7:in `_app_views_eob_index_html_erb__2834158132789194817_70187918345360'
+Started GET "/eob/index" for ::1 at 2020-02-05 15:08:39 -0500
+Processing by EobController#index as HTML
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (2.1ms)
+  Rendered partials/_head.html.erb (833.8ms)
+  Rendered partials/_header.html.erb (0.5ms)
+  Rendered partials/_messages.html.erb (0.4ms)
+  Rendered partials/_footer.html.erb (0.5ms)
+Completed 200 OK in 3611ms (Views: 857.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/eob/index" for ::1 at 2020-02-05 15:09:45 -0500
+Processing by EobController#index as HTML
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (2.6ms)
+  Rendered partials/_head.html.erb (130.3ms)
+  Rendered partials/_header.html.erb (0.6ms)
+  Rendered partials/_messages.html.erb (0.4ms)
+  Rendered partials/_footer.html.erb (0.3ms)
+Completed 200 OK in 5111ms (Views: 141.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/eob/index" for ::1 at 2020-02-05 15:10:46 -0500
+Processing by EobController#index as HTML
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (2.9ms)
+  Rendered partials/_head.html.erb (120.8ms)
+  Rendered partials/_header.html.erb (0.4ms)
+  Rendered partials/_messages.html.erb (0.3ms)
+  Rendered partials/_footer.html.erb (0.3ms)
+Completed 200 OK in 2824ms (Views: 130.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/eob/index" for ::1 at 2020-02-05 15:12:00 -0500
+Processing by EobController#index as HTML
+Started GET "/eob/index" for ::1 at 2020-02-05 15:54:12 -0500
+Processing by EobController#index as HTML
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (4.2ms)
+  Rendered partials/_head.html.erb (177.0ms)
+  Rendered partials/_header.html.erb (1.7ms)
+  Rendered partials/_messages.html.erb (1.4ms)
+  Rendered partials/_footer.html.erb (0.8ms)
+Completed 200 OK in 4579ms (Views: 204.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/eob/index" for ::1 at 2020-02-05 15:55:15 -0500
+Processing by EobController#index as HTML
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (3.3ms)
+  Rendered partials/_head.html.erb (157.1ms)
+  Rendered partials/_header.html.erb (0.8ms)
+  Rendered partials/_messages.html.erb (0.8ms)
+  Rendered partials/_footer.html.erb (0.4ms)
+Completed 200 OK in 2378ms (Views: 178.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/eob/index" for ::1 at 2020-02-05 15:56:01 -0500
+Processing by EobController#index as HTML
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (1.1ms)
+Completed 500 Internal Server Error in 3361ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (/Users/skravitz/git/cpcds-client-ri/app/views/eob/index.html.erb:21: syntax error, unexpected ')'
+...b.billablePeriod.start).month/);@output_buffer.safe_append='
+...                              ^
+/Users/skravitz/git/cpcds-client-ri/app/views/eob/index.html.erb:22: syntax error, unexpected ')'
+...eob.billablePeriod.start).day/);@output_buffer.safe_append='
+...                              ^
+/Users/skravitz/git/cpcds-client-ri/app/views/eob/index.html.erb:23: syntax error, unexpected ')'
+...ob.billablePeriod.start).year/);@output_buffer.safe_append='...
+...                              ^
+/Users/skravitz/git/cpcds-client-ri/app/views/eob/index.html.erb:24: syntax error, unexpected ')'
+...ob.billablePeriod.end).month/ );@output_buffer.safe_append='
+...                              ^
+/Users/skravitz/git/cpcds-client-ri/app/views/eob/index.html.erb:25: syntax error, unexpected ')'
+...(eob.billablePeriod.end).day/ );@output_buffer.safe_append='
+...                              ^
+/Users/skravitz/git/cpcds-client-ri/app/views/eob/index.html.erb:29: syntax error, unexpected end, expecting ')'
+'.freeze;			 end 
+         			 ^~~
+/Users/skravitz/git/cpcds-client-ri/app/views/eob/index.html.erb:39: syntax error, unexpected ensure, expecting ')'
+          ensure
+          ^~~~~~
+/Users/skravitz/git/cpcds-client-ri/app/views/eob/index.html.erb:41: syntax error, unexpected end, expecting ')'
+          end
+          ^~~):
+  
+app/views/eob/index.html.erb:21: syntax error, unexpected ')'
+app/views/eob/index.html.erb:22: syntax error, unexpected ')'
+app/views/eob/index.html.erb:23: syntax error, unexpected ')'
+app/views/eob/index.html.erb:24: syntax error, unexpected ')'
+app/views/eob/index.html.erb:25: syntax error, unexpected ')'
+app/views/eob/index.html.erb:29: syntax error, unexpected end, expecting ')'
+app/views/eob/index.html.erb:39: syntax error, unexpected ensure, expecting ')'
+app/views/eob/index.html.erb:41: syntax error, unexpected end, expecting ')'
+Started GET "/eob/index" for ::1 at 2020-02-05 15:56:48 -0500
+Processing by EobController#index as HTML
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (4.9ms)
+  Rendered partials/_head.html.erb (160.0ms)
+  Rendered partials/_header.html.erb (0.7ms)
+  Rendered partials/_messages.html.erb (0.6ms)
+  Rendered partials/_footer.html.erb (0.3ms)
+Completed 200 OK in 3766ms (Views: 175.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for ::1 at 2020-02-06 18:40:35 -0500
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (425.5ms)
+  Rendered partials/_head.html.erb (1926.1ms)
+  Rendered partials/_header.html.erb (37.2ms)
+  Rendered partials/_messages.html.erb (23.6ms)
+  Rendered partials/_footer.html.erb (12.8ms)
+Completed 200 OK in 169495983ms (Views: 2955.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for ::1 at 2020-02-07 14:16:56 -0500
+Processing by WelcomeController#index as HTML
+  Rendering welcome/index.html.erb within layouts/application
+  Rendered welcome/index.html.erb within layouts/application (51.6ms)
+  Rendered partials/_head.html.erb (2498.9ms)
+  Rendered partials/_header.html.erb (1.0ms)
+  Rendered partials/_messages.html.erb (0.4ms)
+  Rendered partials/_footer.html.erb (0.3ms)
+Completed 200 OK in 2728ms (Views: 2615.8ms | ActiveRecord: 0.0ms)
+
+
+Processing by WelcomeController#index as HTML
+  Rendering welcome/index.html.erb within layouts/application
+  Rendered welcome/index.html.erb within layouts/application (0.4ms)
+  Rendered partials/_head.html.erb (59.2ms)
+  Rendered partials/_header.html.erb (0.2ms)
+  Rendered partials/_messages.html.erb (0.1ms)
+  Rendered partials/_footer.html.erb (0.1ms)
+Completed 200 OK in 65ms (Views: 63.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for ::1 at 2020-02-07 14:37:02 -0500
+Processing by WelcomeController#index as HTML
+  Rendering welcome/index.html.erb within layouts/application
+  Rendered welcome/index.html.erb within layouts/application (5.9ms)
+  Rendered partials/_head.html.erb (1745.0ms)
+  Rendered partials/_header.html.erb (1.2ms)
+  Rendered partials/_messages.html.erb (0.7ms)
+  Rendered partials/_footer.html.erb (0.6ms)
+Completed 200 OK in 1795ms (Views: 1781.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/eob/index" for ::1 at 2020-02-07 14:37:19 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.0ms)
+
+
+  
+NoMethodError (undefined method `entry' for nil:NilClass):
+  
+app/controllers/application_controller.rb:15:in `load_bundle'
+app/controllers/eob_controller.rb:6:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 14:40:00 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 82170ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (/Users/skravitz/git/cpcds-client-ri/app/models/eob.rb:56: syntax error, unexpected end, expecting end-of-input):
+  
+app/models/eob.rb:56: syntax error, unexpected end, expecting end-of-input
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 14:42:46 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 4745ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (/Users/skravitz/git/cpcds-client-ri/app/models/eob.rb:55: syntax error, unexpected end, expecting end-of-input):
+  
+app/models/eob.rb:55: syntax error, unexpected end, expecting end-of-input
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 14:44:27 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 96661ms (ActiveRecord: 0.0ms)
+
+
+  
+NoMethodError (undefined method `use' for #<FHIR::Reference:0x00007fc75bc91060 @id=nil, @extension=[], @reference="urn:uuid:5681f1c3-a1fe-4958-98f6-0f3adad75f51", @type=nil, @identifier=nil, @display=nil>):
+  
+app/models/eob.rb:27:in `initialize'
+app/controllers/eob_controller.rb:8:in `new'
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 14:46:17 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 3098ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (/Users/skravitz/git/cpcds-client-ri/app/models/eob.rb:48: syntax error, unexpected end, expecting end-of-input):
+  
+app/models/eob.rb:48: syntax error, unexpected end, expecting end-of-input
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 14:47:01 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 2051ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (/Users/skravitz/git/cpcds-client-ri/app/models/eob.rb:53: syntax error, unexpected end, expecting end-of-input):
+  
+app/models/eob.rb:53: syntax error, unexpected end, expecting end-of-input
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 14:47:14 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 10573ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (/Users/skravitz/git/cpcds-client-ri/app/models/eob.rb:53: syntax error, unexpected end, expecting end-of-input):
+  
+app/models/eob.rb:53: syntax error, unexpected end, expecting end-of-input
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 14:49:07 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 3921ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (/Users/skravitz/git/cpcds-client-ri/app/models/eob.rb:56: syntax error, unexpected end, expecting end-of-input):
+  
+app/models/eob.rb:56: syntax error, unexpected end, expecting end-of-input
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 14:51:07 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 3985ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (/Users/skravitz/git/cpcds-client-ri/app/models/eob.rb:44: syntax error, unexpected end, expecting end-of-input):
+  
+app/models/eob.rb:44: syntax error, unexpected end, expecting end-of-input
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 14:51:15 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 2785ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (/Users/skravitz/git/cpcds-client-ri/app/models/eob.rb:44: syntax error, unexpected end, expecting end-of-input):
+  
+app/models/eob.rb:44: syntax error, unexpected end, expecting end-of-input
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 14:51:57 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 3023ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (/Users/skravitz/git/cpcds-client-ri/app/models/eob.rb:35: syntax error, unexpected end, expecting end-of-input):
+  
+app/models/eob.rb:35: syntax error, unexpected end, expecting end-of-input
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 14:52:34 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 6806ms (ActiveRecord: 0.0ms)
+
+
+  
+NoMethodError (undefined method `use' for #<FHIR::Reference:0x00007fc75eb19360 @id=nil, @extension=[], @reference="urn:uuid:5681f1c3-a1fe-4958-98f6-0f3adad75f51", @type=nil, @identifier=nil, @display=nil>):
+  
+app/models/eob.rb:23:in `initialize'
+app/controllers/eob_controller.rb:8:in `new'
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 14:52:59 -0500
+Processing by EobController#index as HTML
+Started GET "/eob/index" for ::1 at 2020-02-07 14:53:38 -0500
+Completed 500 Internal Server Error in 45700ms (ActiveRecord: 0.0ms)
+
+
+  
+NoMethodError (undefined method `use' for #<FHIR::Reference:0x00007fc75b85b5e0 @id=nil, @extension=[], @reference="urn:uuid:5681f1c3-a1fe-4958-98f6-0f3adad75f51", @type=nil, @identifier=nil, @display=nil>):
+  
+app/models/eob.rb:23:in `initialize'
+app/controllers/eob_controller.rb:8:in `new'
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Processing by EobController#index as HTML
+Started GET "/eob/index" for ::1 at 2020-02-07 15:25:14 -0500
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (8.3ms)
+  Rendered partials/_head.html.erb (252.4ms)
+  Rendered partials/_header.html.erb (3.4ms)
+  Rendered partials/_messages.html.erb (2.4ms)
+  Rendered partials/_footer.html.erb (1.1ms)
+Completed 200 OK in 1903336ms (Views: 302.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/eob/index" for ::1 at 2020-02-07 15:25:29 -0500
+Processing by EobController#index as HTML
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 3358ms (ActiveRecord: 0.0ms)
+
+
+Completed 500 Internal Server Error in 3666ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (/Users/skravitz/git/cpcds-client-ri/app/models/eob.rb:40: syntax error, unexpected tSTRING_BEG, expecting '}'
+...adj.category.coding[0].display")"  
+...                              ^
+/Users/skravitz/git/cpcds-client-ri/app/models/eob.rb:51: syntax error, unexpected '}', expecting end):
+  
+app/models/eob.rb:40: syntax error, unexpected tSTRING_BEG, expecting '}'
+app/models/eob.rb:51: syntax error, unexpected '}', expecting end
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+  
+SyntaxError (/Users/skravitz/git/cpcds-client-ri/app/models/eob.rb:40: syntax error, unexpected tSTRING_BEG, expecting '}'
+...adj.category.coding[0].display")"  
+...                              ^
+/Users/skravitz/git/cpcds-client-ri/app/models/eob.rb:51: syntax error, unexpected '}', expecting end):
+  
+app/models/eob.rb:40: syntax error, unexpected tSTRING_BEG, expecting '}'
+app/models/eob.rb:51: syntax error, unexpected '}', expecting end
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 15:26:35 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 10198ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (/Users/skravitz/git/cpcds-client-ri/app/models/eob.rb:40: syntax error, unexpected tSTRING_BEG, expecting '}'
+...adj.category.coding[0].display")"  
+...                              ^
+/Users/skravitz/git/cpcds-client-ri/app/models/eob.rb:51: syntax error, unexpected '}', expecting end):
+  
+app/models/eob.rb:40: syntax error, unexpected tSTRING_BEG, expecting '}'
+app/models/eob.rb:51: syntax error, unexpected '}', expecting end
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 15:27:15 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 2857ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (/Users/skravitz/git/cpcds-client-ri/app/models/eob.rb:40: syntax error, unexpected tSTRING_BEG, expecting '}'
+...adj.category.coding[0].display")"  ;
+...                              ^
+/Users/skravitz/git/cpcds-client-ri/app/models/eob.rb:51: syntax error, unexpected '}', expecting end):
+  
+app/models/eob.rb:40: syntax error, unexpected tSTRING_BEG, expecting '}'
+app/models/eob.rb:51: syntax error, unexpected '}', expecting end
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 15:29:56 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 6586ms (ActiveRecord: 0.0ms)
+
+
+  
+NameError (undefined local variable or method `explanationofbenefits' for #<EOB:0x00007fc75e4a8b98>):
+  
+app/models/eob.rb:37:in `block in initialize'
+app/models/eob.rb:30:in `map'
+app/models/eob.rb:30:in `initialize'
+app/controllers/eob_controller.rb:8:in `new'
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 15:31:03 -0500
+Processing by EobController#index as HTML
+Started GET "/eob/index" for ::1 at 2020-02-07 16:32:22 -0500
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (46.9ms)
+  Rendered partials/_head.html.erb (350.1ms)
+  Rendered partials/_header.html.erb (6.1ms)
+  Rendered partials/_messages.html.erb (1.2ms)
+  Rendered partials/_footer.html.erb (0.7ms)
+Completed 200 OK in 3688630ms (Views: 461.7ms | ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (/Users/skravitz/git/cpcds-client-ri/app/controllers/application_controller.rb:41: syntax error, unexpected '}', expecting ')'
+...rs.select{|p| p.id==cleanup(id}}
+...                              ^
+/Users/skravitz/git/cpcds-client-ri/app/controllers/application_controller.rb:44: syntax error, unexpected tSTRING_DEND, expecting ')'
+...ms.select{|p| p.id==cleanup(id}}
+...                              ^
+/Users/skravitz/git/cpcds-client-ri/app/controllers/application_controller.rb:47: syntax error, unexpected '}', expecting ')'
+...es.select{|p| p.id==cleanup(id}}
+...                              ^
+/Users/skravitz/git/cpcds-client-ri/app/controllers/application_controller.rb:50: syntax error, unexpected '}', expecting ')'
+...rs.select{|p| p.id==cleanup(id})
+...                              ^
+/Users/skravitz/git/cpcds-client-ri/app/controllers/application_controller.rb:57: syntax error, unexpected end, expecting '}'):
+  
+app/controllers/application_controller.rb:41: syntax error, unexpected '}', expecting ')'
+app/controllers/application_controller.rb:44: syntax error, unexpected tSTRING_DEND, expecting ')'
+app/controllers/application_controller.rb:47: syntax error, unexpected '}', expecting ')'
+app/controllers/application_controller.rb:50: syntax error, unexpected '}', expecting ')'
+app/controllers/application_controller.rb:57: syntax error, unexpected end, expecting '}'
+app/controllers/eob_controller.rb:1:in `<main>'
+Started GET "/eob/index" for ::1 at 2020-02-07 16:33:13 -0500
+  
+SyntaxError (/Users/skravitz/git/cpcds-client-ri/app/controllers/application_controller.rb:50: syntax error, unexpected ')', expecting '}'
+...s.select{|p| p.id==cleanup(id))
+...                              ^
+/Users/skravitz/git/cpcds-client-ri/app/controllers/application_controller.rb:57: syntax error, unexpected end-of-input, expecting end):
+  
+app/controllers/application_controller.rb:50: syntax error, unexpected ')', expecting '}'
+app/controllers/application_controller.rb:57: syntax error, unexpected end-of-input, expecting end
+app/controllers/eob_controller.rb:1:in `<main>'
+Started GET "/eob/index" for ::1 at 2020-02-07 16:33:50 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 3246ms (ActiveRecord: 0.0ms)
+
+
+  
+NameError (undefined local variable or method `explanationofbenefits' for #<EOB:0x00007fc75988a2e8>):
+  
+app/models/eob.rb:19:in `block in initialize'
+app/models/eob.rb:18:in `each'
+app/models/eob.rb:18:in `each_with_object'
+app/models/eob.rb:18:in `initialize'
+app/controllers/eob_controller.rb:8:in `new'
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 16:34:41 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 2336ms (ActiveRecord: 0.0ms)
+
+
+  
+NoMethodError (undefined method `getPractitioner' for #<EOB:0x00007fc75ef73140>):
+  
+app/models/eob.rb:19:in `block in initialize'
+app/models/eob.rb:18:in `each'
+app/models/eob.rb:18:in `each_with_object'
+app/models/eob.rb:18:in `initialize'
+app/controllers/eob_controller.rb:8:in `new'
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 16:40:50 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 2812ms (ActiveRecord: 0.0ms)
+
+
+  
+ArgumentError (wrong number of arguments (given 2, expected 3)):
+  
+app/models/eob.rb:14:in `initialize'
+app/controllers/eob_controller.rb:8:in `new'
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 16:41:30 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 2674ms (ActiveRecord: 0.0ms)
+
+
+  
+NoMethodError (undefined method `cleanup' for #<EOB:0x00007fc740078c80>):
+  
+app/models/eob.rb:19:in `block (2 levels) in initialize'
+app/models/eob.rb:19:in `select'
+app/models/eob.rb:19:in `block in initialize'
+app/models/eob.rb:18:in `each'
+app/models/eob.rb:18:in `each_with_object'
+app/models/eob.rb:18:in `initialize'
+app/controllers/eob_controller.rb:8:in `new'
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 16:42:14 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 7925ms (ActiveRecord: 0.0ms)
+
+
+  
+NoMethodError (undefined method `name' for #<Array:0x00007fc73fa30eb8>):
+  
+app/models/eob.rb:20:in `block in initialize'
+app/models/eob.rb:18:in `each'
+app/models/eob.rb:18:in `each_with_object'
+app/models/eob.rb:18:in `initialize'
+app/controllers/eob_controller.rb:8:in `new'
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 16:43:23 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 2758ms (ActiveRecord: 0.0ms)
+
+
+  
+NoMethodError (undefined method `prefix' for #<Array:0x00007fc75b9812f8>):
+  
+app/models/eob.rb:21:in `block in initialize'
+app/models/eob.rb:18:in `each'
+app/models/eob.rb:18:in `each_with_object'
+app/models/eob.rb:18:in `initialize'
+app/controllers/eob_controller.rb:8:in `new'
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 16:44:06 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 3283ms (ActiveRecord: 0.0ms)
+
+
+  
+TypeError (no implicit conversion of Array into String):
+  
+app/models/eob.rb:23:in `+'
+app/models/eob.rb:23:in `block in initialize'
+app/models/eob.rb:18:in `each'
+app/models/eob.rb:18:in `each_with_object'
+app/models/eob.rb:18:in `initialize'
+app/controllers/eob_controller.rb:8:in `new'
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 16:45:16 -0500
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 2132ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (/Users/skravitz/git/cpcds-client-ri/app/models/eob.rb:23: syntax error, unexpected tIDENTIFIER, expecting end
+...ence] = rendername + "(" member.role.coding.map {|coding| co...
+...                         ^~~~~~
+/Users/skravitz/git/cpcds-client-ri/app/models/eob.rb:60: syntax error, unexpected end, expecting end-of-input):
+  
+app/models/eob.rb:23: syntax error, unexpected tIDENTIFIER, expecting end
+app/models/eob.rb:60: syntax error, unexpected end, expecting end-of-input
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 16:45:42 -0500
+Processing by EobController#index as HTML
+Started GET "/eob/index" for ::1 at 2020-02-07 16:48:11 -0500
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (3.8ms)
+  Rendered partials/_head.html.erb (216.3ms)
+  Rendered partials/_header.html.erb (1.8ms)
+  Rendered partials/_messages.html.erb (0.9ms)
+  Rendered partials/_footer.html.erb (1.1ms)
+Completed 200 OK in 155853ms (Views: 241.4ms | ActiveRecord: 0.0ms)
+
+
+Processing by EobController#index as HTML
+Started GET "/eob/index" for ::1 at 2020-02-07 17:33:48 -0500
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (27.2ms)
+Completed 500 Internal Server Error in 2734638ms (ActiveRecord: 0.0ms)
+
+
+  
+ActionView::Template::Error (undefined method `startdate' for #<FHIR::ExplanationOfBenefit:0x00007fc743c1b918 @id="27e5f39a-52f6-401a-b654-35c992b22191", @meta=nil, @implicitRules=nil, @language=nil, @text=nil, @contained=[#<FHIR::ServiceRequest:0x00007fc743c21480 @id="referral", @meta=nil, @implicitRules=nil, @language=nil, @text=nil, @contained=[], @extension=[], @modifierExtension=[], @identifier=[], @instantiatesCanonical=[], @instantiatesUri=[], @basedOn=[], @replaces=[], @requisition=nil, @status="completed", @intent="order", @category=[], @priority=nil, @doNotPerform=nil, @code=nil, @orderDetail=[], @quantityQuantity=nil, @quantityRatio=nil, @quantityRange=nil, @subject=#<FHIR::Reference:0x00007fc743c20760 @id=nil, @extension=[], @reference="urn:uuid:964ac3e7-03ab-4b44-9a30-7406865ac850", @type=nil, @identifier=nil, @display=nil>, @encounter=nil, @occurrenceDateTime=nil, @occurrencePeriod=nil, @occurrenceTiming=nil, @asNeededBoolean=nil, @asNeededCodeableConcept=nil, @authoredOn=nil, @requester=#<FHIR::Reference:0x00007fc743c20440 @id=nil, @extension=[], @reference="urn:uuid:71d67618-c637-3173-a89a-a81374b583f7", @type=nil, @identifier=nil, @display=nil>, @performerType=nil, @performer=[#<FHIR::Reference:0x00007fc743c200f8 @id=nil, @extension=[], @reference="urn:uuid:71d67618-c637-3173-a89a-a81374b583f7", @type=nil, @identifier=nil, @display=nil>], @locationCode=[], @locationReference=[], @reasonCode=[], @reasonReference=[], @insurance=[], @supportingInfo=[], @specimen=[], @bodySite=[], @note=[], @patientInstruction=nil, @relevantHistory=[]>, #<FHIR::Coverage:0x00007fc742d7b430 @id="coverage", @meta=nil, @implicitRules=nil, @language=nil, @text=nil, @contained=[], @extension=[], @modifierExtension=[], @identifier=[], @status="active", @type=#<FHIR::CodeableConcept:0x00007fc742d7ab48 @id=nil, @extension=[], @coding=[], @text="Aetna">, @policyHolder=nil, @subscriber=nil, @subscriberId=nil, @beneficiary=#<FHIR::Reference:0x00007fc742d7a800 @id=nil, @extension=[], @reference="urn:uuid:964ac3e7-03ab-4b44-9a30-7406865ac850", @type=nil, @identifier=nil, @display=nil>, @dependent=nil, @relationship=nil, @period=nil, @payor=[#<FHIR::Reference:0x00007fc742d7a4b8 @id=nil, @extension=[], @reference=nil, @type=nil, @identifier=nil, @display="Aetna">], @local_class=[], @order=nil, @network=nil, @costToBeneficiary=[], @subrogation=nil, @contract=[]>], @extension=[], @modifierExtension=[], @identifier=[#<FHIR::Identifier:0x00007fc742d79dd8 @id=nil, @extension=[], @use=nil, @type=nil, @system="https://bluebutton.cms.gov/resources/variables/clm_id", @value="5681f1c3-a1fe-4958-98f6-0f3adad75f51", @period=nil, @assigner=nil>, #<FHIR::Identifier:0x00007fc742d799c8 @id=nil, @extension=[], @use=nil, @type=nil, @system="https://bluebutton.cms.gov/resources/identifier/claim-group", @value="99999999999", @period=nil, @assigner=nil>], @status="active", @type=#<FHIR::CodeableConcept:0x00007fc742d794c8 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc742d79220 @id=nil, @extension=[], @system="http://terminology.hl7.org/CodeSystem/claim-type", @version=nil, @code="institutional", @display=nil, @userSelected=nil>], @text=nil>, @subType=nil, @use="claim", @patient=#<FHIR::Reference:0x00007fc742d78c80 @id=nil, @extension=[], @reference="urn:uuid:964ac3e7-03ab-4b44-9a30-7406865ac850", @type=nil, @identifier=nil, @display=nil>, @billablePeriod=#<FHIR::Period:0x00007fc742d78960 @id=nil, @extension=[], @start="2013-03-10T06:27:54-04:00", @end="2014-03-10T06:27:54-04:00">, @created="2013-03-10T06:27:54-04:00", @enterer=nil, @insurer=#<FHIR::Reference:0x00007fc742d78500 @id=nil, @extension=[], @reference=nil, @type=nil, @identifier=nil, @display="Aetna">, @provider=#<FHIR::Reference:0x00007fc742d781e0 @id=nil, @extension=[], @reference="urn:uuid:71d67618-c637-3173-a89a-a81374b583f7", @type=nil, @identifier=nil, @display=nil>, @priority=nil, @fundsReserveRequested=nil, @fundsReserve=nil, @related=[], @prescription=nil, @originalPrescription=nil, @payee=nil, @referral=#<FHIR::Reference:0x00007fc7432fbe50 @id=nil, @extension=[], @reference="#referral", @type=nil, @identifier=nil, @display=nil>, @facility=#<FHIR::Reference:0x00007fc7432fbb30 @id=nil, @extension=[], @reference="urn:uuid:c31c6f9c-6e6b-4843-895c-f1c7d9e7811f", @type=nil, @identifier=nil, @display="PCP9114">, @claim=#<FHIR::Reference:0x00007fc7432fb720 @id=nil, @extension=[], @reference="urn:uuid:5681f1c3-a1fe-4958-98f6-0f3adad75f51", @type=nil, @identifier=nil, @display=nil>, @claimResponse=nil, @outcome="complete", @disposition=nil, @preAuthRef=[], @preAuthRefPeriod=[], @careTeam=[#<FHIR::ExplanationOfBenefit::CareTeam:0x00007fc7432fb338 @id=nil, @extension=[], @modifierExtension=[], @sequence=1, @provider=#<FHIR::Reference:0x00007fc7432fae38 @id=nil, @extension=[], @reference="urn:uuid:71d67618-c637-3173-a89a-a81374b583f7", @type=nil, @identifier=nil, @display=nil>, @responsible=nil, @role=#<FHIR::CodeableConcept:0x00007fc7432fab18 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc7432fa820 @id=nil, @extension=[], @system="http://terminology.hl7.org/CodeSystem/claimcareteamrole", @version=nil, @code="primary", @display="Primary Care Practitioner", @userSelected=nil>], @text=nil>, @qualification=nil>], @supportingInfo=[], @diagnosis=[], @procedure=[], @precedence=nil, @insurance=[#<FHIR::ExplanationOfBenefit::Insurance:0x00007fc7432fa0f0 @id=nil, @extension=[], @modifierExtension=[], @focal=true, @coverage=#<FHIR::Reference:0x00007fc7432f9dd0 @id=nil, @extension=[], @reference="#coverage", @type=nil, @identifier=nil, @display="Aetna">, @preAuthRef=[]>], @accident=nil, @item=[#<FHIR::ExplanationOfBenefit::Item:0x00007fc7432f9808 @id=nil, @extension=[], @modifierExtension=[], @sequence=1, @careTeamSequence=[], @diagnosisSequence=[], @procedureSequence=[], @informationSequence=[], @revenue=nil, @category=#<FHIR::CodeableConcept:0x00007fc7432f8a70 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc7432f8778 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd", @version=nil, @code="1", @display="Medical care", @userSelected=nil>], @text=nil>, @productOrService=#<FHIR::CodeableConcept:0x00007fc7432f8188 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743303df8 @id=nil, @extension=[], @system="http://snomed.info/sct", @version=nil, @code="410620009", @display="Well child visit (procedure)", @userSelected=nil>], @text="Well child visit (procedure)">, @modifier=[], @programCode=[], @servicedDate=nil, @servicedPeriod=#<FHIR::Period:0x00007fc743303768 @id=nil, @extension=[], @start="2013-03-10T05:57:54-04:00", @end="2013-03-10T06:27:54-04:00">, @locationCodeableConcept=#<FHIR::CodeableConcept:0x00007fc7433033a8 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc7433030b0 @id=nil, @extension=[], @system="http://terminology.hl7.org/CodeSystem/ex-serviceplace", @version=nil, @code="19", @display="Off Campus-Outpatient Hospital", @userSelected=nil>], @text=nil>, @locationAddress=nil, @locationReference=nil, @quantity=nil, @unitPrice=nil, @factor=nil, @net=nil, @udi=[], @bodySite=nil, @subSite=[], @encounter=[#<FHIR::Reference:0x00007fc743302a98 @id=nil, @extension=[], @reference="urn:uuid:d0aae988-8cc6-434a-bef9-5e11ff919427", @type=nil, @identifier=nil, @display=nil>], @noteNumber=[], @adjudication=[], @detail=[]>, #<FHIR::ExplanationOfBenefit::Item:0x00007fc743302160 @id=nil, @extension=[], @modifierExtension=[], @sequence=2, @careTeamSequence=[], @diagnosisSequence=[], @procedureSequence=[], @informationSequence=[1], @revenue=nil, @category=#<FHIR::CodeableConcept:0x00007fc743300090 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc74176fd58 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd", @version=nil, @code="1", @display="Medical care", @userSelected=nil>], @text=nil>, @productOrService=#<FHIR::CodeableConcept:0x00007fc74176f768 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc74176f420 @id=nil, @extension=[], @system="http://hl7.org/fhir/sid/cvx", @version=nil, @code="08", @display="Hep B, adolescent or pediatric", @userSelected=nil>], @text="Hep B, adolescent or pediatric">, @modifier=[], @programCode=[], @servicedDate=nil, @servicedPeriod=#<FHIR::Period:0x00007fc74176ed90 @id=nil, @extension=[], @start="2013-03-10T05:57:54-04:00", @end="2013-03-10T06:27:54-04:00">, @locationCodeableConcept=#<FHIR::CodeableConcept:0x00007fc74176e9d0 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc74176e6d8 @id=nil, @extension=[], @system="http://terminology.hl7.org/CodeSystem/ex-serviceplace", @version=nil, @code="19", @display="Off Campus-Outpatient Hospital", @userSelected=nil>], @text=nil>, @locationAddress=nil, @locationReference=nil, @quantity=nil, @unitPrice=nil, @factor=nil, @net=#<FHIR::Money:0x00007fc74176e0e8 @id=nil, @extension=[], @value=140.52, @currency="USD">, @udi=[], @bodySite=nil, @subSite=[], @encounter=[], @noteNumber=[], @adjudication=[#<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc74176dd50 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc74176d8c8 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc74176d5d0 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt", @display="Line Beneficiary Coinsurance Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc74176cfe0 @id=nil, @extension=[], @value=28.104000000000003, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc74176cba8 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc74176c720 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc74176c428 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt", @display="Line Provider Payment Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc741777df0 @id=nil, @extension=[], @value=112.41600000000001, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc7417779b8 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc741777530 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc741777238 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_sbmtd_chrg_amt", @display="Line Submitted Charge Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc741776c48 @id=nil, @extension=[], @value=140.52, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc741776810 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc741776388 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc741776090 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_alowd_chrg_amt", @display="Line Allowed Charge Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc741775aa0 @id=nil, @extension=[], @value=140.52, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc741775668 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc7417751e0 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc741774ee8 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt", @display="Line Beneficiary Part B Deductible Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc7417748f8 @id=nil, @extension=[], @value=0, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc7417744c0 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc741774128 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743c2bde0 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_prcsg_ind_cd", @display="Line Processing Indicator Code", @userSelected=nil>], @text=nil>, @reason=nil, @amount=nil, @value=nil>], @detail=[]>, #<FHIR::ExplanationOfBenefit::Item:0x00007fc743c2b110 @id=nil, @extension=[], @modifierExtension=[], @sequence=3, @careTeamSequence=[], @diagnosisSequence=[], @procedureSequence=[], @informationSequence=[], @revenue=nil, @category=#<FHIR::CodeableConcept:0x00007fc743c29158 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743c28e60 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd", @version=nil, @code="1", @display="Medical care", @userSelected=nil>], @text=nil>, @productOrService=#<FHIR::CodeableConcept:0x00007fc743c28870 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743c28528 @id=nil, @extension=[], @system="http://snomed.info/sct", @version=nil, @code="430193006", @display="Medication Reconciliation (procedure)", @userSelected=nil>], @text="Medication Reconciliation (procedure)">, @modifier=[], @programCode=[], @servicedDate=nil, @servicedPeriod=#<FHIR::Period:0x00007fc743c33e28 @id=nil, @extension=[], @start="2013-03-10T05:57:54-04:00", @end="2013-03-10T06:27:54-04:00">, @locationCodeableConcept=#<FHIR::CodeableConcept:0x00007fc743c33a68 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743c33770 @id=nil, @extension=[], @system="http://terminology.hl7.org/CodeSystem/ex-serviceplace", @version=nil, @code="19", @display="Off Campus-Outpatient Hospital", @userSelected=nil>], @text=nil>, @locationAddress=nil, @locationReference=nil, @quantity=nil, @unitPrice=nil, @factor=nil, @net=#<FHIR::Money:0x00007fc743c33180 @id=nil, @extension=[], @value=378.35, @currency="USD">, @udi=[], @bodySite=nil, @subSite=[], @encounter=[], @noteNumber=[], @adjudication=[#<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743c32de8 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743c32960 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743c32668 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt", @display="Line Beneficiary Coinsurance Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc743c32078 @id=nil, @extension=[], @value=75.67, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743c31c40 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743c317b8 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743c314c0 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt", @display="Line Provider Payment Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc743c30ed0 @id=nil, @extension=[], @value=302.68, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743c30a98 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743c30610 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743c30318 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_sbmtd_chrg_amt", @display="Line Submitted Charge Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc743c3bce0 @id=nil, @extension=[], @value=378.35, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743c3b8a8 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743c3b420 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743c3b128 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_alowd_chrg_amt", @display="Line Allowed Charge Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc743c3ab38 @id=nil, @extension=[], @value=378.35, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743c3a700 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743c3a278 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743c39f80 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt", @display="Line Beneficiary Part B Deductible Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc743c39990 @id=nil, @extension=[], @value=0, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743c39558 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743c391c0 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743c38ec8 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_prcsg_ind_cd", @display="Line Processing Indicator Code", @userSelected=nil>], @text=nil>, @reason=nil, @amount=nil, @value=nil>], @detail=[]>], @addItem=[], @adjudication=[], @total=[#<FHIR::ExplanationOfBenefit::Total:0x00007fc743c38130 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743c43c60 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743c43918 @id=nil, @extension=[], @system="http://terminology.hl7.org/CodeSystem/adjudication", @version=nil, @code="submitted", @display="Submitted Amount", @userSelected=nil>], @text="Submitted Amount">, @amount=#<FHIR::Money:0x00007fc743c43288 @id=nil, @extension=[], @value=129.16, @currency="USD">>], @payment=#<FHIR::ExplanationOfBenefit::Payment:0x00007fc743c42e00 @id=nil, @extension=[], @modifierExtension=[], @type=nil, @adjustment=nil, @adjustmentReason=nil, @date=nil, @amount=#<FHIR::Money:0x00007fc743c42b08 @id=nil, @extension=[], @value=415.096, @currency="USD">, @identifier=nil>, @formCode=nil, @form=nil, @processNote=[], @benefitPeriod=nil, @benefitBalance=[]>):
+    17: 			<% @explanationofbenefits.each do |eob| %>
+    18: 			<tr>
+    19:             		<td>
+    20:                     <%= eob.startdate%>-<%=eob.endDate%>
+    21:                    </td> 
+    22:            		<td>
+    23:                     <%= eob.claim_reference%>
+  
+app/views/eob/index.html.erb:20:in `block in _app_views_eob_index_html_erb__1560068113374379213_70247130564160'
+app/views/eob/index.html.erb:17:in `each'
+app/views/eob/index.html.erb:17:in `_app_views_eob_index_html_erb__1560068113374379213_70247130564160'
+Processing by EobController#index as HTML
+Completed 500 Internal Server Error in 2080ms (ActiveRecord: 0.0ms)
+
+
+  
+ArgumentError (wrong number of arguments (given 3, expected 5)):
+  
+app/models/eob.rb:14:in `initialize'
+app/controllers/eob_controller.rb:8:in `new'
+app/controllers/eob_controller.rb:8:in `block in index'
+app/controllers/eob_controller.rb:8:in `map'
+app/controllers/eob_controller.rb:8:in `index'
+Started GET "/eob/index" for ::1 at 2020-02-07 17:34:26 -0500
+Processing by EobController#index as HTML
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (12.3ms)
+Completed 500 Internal Server Error in 17949ms (ActiveRecord: 0.0ms)
+
+
+  
+ActionView::Template::Error (undefined method `startdate' for #<FHIR::ExplanationOfBenefit:0x00007fc7433f2f70 @id="27e5f39a-52f6-401a-b654-35c992b22191", @meta=nil, @implicitRules=nil, @language=nil, @text=nil, @contained=[#<FHIR::ServiceRequest:0x00007fc7433f8ab0 @id="referral", @meta=nil, @implicitRules=nil, @language=nil, @text=nil, @contained=[], @extension=[], @modifierExtension=[], @identifier=[], @instantiatesCanonical=[], @instantiatesUri=[], @basedOn=[], @replaces=[], @requisition=nil, @status="completed", @intent="order", @category=[], @priority=nil, @doNotPerform=nil, @code=nil, @orderDetail=[], @quantityQuantity=nil, @quantityRatio=nil, @quantityRange=nil, @subject=#<FHIR::Reference:0x00007fc743403d48 @id=nil, @extension=[], @reference="urn:uuid:964ac3e7-03ab-4b44-9a30-7406865ac850", @type=nil, @identifier=nil, @display=nil>, @encounter=nil, @occurrenceDateTime=nil, @occurrencePeriod=nil, @occurrenceTiming=nil, @asNeededBoolean=nil, @asNeededCodeableConcept=nil, @authoredOn=nil, @requester=#<FHIR::Reference:0x00007fc743403a28 @id=nil, @extension=[], @reference="urn:uuid:71d67618-c637-3173-a89a-a81374b583f7", @type=nil, @identifier=nil, @display=nil>, @performerType=nil, @performer=[#<FHIR::Reference:0x00007fc7434036e0 @id=nil, @extension=[], @reference="urn:uuid:71d67618-c637-3173-a89a-a81374b583f7", @type=nil, @identifier=nil, @display=nil>], @locationCode=[], @locationReference=[], @reasonCode=[], @reasonReference=[], @insurance=[], @supportingInfo=[], @specimen=[], @bodySite=[], @note=[], @patientInstruction=nil, @relevantHistory=[]>, #<FHIR::Coverage:0x00007fc743402a60 @id="coverage", @meta=nil, @implicitRules=nil, @language=nil, @text=nil, @contained=[], @extension=[], @modifierExtension=[], @identifier=[], @status="active", @type=#<FHIR::CodeableConcept:0x00007fc743402178 @id=nil, @extension=[], @coding=[], @text="Aetna">, @policyHolder=nil, @subscriber=nil, @subscriberId=nil, @beneficiary=#<FHIR::Reference:0x00007fc743401e30 @id=nil, @extension=[], @reference="urn:uuid:964ac3e7-03ab-4b44-9a30-7406865ac850", @type=nil, @identifier=nil, @display=nil>, @dependent=nil, @relationship=nil, @period=nil, @payor=[#<FHIR::Reference:0x00007fc743401ae8 @id=nil, @extension=[], @reference=nil, @type=nil, @identifier=nil, @display="Aetna">], @local_class=[], @order=nil, @network=nil, @costToBeneficiary=[], @subrogation=nil, @contract=[]>], @extension=[], @modifierExtension=[], @identifier=[#<FHIR::Identifier:0x00007fc7434013b8 @id=nil, @extension=[], @use=nil, @type=nil, @system="https://bluebutton.cms.gov/resources/variables/clm_id", @value="5681f1c3-a1fe-4958-98f6-0f3adad75f51", @period=nil, @assigner=nil>, #<FHIR::Identifier:0x00007fc743400fa8 @id=nil, @extension=[], @use=nil, @type=nil, @system="https://bluebutton.cms.gov/resources/identifier/claim-group", @value="99999999999", @period=nil, @assigner=nil>], @status="active", @type=#<FHIR::CodeableConcept:0x00007fc743400a80 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743400788 @id=nil, @extension=[], @system="http://terminology.hl7.org/CodeSystem/claim-type", @version=nil, @code="institutional", @display=nil, @userSelected=nil>], @text=nil>, @subType=nil, @use="claim", @patient=#<FHIR::Reference:0x00007fc743400080 @id=nil, @extension=[], @reference="urn:uuid:964ac3e7-03ab-4b44-9a30-7406865ac850", @type=nil, @identifier=nil, @display=nil>, @billablePeriod=#<FHIR::Period:0x00007fc74340bb88 @id=nil, @extension=[], @start="2013-03-10T06:27:54-04:00", @end="2014-03-10T06:27:54-04:00">, @created="2013-03-10T06:27:54-04:00", @enterer=nil, @insurer=#<FHIR::Reference:0x00007fc74340b638 @id=nil, @extension=[], @reference=nil, @type=nil, @identifier=nil, @display="Aetna">, @provider=#<FHIR::Reference:0x00007fc74340b318 @id=nil, @extension=[], @reference="urn:uuid:71d67618-c637-3173-a89a-a81374b583f7", @type=nil, @identifier=nil, @display=nil>, @priority=nil, @fundsReserveRequested=nil, @fundsReserve=nil, @related=[], @prescription=nil, @originalPrescription=nil, @payee=nil, @referral=#<FHIR::Reference:0x00007fc74340afd0 @id=nil, @extension=[], @reference="#referral", @type=nil, @identifier=nil, @display=nil>, @facility=#<FHIR::Reference:0x00007fc74340ac38 @id=nil, @extension=[], @reference="urn:uuid:c31c6f9c-6e6b-4843-895c-f1c7d9e7811f", @type=nil, @identifier=nil, @display="PCP9114">, @claim=#<FHIR::Reference:0x00007fc74340a7b0 @id=nil, @extension=[], @reference="urn:uuid:5681f1c3-a1fe-4958-98f6-0f3adad75f51", @type=nil, @identifier=nil, @display=nil>, @claimResponse=nil, @outcome="complete", @disposition=nil, @preAuthRef=[], @preAuthRefPeriod=[], @careTeam=[#<FHIR::ExplanationOfBenefit::CareTeam:0x00007fc74340a238 @id=nil, @extension=[], @modifierExtension=[], @sequence=1, @provider=#<FHIR::Reference:0x00007fc743409ce8 @id=nil, @extension=[], @reference="urn:uuid:71d67618-c637-3173-a89a-a81374b583f7", @type=nil, @identifier=nil, @display=nil>, @responsible=nil, @role=#<FHIR::CodeableConcept:0x00007fc743409978 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743409630 @id=nil, @extension=[], @system="http://terminology.hl7.org/CodeSystem/claimcareteamrole", @version=nil, @code="primary", @display="Primary Care Practitioner", @userSelected=nil>], @text=nil>, @qualification=nil>], @supportingInfo=[], @diagnosis=[], @procedure=[], @precedence=nil, @insurance=[#<FHIR::ExplanationOfBenefit::Insurance:0x00007fc743408e38 @id=nil, @extension=[], @modifierExtension=[], @focal=true, @coverage=#<FHIR::Reference:0x00007fc743408af0 @id=nil, @extension=[], @reference="#coverage", @type=nil, @identifier=nil, @display="Aetna">, @preAuthRef=[]>], @accident=nil, @item=[#<FHIR::ExplanationOfBenefit::Item:0x00007fc7434084b0 @id=nil, @extension=[], @modifierExtension=[], @sequence=1, @careTeamSequence=[], @diagnosisSequence=[], @procedureSequence=[], @informationSequence=[], @revenue=nil, @category=#<FHIR::CodeableConcept:0x00007fc743413540 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743413220 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd", @version=nil, @code="1", @display="Medical care", @userSelected=nil>], @text=nil>, @productOrService=#<FHIR::CodeableConcept:0x00007fc743412b90 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743412820 @id=nil, @extension=[], @system="http://snomed.info/sct", @version=nil, @code="410620009", @display="Well child visit (procedure)", @userSelected=nil>], @text="Well child visit (procedure)">, @modifier=[], @programCode=[], @servicedDate=nil, @servicedPeriod=#<FHIR::Period:0x00007fc7434120a0 @id=nil, @extension=[], @start="2013-03-10T05:57:54-04:00", @end="2013-03-10T06:27:54-04:00">, @locationCodeableConcept=#<FHIR::CodeableConcept:0x00007fc743411bf0 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc7434118f8 @id=nil, @extension=[], @system="http://terminology.hl7.org/CodeSystem/ex-serviceplace", @version=nil, @code="19", @display="Off Campus-Outpatient Hospital", @userSelected=nil>], @text=nil>, @locationAddress=nil, @locationReference=nil, @quantity=nil, @unitPrice=nil, @factor=nil, @net=nil, @udi=[], @bodySite=nil, @subSite=[], @encounter=[#<FHIR::Reference:0x00007fc7434112e0 @id=nil, @extension=[], @reference="urn:uuid:d0aae988-8cc6-434a-bef9-5e11ff919427", @type=nil, @identifier=nil, @display=nil>], @noteNumber=[], @adjudication=[], @detail=[]>, #<FHIR::ExplanationOfBenefit::Item:0x00007fc743410930 @id=nil, @extension=[], @modifierExtension=[], @sequence=2, @careTeamSequence=[], @diagnosisSequence=[], @procedureSequence=[], @informationSequence=[1], @revenue=nil, @category=#<FHIR::CodeableConcept:0x00007fc74341a340 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc74341a048 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd", @version=nil, @code="1", @display="Medical care", @userSelected=nil>], @text=nil>, @productOrService=#<FHIR::CodeableConcept:0x00007fc743419a58 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743419710 @id=nil, @extension=[], @system="http://hl7.org/fhir/sid/cvx", @version=nil, @code="08", @display="Hep B, adolescent or pediatric", @userSelected=nil>], @text="Hep B, adolescent or pediatric">, @modifier=[], @programCode=[], @servicedDate=nil, @servicedPeriod=#<FHIR::Period:0x00007fc743419080 @id=nil, @extension=[], @start="2013-03-10T05:57:54-04:00", @end="2013-03-10T06:27:54-04:00">, @locationCodeableConcept=#<FHIR::CodeableConcept:0x00007fc743418cc0 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc7434189c8 @id=nil, @extension=[], @system="http://terminology.hl7.org/CodeSystem/ex-serviceplace", @version=nil, @code="19", @display="Off Campus-Outpatient Hospital", @userSelected=nil>], @text=nil>, @locationAddress=nil, @locationReference=nil, @quantity=nil, @unitPrice=nil, @factor=nil, @net=#<FHIR::Money:0x00007fc743418388 @id=nil, @extension=[], @value=140.52, @currency="USD">, @udi=[], @bodySite=nil, @subSite=[], @encounter=[], @noteNumber=[], @adjudication=[#<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743423f58 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743423a58 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743423710 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt", @display="Line Beneficiary Coinsurance Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc7434230a8 @id=nil, @extension=[], @value=28.104000000000003, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743422c20 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743422748 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc7434223d8 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt", @display="Line Provider Payment Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc743421d48 @id=nil, @extension=[], @value=112.41600000000001, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc7434218c0 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc7434213c0 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743421028 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_sbmtd_chrg_amt", @display="Line Submitted Charge Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc7434209e8 @id=nil, @extension=[], @value=140.52, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743420560 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743420060 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc74342bc80 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_alowd_chrg_amt", @display="Line Allowed Charge Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc74342b618 @id=nil, @extension=[], @value=140.52, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc74342b190 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc74342ac40 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc74342a948 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt", @display="Line Beneficiary Part B Deductible Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc74342a2e0 @id=nil, @extension=[], @value=0, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743429e30 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc7434299f8 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743429700 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_prcsg_ind_cd", @display="Line Processing Indicator Code", @userSelected=nil>], @text=nil>, @reason=nil, @amount=nil, @value=nil>], @detail=[]>, #<FHIR::ExplanationOfBenefit::Item:0x00007fc7434288a0 @id=nil, @extension=[], @modifierExtension=[], @sequence=3, @careTeamSequence=[], @diagnosisSequence=[], @procedureSequence=[], @informationSequence=[], @revenue=nil, @category=#<FHIR::CodeableConcept:0x00007fc743432580 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743432288 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd", @version=nil, @code="1", @display="Medical care", @userSelected=nil>], @text=nil>, @productOrService=#<FHIR::CodeableConcept:0x00007fc743431c98 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743431950 @id=nil, @extension=[], @system="http://snomed.info/sct", @version=nil, @code="430193006", @display="Medication Reconciliation (procedure)", @userSelected=nil>], @text="Medication Reconciliation (procedure)">, @modifier=[], @programCode=[], @servicedDate=nil, @servicedPeriod=#<FHIR::Period:0x00007fc743431248 @id=nil, @extension=[], @start="2013-03-10T05:57:54-04:00", @end="2013-03-10T06:27:54-04:00">, @locationCodeableConcept=#<FHIR::CodeableConcept:0x00007fc743430e60 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743430b18 @id=nil, @extension=[], @system="http://terminology.hl7.org/CodeSystem/ex-serviceplace", @version=nil, @code="19", @display="Off Campus-Outpatient Hospital", @userSelected=nil>], @text=nil>, @locationAddress=nil, @locationReference=nil, @quantity=nil, @unitPrice=nil, @factor=nil, @net=#<FHIR::Money:0x00007fc7434304b0 @id=nil, @extension=[], @value=378.35, @currency="USD">, @udi=[], @bodySite=nil, @subSite=[], @encounter=[], @noteNumber=[], @adjudication=[#<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc7434300c8 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc74343bb30 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc74343b838 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt", @display="Line Beneficiary Coinsurance Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc74343b158 @id=nil, @extension=[], @value=75.67, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc74343acf8 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc74343a820 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc74343a4b0 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt", @display="Line Provider Payment Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc743439e20 @id=nil, @extension=[], @value=302.68, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743439970 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc7434394c0 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743439178 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_sbmtd_chrg_amt", @display="Line Submitted Charge Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc743438ac0 @id=nil, @extension=[], @value=378.35, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743438638 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743438138 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743443d58 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_alowd_chrg_amt", @display="Line Allowed Charge Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc743443740 @id=nil, @extension=[], @value=378.35, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc7434432b8 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743442db8 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743442a20 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt", @display="Line Beneficiary Part B Deductible Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc7434423b8 @id=nil, @extension=[], @value=0, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743441f58 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743441b48 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc7434417d8 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_prcsg_ind_cd", @display="Line Processing Indicator Code", @userSelected=nil>], @text=nil>, @reason=nil, @amount=nil, @value=nil>], @detail=[]>], @addItem=[], @adjudication=[], @total=[#<FHIR::ExplanationOfBenefit::Total:0x00007fc743440748 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743440248 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc74344be90 @id=nil, @extension=[], @system="http://terminology.hl7.org/CodeSystem/adjudication", @version=nil, @code="submitted", @display="Submitted Amount", @userSelected=nil>], @text="Submitted Amount">, @amount=#<FHIR::Money:0x00007fc74344b738 @id=nil, @extension=[], @value=129.16, @currency="USD">>], @payment=#<FHIR::ExplanationOfBenefit::Payment:0x00007fc74344b210 @id=nil, @extension=[], @modifierExtension=[], @type=nil, @adjustment=nil, @adjustmentReason=nil, @date=nil, @amount=#<FHIR::Money:0x00007fc74344aef0 @id=nil, @extension=[], @value=415.096, @currency="USD">, @identifier=nil>, @formCode=nil, @form=nil, @processNote=[], @benefitPeriod=nil, @benefitBalance=[]>):
+    17: 			<% @explanationofbenefits.each do |eob| %>
+    18: 			<tr>
+    19:             		<td>
+    20:                     <%= eob.startdate%>-<%=eob.endDate%>
+    21:                    </td> 
+    22:            		<td>
+    23:                     <%= eob.claim_reference%>
+  
+app/views/eob/index.html.erb:20:in `block in _app_views_eob_index_html_erb__1560068113374379213_70246899782520'
+app/views/eob/index.html.erb:17:in `each'
+app/views/eob/index.html.erb:17:in `_app_views_eob_index_html_erb__1560068113374379213_70246899782520'
+Started GET "/eob/index" for ::1 at 2020-02-07 17:35:22 -0500
+Processing by EobController#index as HTML
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (10.9ms)
+Completed 500 Internal Server Error in 13847ms (ActiveRecord: 0.0ms)
+
+
+  
+ActionView::Template::Error (undefined method `startDate' for #<FHIR::ExplanationOfBenefit:0x00007fc743aa36d0 @id="27e5f39a-52f6-401a-b654-35c992b22191", @meta=nil, @implicitRules=nil, @language=nil, @text=nil, @contained=[#<FHIR::ServiceRequest:0x00007fc743aa9238 @id="referral", @meta=nil, @implicitRules=nil, @language=nil, @text=nil, @contained=[], @extension=[], @modifierExtension=[], @identifier=[], @instantiatesCanonical=[], @instantiatesUri=[], @basedOn=[], @replaces=[], @requisition=nil, @status="completed", @intent="order", @category=[], @priority=nil, @doNotPerform=nil, @code=nil, @orderDetail=[], @quantityQuantity=nil, @quantityRatio=nil, @quantityRange=nil, @subject=#<FHIR::Reference:0x00007fc743aa8518 @id=nil, @extension=[], @reference="urn:uuid:964ac3e7-03ab-4b44-9a30-7406865ac850", @type=nil, @identifier=nil, @display=nil>, @encounter=nil, @occurrenceDateTime=nil, @occurrencePeriod=nil, @occurrenceTiming=nil, @asNeededBoolean=nil, @asNeededCodeableConcept=nil, @authoredOn=nil, @requester=#<FHIR::Reference:0x00007fc743aa81f8 @id=nil, @extension=[], @reference="urn:uuid:71d67618-c637-3173-a89a-a81374b583f7", @type=nil, @identifier=nil, @display=nil>, @performerType=nil, @performer=[#<FHIR::Reference:0x00007fc743ab3e68 @id=nil, @extension=[], @reference="urn:uuid:71d67618-c637-3173-a89a-a81374b583f7", @type=nil, @identifier=nil, @display=nil>], @locationCode=[], @locationReference=[], @reasonCode=[], @reasonReference=[], @insurance=[], @supportingInfo=[], @specimen=[], @bodySite=[], @note=[], @patientInstruction=nil, @relevantHistory=[]>, #<FHIR::Coverage:0x00007fc743ab31e8 @id="coverage", @meta=nil, @implicitRules=nil, @language=nil, @text=nil, @contained=[], @extension=[], @modifierExtension=[], @identifier=[], @status="active", @type=#<FHIR::CodeableConcept:0x00007fc743ab2900 @id=nil, @extension=[], @coding=[], @text="Aetna">, @policyHolder=nil, @subscriber=nil, @subscriberId=nil, @beneficiary=#<FHIR::Reference:0x00007fc743ab25b8 @id=nil, @extension=[], @reference="urn:uuid:964ac3e7-03ab-4b44-9a30-7406865ac850", @type=nil, @identifier=nil, @display=nil>, @dependent=nil, @relationship=nil, @period=nil, @payor=[#<FHIR::Reference:0x00007fc743ab2270 @id=nil, @extension=[], @reference=nil, @type=nil, @identifier=nil, @display="Aetna">], @local_class=[], @order=nil, @network=nil, @costToBeneficiary=[], @subrogation=nil, @contract=[]>], @extension=[], @modifierExtension=[], @identifier=[#<FHIR::Identifier:0x00007fc743ab1b90 @id=nil, @extension=[], @use=nil, @type=nil, @system="https://bluebutton.cms.gov/resources/variables/clm_id", @value="5681f1c3-a1fe-4958-98f6-0f3adad75f51", @period=nil, @assigner=nil>, #<FHIR::Identifier:0x00007fc743ab1780 @id=nil, @extension=[], @use=nil, @type=nil, @system="https://bluebutton.cms.gov/resources/identifier/claim-group", @value="99999999999", @period=nil, @assigner=nil>], @status="active", @type=#<FHIR::CodeableConcept:0x00007fc743ab1280 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743ab0fd8 @id=nil, @extension=[], @system="http://terminology.hl7.org/CodeSystem/claim-type", @version=nil, @code="institutional", @display=nil, @userSelected=nil>], @text=nil>, @subType=nil, @use="claim", @patient=#<FHIR::Reference:0x00007fc743ab0a38 @id=nil, @extension=[], @reference="urn:uuid:964ac3e7-03ab-4b44-9a30-7406865ac850", @type=nil, @identifier=nil, @display=nil>, @billablePeriod=#<FHIR::Period:0x00007fc743ab0718 @id=nil, @extension=[], @start="2013-03-10T06:27:54-04:00", @end="2014-03-10T06:27:54-04:00">, @created="2013-03-10T06:27:54-04:00", @enterer=nil, @insurer=#<FHIR::Reference:0x00007fc743ab02b8 @id=nil, @extension=[], @reference=nil, @type=nil, @identifier=nil, @display="Aetna">, @provider=#<FHIR::Reference:0x00007fc743abbf50 @id=nil, @extension=[], @reference="urn:uuid:71d67618-c637-3173-a89a-a81374b583f7", @type=nil, @identifier=nil, @display=nil>, @priority=nil, @fundsReserveRequested=nil, @fundsReserve=nil, @related=[], @prescription=nil, @originalPrescription=nil, @payee=nil, @referral=#<FHIR::Reference:0x00007fc743abbc30 @id=nil, @extension=[], @reference="#referral", @type=nil, @identifier=nil, @display=nil>, @facility=#<FHIR::Reference:0x00007fc743abb910 @id=nil, @extension=[], @reference="urn:uuid:c31c6f9c-6e6b-4843-895c-f1c7d9e7811f", @type=nil, @identifier=nil, @display="PCP9114">, @claim=#<FHIR::Reference:0x00007fc743abb500 @id=nil, @extension=[], @reference="urn:uuid:5681f1c3-a1fe-4958-98f6-0f3adad75f51", @type=nil, @identifier=nil, @display=nil>, @claimResponse=nil, @outcome="complete", @disposition=nil, @preAuthRef=[], @preAuthRefPeriod=[], @careTeam=[#<FHIR::ExplanationOfBenefit::CareTeam:0x00007fc743abb118 @id=nil, @extension=[], @modifierExtension=[], @sequence=1, @provider=#<FHIR::Reference:0x00007fc743abac18 @id=nil, @extension=[], @reference="urn:uuid:71d67618-c637-3173-a89a-a81374b583f7", @type=nil, @identifier=nil, @display=nil>, @responsible=nil, @role=#<FHIR::CodeableConcept:0x00007fc743aba8f8 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743aba600 @id=nil, @extension=[], @system="http://terminology.hl7.org/CodeSystem/claimcareteamrole", @version=nil, @code="primary", @display="Primary Care Practitioner", @userSelected=nil>], @text=nil>, @qualification=nil>], @supportingInfo=[], @diagnosis=[], @procedure=[], @precedence=nil, @insurance=[#<FHIR::ExplanationOfBenefit::Insurance:0x00007fc743ab9ed0 @id=nil, @extension=[], @modifierExtension=[], @focal=true, @coverage=#<FHIR::Reference:0x00007fc743ab9bb0 @id=nil, @extension=[], @reference="#coverage", @type=nil, @identifier=nil, @display="Aetna">, @preAuthRef=[]>], @accident=nil, @item=[#<FHIR::ExplanationOfBenefit::Item:0x00007fc743ab95e8 @id=nil, @extension=[], @modifierExtension=[], @sequence=1, @careTeamSequence=[], @diagnosisSequence=[], @procedureSequence=[], @informationSequence=[], @revenue=nil, @category=#<FHIR::CodeableConcept:0x00007fc743ab8850 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743ab8558 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd", @version=nil, @code="1", @display="Medical care", @userSelected=nil>], @text=nil>, @productOrService=#<FHIR::CodeableConcept:0x00007fc743ac3f20 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743ac3bd8 @id=nil, @extension=[], @system="http://snomed.info/sct", @version=nil, @code="410620009", @display="Well child visit (procedure)", @userSelected=nil>], @text="Well child visit (procedure)">, @modifier=[], @programCode=[], @servicedDate=nil, @servicedPeriod=#<FHIR::Period:0x00007fc743ac3548 @id=nil, @extension=[], @start="2013-03-10T05:57:54-04:00", @end="2013-03-10T06:27:54-04:00">, @locationCodeableConcept=#<FHIR::CodeableConcept:0x00007fc743ac3188 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743ac2e90 @id=nil, @extension=[], @system="http://terminology.hl7.org/CodeSystem/ex-serviceplace", @version=nil, @code="19", @display="Off Campus-Outpatient Hospital", @userSelected=nil>], @text=nil>, @locationAddress=nil, @locationReference=nil, @quantity=nil, @unitPrice=nil, @factor=nil, @net=nil, @udi=[], @bodySite=nil, @subSite=[], @encounter=[#<FHIR::Reference:0x00007fc743ac2878 @id=nil, @extension=[], @reference="urn:uuid:d0aae988-8cc6-434a-bef9-5e11ff919427", @type=nil, @identifier=nil, @display=nil>], @noteNumber=[], @adjudication=[], @detail=[]>, #<FHIR::ExplanationOfBenefit::Item:0x00007fc743ac1f40 @id=nil, @extension=[], @modifierExtension=[], @sequence=2, @careTeamSequence=[], @diagnosisSequence=[], @procedureSequence=[], @informationSequence=[1], @revenue=nil, @category=#<FHIR::CodeableConcept:0x00007fc743acbe00 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743acbb08 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd", @version=nil, @code="1", @display="Medical care", @userSelected=nil>], @text=nil>, @productOrService=#<FHIR::CodeableConcept:0x00007fc743acb518 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743acb1d0 @id=nil, @extension=[], @system="http://hl7.org/fhir/sid/cvx", @version=nil, @code="08", @display="Hep B, adolescent or pediatric", @userSelected=nil>], @text="Hep B, adolescent or pediatric">, @modifier=[], @programCode=[], @servicedDate=nil, @servicedPeriod=#<FHIR::Period:0x00007fc743acab40 @id=nil, @extension=[], @start="2013-03-10T05:57:54-04:00", @end="2013-03-10T06:27:54-04:00">, @locationCodeableConcept=#<FHIR::CodeableConcept:0x00007fc743aca780 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743aca488 @id=nil, @extension=[], @system="http://terminology.hl7.org/CodeSystem/ex-serviceplace", @version=nil, @code="19", @display="Off Campus-Outpatient Hospital", @userSelected=nil>], @text=nil>, @locationAddress=nil, @locationReference=nil, @quantity=nil, @unitPrice=nil, @factor=nil, @net=#<FHIR::Money:0x00007fc743ac9e98 @id=nil, @extension=[], @value=140.52, @currency="USD">, @udi=[], @bodySite=nil, @subSite=[], @encounter=[], @noteNumber=[], @adjudication=[#<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743ac9b00 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743ac9678 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743ac9380 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt", @display="Line Beneficiary Coinsurance Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc743ac8d90 @id=nil, @extension=[], @value=28.104000000000003, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743ac8958 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743ac84d0 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743ac81d8 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt", @display="Line Provider Payment Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc743ad3ba0 @id=nil, @extension=[], @value=112.41600000000001, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743ad3768 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743ad32e0 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743ad2fe8 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_sbmtd_chrg_amt", @display="Line Submitted Charge Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc743ad29f8 @id=nil, @extension=[], @value=140.52, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743ad25c0 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743ad2138 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743ad1e40 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_alowd_chrg_amt", @display="Line Allowed Charge Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc743ad1850 @id=nil, @extension=[], @value=140.52, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743ad1418 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743ad0f90 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743ad0c98 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt", @display="Line Beneficiary Part B Deductible Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc743ad06a8 @id=nil, @extension=[], @value=0, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743ad0270 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743adbe90 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743adbb98 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_prcsg_ind_cd", @display="Line Processing Indicator Code", @userSelected=nil>], @text=nil>, @reason=nil, @amount=nil, @value=nil>], @detail=[]>, #<FHIR::ExplanationOfBenefit::Item:0x00007fc743adaec8 @id=nil, @extension=[], @modifierExtension=[], @sequence=3, @careTeamSequence=[], @diagnosisSequence=[], @procedureSequence=[], @informationSequence=[], @revenue=nil, @category=#<FHIR::CodeableConcept:0x00007fc743ad8f10 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743ad8c18 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/variables/line_cms_type_srvc_cd", @version=nil, @code="1", @display="Medical care", @userSelected=nil>], @text=nil>, @productOrService=#<FHIR::CodeableConcept:0x00007fc743ad8628 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743ad82e0 @id=nil, @extension=[], @system="http://snomed.info/sct", @version=nil, @code="430193006", @display="Medication Reconciliation (procedure)", @userSelected=nil>], @text="Medication Reconciliation (procedure)">, @modifier=[], @programCode=[], @servicedDate=nil, @servicedPeriod=#<FHIR::Period:0x00007fc743ae3c08 @id=nil, @extension=[], @start="2013-03-10T05:57:54-04:00", @end="2013-03-10T06:27:54-04:00">, @locationCodeableConcept=#<FHIR::CodeableConcept:0x00007fc743ae3848 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743ae3550 @id=nil, @extension=[], @system="http://terminology.hl7.org/CodeSystem/ex-serviceplace", @version=nil, @code="19", @display="Off Campus-Outpatient Hospital", @userSelected=nil>], @text=nil>, @locationAddress=nil, @locationReference=nil, @quantity=nil, @unitPrice=nil, @factor=nil, @net=#<FHIR::Money:0x00007fc743ae2f60 @id=nil, @extension=[], @value=378.35, @currency="USD">, @udi=[], @bodySite=nil, @subSite=[], @encounter=[], @noteNumber=[], @adjudication=[#<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743ae2bc8 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743ae2740 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743ae2448 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt", @display="Line Beneficiary Coinsurance Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc743ae1e58 @id=nil, @extension=[], @value=75.67, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743ae1a20 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743ae1598 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743ae12a0 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt", @display="Line Provider Payment Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc743ae0cb0 @id=nil, @extension=[], @value=302.68, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743ae0878 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743ae03f0 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743ae00f8 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_sbmtd_chrg_amt", @display="Line Submitted Charge Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc743aebac0 @id=nil, @extension=[], @value=378.35, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743aeb688 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743aeb200 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743aeaf08 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_alowd_chrg_amt", @display="Line Allowed Charge Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc743aea918 @id=nil, @extension=[], @value=378.35, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743aea4e0 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743aea058 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743ae9d60 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt", @display="Line Beneficiary Part B Deductible Amount", @userSelected=nil>], @text=nil>, @reason=nil, @amount=#<FHIR::Money:0x00007fc743ae9770 @id=nil, @extension=[], @value=0, @currency="USD">, @value=nil>, #<FHIR::ExplanationOfBenefit::Item::Adjudication:0x00007fc743ae9338 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743ae8fa0 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743ae8ca8 @id=nil, @extension=[], @system="https://bluebutton.cms.gov/resources/codesystem/adjudication", @version=nil, @code="https://bluebutton.cms.gov/resources/variables/line_prcsg_ind_cd", @display="Line Processing Indicator Code", @userSelected=nil>], @text=nil>, @reason=nil, @amount=nil, @value=nil>], @detail=[]>], @addItem=[], @adjudication=[], @total=[#<FHIR::ExplanationOfBenefit::Total:0x00007fc743af3ea0 @id=nil, @extension=[], @modifierExtension=[], @category=#<FHIR::CodeableConcept:0x00007fc743af3a18 @id=nil, @extension=[], @coding=[#<FHIR::Coding:0x00007fc743af36d0 @id=nil, @extension=[], @system="http://terminology.hl7.org/CodeSystem/adjudication", @version=nil, @code="submitted", @display="Submitted Amount", @userSelected=nil>], @text="Submitted Amount">, @amount=#<FHIR::Money:0x00007fc743af3040 @id=nil, @extension=[], @value=129.16, @currency="USD">>], @payment=#<FHIR::ExplanationOfBenefit::Payment:0x00007fc743af2bb8 @id=nil, @extension=[], @modifierExtension=[], @type=nil, @adjustment=nil, @adjustmentReason=nil, @date=nil, @amount=#<FHIR::Money:0x00007fc743af28c0 @id=nil, @extension=[], @value=415.096, @currency="USD">, @identifier=nil>, @formCode=nil, @form=nil, @processNote=[], @benefitPeriod=nil, @benefitBalance=[]>):
+    17: 			<% @explanationofbenefits.each do |eob| %>
+    18: 			<tr>
+    19:             		<td>
+    20:                     <%= eob.startDate%>-<%=eob.endDate%>
+    21:                    </td> 
+    22:            		<td>
+    23:                     <%= eob.claim_reference%>
+  
+app/views/eob/index.html.erb:20:in `block in _app_views_eob_index_html_erb__1560068113374379213_70246885600600'
+app/views/eob/index.html.erb:17:in `each'
+app/views/eob/index.html.erb:17:in `_app_views_eob_index_html_erb__1560068113374379213_70246885600600'
+Started GET "/eob/index" for ::1 at 2020-02-07 17:37:02 -0500
+Processing by EobController#index as HTML
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (4.6ms)
+Completed 500 Internal Server Error in 15886ms (ActiveRecord: 0.0ms)
+
+
+  
+ActionView::Template::Error (undefined method `startDate' for #<EOB:0x00007fc75dcda920>):
+    17: 			<% @eobs.each do |eob| %>
+    18: 			<tr>
+    19:             		<td>
+    20:                     <%= eob.startDate%>-<%=eob.endDate%>
+    21:                    </td> 
+    22:            		<td>
+    23:                     <%= eob.claim_reference%>
+  
+app/views/eob/index.html.erb:20:in `block in _app_views_eob_index_html_erb__1560068113374379213_70246886240720'
+app/views/eob/index.html.erb:17:in `each'
+app/views/eob/index.html.erb:17:in `_app_views_eob_index_html_erb__1560068113374379213_70246886240720'
+Started GET "/eob/index" for ::1 at 2020-02-07 17:37:49 -0500
+Processing by EobController#index as HTML
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (4.1ms)
+Completed 500 Internal Server Error in 52824ms (ActiveRecord: 0.0ms)
+
+
+  
+ActionView::Template::Error (undefined method `startdate' for #<EOB:0x00007fc75cea14d0>):
+    17: 			<% @eobs.each do |eob| %>
+    18: 			<tr>
+    19:             		<td>
+    20:                     <%= eob.startdate%>-<%=eob.enddate%>
+    21:                    </td> 
+    22:            		<td>
+    23:                     <%= eob.claim_reference%>
+  
+app/views/eob/index.html.erb:20:in `block in _app_views_eob_index_html_erb__1560068113374379213_70246905879600'
+app/views/eob/index.html.erb:17:in `each'
+app/views/eob/index.html.erb:17:in `_app_views_eob_index_html_erb__1560068113374379213_70246905879600'
+Started PUT "/__web_console/repl_sessions/b7d465fe264b62efbe7b1ea61e73a02c" for ::1 at 2020-02-07 17:39:03 -0500
+Started PUT "/__web_console/repl_sessions/b7d465fe264b62efbe7b1ea61e73a02c" for ::1 at 2020-02-07 17:39:03 -0500
+Started PUT "/__web_console/repl_sessions/b7d465fe264b62efbe7b1ea61e73a02c" for ::1 at 2020-02-07 17:39:13 -0500
+Started PUT "/__web_console/repl_sessions/b7d465fe264b62efbe7b1ea61e73a02c" for ::1 at 2020-02-07 17:39:14 -0500
+Started PUT "/__web_console/repl_sessions/b7d465fe264b62efbe7b1ea61e73a02c" for ::1 at 2020-02-07 17:39:27 -0500
+Started PUT "/__web_console/repl_sessions/b7d465fe264b62efbe7b1ea61e73a02c" for ::1 at 2020-02-07 17:39:27 -0500
+Started GET "/eob/index" for ::1 at 2020-02-07 17:42:20 -0500
+Processing by EobController#index as HTML
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (7.5ms)
+Completed 500 Internal Server Error in 4391ms (ActiveRecord: 0.0ms)
+
+
+  
+ActionView::Template::Error (undefined method `category' for #<EOB:0x00007fc743ce9138>):
+    26:                     <%= eob.careteam%>
+    27:                    </td> 
+    28:            		<td>
+    29:                     <%= eob.category%>
+    30:                    </td> 
+    31:           		<td>
+    32:                     <%= eob.facility%>
+  
+app/views/eob/index.html.erb:29:in `block in _app_views_eob_index_html_erb__1560068113374379213_70246906855480'
+app/views/eob/index.html.erb:17:in `each'
+app/views/eob/index.html.erb:17:in `_app_views_eob_index_html_erb__1560068113374379213_70246906855480'
+Started GET "/eob/index" for ::1 at 2020-02-07 17:43:07 -0500
+Processing by EobController#index as HTML
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (15.4ms)
+  Rendered partials/_head.html.erb (290.3ms)
+  Rendered partials/_header.html.erb (6.4ms)
+  Rendered partials/_messages.html.erb (1.8ms)
+  Rendered partials/_footer.html.erb (2.0ms)
+Completed 200 OK in 71513ms (Views: 357.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/eob/index" for ::1 at 2020-02-07 17:46:15 -0500
+Processing by EobController#index as HTML
+  Rendering eob/index.html.erb within layouts/application
+  Rendered eob/index.html.erb within layouts/application (1.8ms)
+  Rendered partials/_head.html.erb (197.0ms)
+  Rendered partials/_header.html.erb (4.5ms)
+  Rendered partials/_messages.html.erb (0.6ms)
+  Rendered partials/_footer.html.erb (0.5ms)
+Completed 200 OK in 9270ms (Views: 225.5ms | ActiveRecord: 0.0ms)
+
+

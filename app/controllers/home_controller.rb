@@ -15,6 +15,7 @@ class HomeController < ApplicationController
   def index
     # Get list of patients from cached results from server
     @patients = Rails.cache.read("patients")
+    binding.pry
     @patients = nil
     if @patients.nil?
       # No cached patients, either because it's the first time or the cache
@@ -48,11 +49,13 @@ class HomeController < ApplicationController
   #-----------------------------------------------------------------------------
   
   def establish_session_handler
+    binding.pry 
     if params[:server_url].present?
       session[:wakeupsession] = "ok" # using session hash prompts rails session to load
       SessionHandler.establish(session.id, params[:server_url])
     else
       err = "Please enter a FHIR server address."
+      binding.pry 
       redirect_to root_path, flash: { error: err }
     end
   end

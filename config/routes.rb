@@ -10,6 +10,8 @@
 
 Rails.application.routes.draw do
 
+  get 'eob/index', to: 'eob#index'
+  get 'eob/show'
   resources	:practitioners,		only: [:show]
 
   get '/home', to: 'home#index'
