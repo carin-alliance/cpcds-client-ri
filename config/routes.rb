@@ -10,8 +10,13 @@
 
 Rails.application.routes.draw do
 
-  get 'eob/index', to: 'eob#index'
+  get 'eob/index'
   get 'eob/show'
+  #get 'eob/index'
+  get 'eob/show',   to: 'eobs#show'
+  get 'eobs/index', to: 'eobs#index'
+  #get 'eobs/show'
+  resources :eobs,            only: [:index, :show]
   resources	:practitioners,		only: [:show]
 
   get '/home', to: 'home#index'
