@@ -13,7 +13,7 @@ class EOB < Resource
    attr_accessor :id, :startdate, :enddate, :category, :careteam, :claim_reference, :claim, :facility, :use, :insurer, :provider, :contained,
       :coverage, :items, :fhir_client
 
-  def initialize(fhir_eob, fhir_practitioners, fhir_claims, fhir_locations, fhir_client)
+  def initialize(fhir_eob, fhir_practitioners, fhir_claims, fhir_locations, fhir_observations, fhir_client)
     @id = fhir_eob.id
     @startdate = DateTime.parse(fhir_eob.billablePeriod.start).strftime("%m/%d/%Y")
     @enddate = DateTime.parse(fhir_eob.billablePeriod.end).strftime("%m/%d/%Y")
@@ -37,19 +37,53 @@ class EOB < Resource
     @coverage = fhir_eob.insurance[0].coverage.display    
     @items = fhir_eob.item.map { | item | 
       category = item.category.coding.map(&:display)
-      encounter = item.encounter.map(&:reference)
+      category = ["none"] unless category.length > 0
+      encounter = item.encounter.map {|enc|
+           enc.reference.gsub("urn:uuid:", "")
+      }
+      encounter = ["none"] unless encounter.length > 0 
+      observations = item.encounter.map {|enc|
+         id = enc.id;
+         observations = fhir_observations.select { |obs| obs.encounter.reference.gsub("urn:uuid:","") == reference}
+         observations_extract = observations.map{ | obs |
+          obscategory = obs.category.map(&:coding)[0].map(&:display).join(",")
+
+          code = obs.code.text
+          value = "nil"
+          value = obs.valueBoolean  if obs.valueBoolean
+          value = obs.valueCodeableConcept.display if obs.valueCodeableConcept
+          value = obs.valueDateTime if obs.valueDateTime
+          value = obs.valueInteger if obs.valueInteger
+          value = obs.valuePeriod if obs.valuePeriod
+          value = sprintf('%.2f',obs.valueQuantity.value) + obs.valueQuantity.unit if obs.valueQuantity 
+          value = obs.valueRange if obs.valueRange 
+          value = obs.valueRatio if obs.valueRatio
+          value = obs.valueSampledData if obs.valueSampledData  
+          value = obs.valueString if obs.valueString 
+          value = obs.valueTime if obs.valueTime       
+          {
+            :id => id, 
+            :category => obscategory,
+            :code => code,
+            :value => value
+          }
+         }
+        }.flatten(1)
       location = item.location.coding.map(&:display)
+      location = ["none"] unless location.length
       productOrService = item.productOrService.coding.map{ |p|  "<" + p.code + "> " + p.display }
+      productOrService = ["none"] unless productOrService.length
       startTime = DateTime.parse(item.servicedPeriod.start).strftime("%m/%d/%Y %H:%M:%S")
       endTime = DateTime.parse(item.servicedPeriod.start).strftime("%m/%d/%Y %H:%M:%S")
       adjudication = item.adjudication.map{ | adj|  
           value = "missing"  ;
           value = "$"+ sprintf('%.2f',adj.amount.value) if adj.amount ;
-          adjvalue = value + "("+adj.category.coding[0].display + ")"  ;
+          adjvalue = [value,  "("+adj.category.coding[0].display + ")"]  ;
       }
       {
       :category => category,
       :encounter => encounter,
+      :observations => observations,
       :location => location,
       :productOrService => productOrService,
       :startTime => startTime,

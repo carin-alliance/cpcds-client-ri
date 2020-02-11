@@ -10,12 +10,8 @@
 
 Rails.application.routes.draw do
 
-  get 'eob/index'
-  get 'eob/show'
-  #get 'eob/index'
-  get 'eob/show',   to: 'eobs#show'
-  get 'eobs/index', to: 'eobs#index'
-  #get 'eobs/show'
+  get 'claim/index'
+  get 'claim/show'
   resources :eobs,            only: [:index, :show]
   resources	:practitioners,		only: [:show]
 
