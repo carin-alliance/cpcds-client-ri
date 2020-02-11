@@ -9,7 +9,7 @@
 class ApplicationController < ActionController::Base
     attr_accessor :explanationofbenefits, :practitioners, :patients, :locations, :organizations, :practitionerroles, :encounters,
     :observations, :procedures, :immunizations, :diagnosticreports, :documentreferences, :claims, :conditions, :medicationrequests,
-    :careteams, :careplans, :devices, :provenances
+    :careteams, :careplans, :devices, :provenances, :resources
 
    def load_bundle
     # read a bundle from a file
@@ -35,6 +35,27 @@ class ApplicationController < ActionController::Base
     @careplans ||= @bundle.entry.select { |entry| entry.resource.instance_of? FHIR::CarePlan }.map(&:resource)
     @devices ||= @bundle.entry.select { |entry| entry.resource.instance_of? FHIR::Device }.map(&:resource)
     @provenances ||= @bundle.entry.select { |entry| entry.resource.instance_of? FHIR::Provenance }.map(&:resource)
+    @resources = {
+    :patients => @patients,
+    :locations => @locations,
+    :organizations => @organizations,
+    :practitioners => @practitioners,
+    :practitionerroles => @practitionerroles,
+    :encounters => @encounters,
+    :observations => @observations,
+    :procedures => @procedures,
+    :immunizations => @immunizations,
+    :diagnosticreports => @diagnistocreports,
+    :documentreferences => @documentreferences,
+    :claims => @claims,
+    :explanationofbenefits => @explanationofbenefits,
+    :conditions => @conditions,
+    :medicationrequests => @medicationrequests,
+    :careteams => @careteams,
+    :careplans => @careplans,
+    :devices => @devices,
+    :provenances => @provenances
+    }
    end
 
     def getPractitioner(id)

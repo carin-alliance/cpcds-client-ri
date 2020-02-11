@@ -10,21 +10,20 @@ class Medication < Resource
 
 	include ActiveModel::Model
 
-  attr_reader :id, :text, :status, :ingredients
+  attr_reader :id, :description, :status, :authoredOnDate, :requester, :sortDate
 
   #-----------------------------------------------------------------------------
 
-  def initialize(fhir_medication)
-  	@id 					= fhir_medication.id
-    @text         = fhir_medication.text
-    @status       = fhir_medication.status
-    @ingredients  = fhir_medication.ingredient
+  def initialize(fhir_medicationrequest)
+    @id 					= fhir_medicationrequest.id
+    @sortDate  =   fhir_medicationrequest.authoredOn
+    @authoredOnDate  =   DateTime.parse(fhir_medicationrequest.authoredOn).strftime("%m/%d/%Y")
+    @status       = fhir_medicationrequest.status
+    @description = fhir_medicationrequest.medicationCodeableConcept.coding.map(&:display).join("")
+    @requester = fhir_medicationrequest.requester.display
   end
 
   #-----------------------------------------------------------------------------
 
-  def codings
-    @ingredients.map { |ingredient| ingredient.itemCodeableConcept.coding }
-  end
 
 end

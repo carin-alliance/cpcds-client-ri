@@ -1,0 +1,54 @@
+<section class='container'>
+  <section class='row'>
+      <div class='col-12'>
+        <h3>Explanation of Benefit: <%= @eob.id %> </h2> 
+        <h4>Patient: <%= @eob.claim.patient.display%> </h3>
+        <h4>Dates: <%= @eob.startdate%>-<%=@eob.enddate%></h3>  
+        <h4>Claim: <%= link_to sanitize(@eob.claim_reference), claim_show_path(@eob.claim_reference)%>  
+        <h4>Careteam: <%= @eob.careteam.values.join(",")%> </h3>
+        </div>
+         <!–– <div class='col-5' id='map' ––>
+         <!–– </div ––>
+         <div class='col-12'>
+          <table class='table table-dark'>
+            <tr> 
+              <th scope='col'>Category              <th>
+              <th scope='col'>Location</th> 
+              <th scope='col'>Prod/Serv</th>
+              <th scope='col'>Encounter</th> 
+              <th scope='col'>Date/Time</th> 
+            </tr> 
+            <% @eob.items.each do |item| %> 
+            <tr>
+             <td><%= item[:category].join(",")%></td>
+            <td><%= item[:location].join(",")%></td>
+            <td><%= item[:productOrService].join(",")%></td>
+            <td><%= item[:encounter].join(",")%></td>
+            <td><%= item[:startTime]%></td>
+            </tr>
+            <% if item[:observations].length > 0%>
+            <% item[:observations].each do |obs|%>
+            <tr>
+              <td>   <td>
+              <td> Category: <%= obs[:category] %>  <td>
+              <td> Code: <%= obs[:code] %>  <td>
+              <td> Value: <%= obs[:value] %>  <td>
+            <tr>
+            <%end%>
+            <%end %>
+            <% if item[:adjudication].length > 0%>
+            <% item[:adjudication].each do |adj|%>
+            <tr>
+              <td>   <td>
+              <td> <td>
+              <td> <%= adj.join("\t") %> <td>
+            <tr>
+            <%end%>
+            <%end %>
+            <% end %>
+          </table>
+
+      </div>
+  </section>
+</section>
+
