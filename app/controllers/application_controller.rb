@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
     :observations => @observations,
     :procedures => @procedures,
     :immunizations => @immunizations,
-    :diagnosticreports => @diagnistocreports,
+    :diagnosticreports => @diagnosticreports,
     :documentreferences => @documentreferences,
     :claims => @claims,
     :explanationofbenefits => @explanationofbenefits,
