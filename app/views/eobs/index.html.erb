@@ -19,7 +19,7 @@
    <% period = eob.startdate + "-" + eob.enddate %>
 <td> <%= link_to sanitize(period), eob_path(eob.id)%>
 <td> <%= eob.claim_reference.last(6)%> </td> 
-<td> <%= eob.claim.patient.display%> </td>
+<td> <%= eob.claimpatient%> </td>
 <td> <%= eob.careteam.values.map{ |c| c[:name]}.join(",")%> </td> 
 <td> <%= eob.facility%> </td> 
  </tr> 

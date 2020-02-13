@@ -16,7 +16,7 @@ class Medication < Resource
 
   def initialize(fhir_medicationrequest)
     @id 					= fhir_medicationrequest.id
-    @sortDate  =   fhir_medicationrequest.authoredOn
+    @sortDate  =   DateTime.parse(fhir_medicationrequest.authoredOn).to_i
     @authoredOnDate  =   DateTime.parse(fhir_medicationrequest.authoredOn).strftime("%m/%d/%Y")
     @status       = fhir_medicationrequest.status
     @description = fhir_medicationrequest.medicationCodeableConcept.coding.map(&:display).join("")
