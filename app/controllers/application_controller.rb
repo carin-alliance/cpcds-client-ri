@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
    def load_bundle
     # read a bundle from a file
-    file = File.read('../cpcds-server-ri/CPCDS_patient_data/Ariadna374_Aragón562.json')
+    file = File.read('../cpcds-server-ri/CPCDS_patient_data/Darin74_Olson653.json')
     @bundle = FHIR::Json.from_json(file)
     @bundleCountsByType = @bundle.entry.map { | entry | entry.resource.resourceType}.group_by{|e| e}.map{|k, v| [k, v.length]}.to_h
     @patients ||= @bundle.entry.select { |entry| entry.resource.instance_of? FHIR::Patient }.map(&:resource)
