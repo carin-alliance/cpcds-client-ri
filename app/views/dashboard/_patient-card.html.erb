@@ -73,6 +73,7 @@
             <tr>
             <td> </td>
             <td> <%= comp[:code] %> </td>
+            <td> </td>
             <td> <%= comp[:value] %>  </td>
             </tr>
             <% end %>
@@ -109,7 +110,7 @@
       <% end %>
         </table>
       </div>
-            <div class='row'>
+      <div class='row'>
      <h2>Conditions: </h2>
         <table class='table table-striped table-dark status'>
         <% @patient.conditions.each do |condition|%>
@@ -122,7 +123,37 @@
       <% end %>
         </table>
       </div>
+ <div class='row'>
+     <h2>Document References: </h2>
+        <% @patient.docrefs.each do |docref|%>
+        <table class='table table-striped table-dark status'>
+        <tr>
+           <td> <%=docref.dateTime%> </td>
+           <td> <%=docref.author%> </td>   
+           <td> <%=docref.category%> </td>    
+           <td> <%=docref.type%> </td>    
+         </tr>
+        <table class='table table-striped table-dark status'>
+        <tr>
+           <td>  <%=simple_format docref.attachment%> </td>
+         </tr>
+        </table>
+      <% end %>
 
+      </div>
+     <div class='row'>
+     <h2>Immunizations: </h2>
+        <table class='table table-striped table-dark status'>
+        <% @patient.immunizations.each do |immunization|%>
+        <tr>
+           <td> <%=immunization.dateTime%> </td>
+           <td> <%=immunization.status%> </td>   
+           <td> <%=immunization.code%> </td>    
+           <td> <%=immunization.location%> </td>    
+         </tr>
+      <% end %>
+        </table>
+      </div>
   </div>
 </section>
 </section>
