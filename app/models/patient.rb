@@ -11,7 +11,7 @@ class Patient < Resource
 	include ActiveModel::Model
 
   attr_reader :id, :names, :telecoms, :addresses, :birth_date, :gender, 
-  								:marital_status, :photo, :observations, :medications, :procedures, :conditions, :docrefs 
+  								:marital_status, :photo, :observations, :medications, :procedures, :conditions, :docrefs, :immunizations 
 
   #-----------------------------------------------------------------------------
 
@@ -30,9 +30,9 @@ class Patient < Resource
     @procedures     = get_procedures (fhir_resources[:procedures])
     @conditions     = get_conditions (fhir_resources[:conditions])
     @docrefs     = get_docrefs (fhir_resources[:documentreferences])
+    @immunizations = get_immunizations (fhir_resources[:immunizations])
     binding.pry 
     @fhir_client			= fhir_client
-    binding.pry 
   end
 
 #---------------------------
@@ -40,11 +40,21 @@ def get_docrefs (fhir_docrefs)
   docrefs = []
 
    fhir_docrefs.each do |fhir_docref|
-    binding.pry
     docrefs << DocumentReference.new(fhir_docref) unless fhir_docref.nil?
   end
 
   return docrefs.sort_by { |a|  -a.sortDate }
+end
+
+#---------------------------
+def get_immunizations (fhir_immunizations)
+  immunizations = []
+
+  fhir_immunizations.each do |fhir_immunization|
+    immunizations << Immunization.new(fhir_immunization) unless fhir_immunization.nil?
+  end
+
+  return immunizations.sort_by { |a|  -a.sortDate }
 end
 
 
