@@ -11,7 +11,7 @@ class EOB < Resource
 	include ActiveModel::Model
   #-----------------------------------------------------------------------------
    attr_accessor :id, :startdate, :enddate, :category, :careteam, :claim_reference, :claim, :facility, :use, :insurer, :provider, :contained,
-      :coverage, :items, :fhir_client, :sortDate, :claimpatient
+      :coverage, :items, :fhir_client, :sortDate, :claimpatient,:total, :payment 
 
   def initialize(fhir_eob, fhir_practitioners, fhir_claims, fhir_locations, fhir_observations, fhir_client)
     @id = fhir_eob.id
@@ -35,6 +35,8 @@ class EOB < Resource
     @use = fhir_eob.use || "<MISSING>"
     @insurer = fhir_eob.insurer.display || "<MISSING>"
     @provider = fhir_eob.provider.display || "<MISSING>"
+    @total =  [ fhir_eob.total[0].category.text, "$"+sprintf('%.2f',fhir_eob.total[0].amount.value)] || []
+    @payment = "$"+sprintf('%.2f',fhir_eob.payment.amount.value) || "<MISSING>"  
     @contained = fhir_eob.contained.each_with_object({}) do |object, hash|
       hash[object.id] = object.class.to_s
     end
@@ -64,8 +66,8 @@ class EOB < Resource
         }.flatten(1)
       itemloc = item.location.coding.map(&:display)
       itemloc = ["none"] unless itemloc.length
-      itemproductOrService = item.productOrService.coding.map(&:display).join(",")
-      itemproductOrService = ["none"] unless itemproductOrService.length
+      itemproductOrService = item.productOrService.text
+      itemproductOrService = ["none"] unless item.productOrService.text
       itemstartTime = DateTime.parse(item.servicedPeriod.start).strftime("%m/%d/%Y %H:%M")
       itemendTime = DateTime.parse(item.servicedPeriod.start).strftime("%m/%d/%Y %H:%M")
       # Strip off line that means nothing.
