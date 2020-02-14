@@ -18,10 +18,24 @@
         <td> <h4>Facility: </td>
         <td><%= @eob.facility%> </td>        
         </tr>
+                               <tr>
+        <td> <h4>Provider: </td>
+        <td><%= @eob.provider%> </td>        
+        </tr>
+ 
                 <tr>
         <td><h4>Claim:  </td>
         <td><%= link_to sanitize(@eob.claim_reference), claim_show_path(@eob.claim_reference)%>  </td>        
         </tr>
+                                      <tr>
+        <td> <h4>Total: </td>
+        <td><%= @eob.total.join(" ")%> </td>        
+        </tr>
+                               <tr>
+        <td> <h4>Payment: </td>
+        <td><%= @eob.payment%> </td>        
+        </tr>
+ 
                 <tr>
         <td><h4>Careteam:  </td>
         <td> <%= @eob.careteam.values.map{ |c| c[:name] + " (" + c[:role] + ")"}.join(",")%></td>        
@@ -48,27 +62,36 @@
             <td><%= item[:productOrService]%></td>
             <td><%= item[:encounter].map{|e| e.last(6)}.join(",")%></td>
             </tr>
-           <% if item[:adjudication].length > 0%>
-            <table>
-            <tr>
-            <td><h3>Adjudication </td>
-            <td>
-            <table>
-               <tr>
-                 <% item[:adjudication].each do |adj|%>
-                   <td> <%= adj.join("\t") %> </td>
-                 <%end%>
-               </tr>
-            </table>
-            </td>
-            </tr>
-            </table>
-            <%end%>
-            <% end %>
-          </table>
+<% if item[:adjudication].length > 0%>
+<tr>
+<td>
+</td>
+<td>Adjudication</td>
+<td>
+<table>
+<tr>
+                    <% item[:adjudication].each do |adj|%>
+                        <td> <%= adj[1] %> </td>
+                     <%end%>
+</tr>
+<tr>
+                    <% item[:adjudication].each do |adj|%>
+                        <td> <%= adj[0]%> </td>
+                     <%end%>
+</tr>
+
+</table>
+</td>
+<td>
+</td>
+</tr>
+<%end %>
+         <% end %>
          </table>
  
       </div>
   </section>
 </section>
 
+
+ 
