@@ -13,14 +13,14 @@ class EOB < Resource
    attr_accessor :id, :startdate, :enddate, :category, :careteam, :claim_reference, :claim, :facility, :use, :insurer, :provider, :contained,
       :coverage, :items, :fhir_client, :sortDate, :claimpatient,:total, :payment 
 
-  def initialize(fhir_eob, fhir_practitioners, fhir_claims, fhir_locations, fhir_observations, fhir_client)
+  def initialize(fhir_eob, fhir_resources, fhir_client)
     @id = fhir_eob.id
     @sortDate = DateTime.parse(fhir_eob.billablePeriod.start).to_i
     @startdate = DateTime.parse(fhir_eob.billablePeriod.start).strftime("%m/%d/%Y")
     @enddate = DateTime.parse(fhir_eob.billablePeriod.end).strftime("%m/%d/%Y")
     @careteam = fhir_eob.careTeam.each_with_object({}) do |member, hash|
-            reference = member.provider.reference.gsub("urn:uuid:", "")
-            practitioner = fhir_practitioners.select{|p| p.id==reference}[0]
+            reference = member.provider.reference
+            practitioner =  get_fhir_resources(fhir_client, FHIR::Practitioner, reference)[0]
             name = practitioner.name[0]
             rendername = name.prefix.join(" ") if name.prefix
             rendername = rendername + " " + name.given.join(" ") + " " + name.family 
@@ -28,9 +28,12 @@ class EOB < Resource
                                 :role =>  member.role.coding.map {|coding| coding.display}.join(",")
              }
     end
-    @claim_reference = fhir_eob.claim.reference.gsub("urn:uuid:", "")
-    #claim =  fhir_claims.select{|p| p.id==@claim_reference}[0]
-    @claimpatient=fhir_claims.select{|p| p.id==@claim_reference}[0].patient.display 
+
+    @claim_reference = fhir_eob.claim.reference
+    fhir_claims = fhir_resources[:claims]
+    claim = fhir_claims.select { |claim| claim.id == @claim_reference.split("/")[1]}[0] 
+    binding.pry  if claim == nil || claim.patient == nil 
+    @claimpatient= claim.patient.display 
     @facility =  fhir_eob.facility.display     
     @use = fhir_eob.use || "<MISSING>"
     @insurer = fhir_eob.insurer.display || "<MISSING>"
@@ -44,13 +47,11 @@ class EOB < Resource
     @items = fhir_eob.item.map { | item | 
       itemcat = item.category.coding.map(&:display)
       itemcat = ["none"] unless itemcat.length > 0
-      itemenc = item.encounter.map {|enc|
-           enc.reference.gsub("urn:uuid:", "")
-      }
+      itemenc = item.encounter.map(&:reference)
       itemenc = ["none"] unless itemenc.length > 0 
-      observations = item.encounter.map {|enc|
-         obsid = enc.id;
-         observations = fhir_observations.select { |obs| obs.encounter.reference.gsub("urn:uuid:","") == obsid}
+      observations = itemenc.map {|enc|
+         fhir_observations = fhir_resources[:observations]
+         observations = fhir_observations.select { |obs| obs.encounter.reference == enc.split("/")[1]}
          observations_extract = observations.map{ | obs |
           obscategory = obs.category.map(&:coding)[0].map(&:display).join(",")
 

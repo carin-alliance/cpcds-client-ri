@@ -22,6 +22,10 @@ more effort than just `rails s`.
     pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
     ```
     (This gets old. Personally, I made a `pg_start` alias for this command)
+    Don't forget to setup the database by running:
+    ```
+    rake db:setup
+    ```
 
 2. Next, run the rails app the way you would any other
 

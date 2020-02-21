@@ -1,7 +1,7 @@
 <section class='container'>
   <section class='row'>
       <div class='col-12'>
-        <table>
+        <table class='table table-dark'>
         <tr>
         <td><h3>Explanation of Benefit:</td>
         <td><%= @eob.id.last(6) %></td>        
@@ -40,7 +40,7 @@
         <td><h4>Careteam:  </td>
         <td> <%= @eob.careteam.values.map{ |c| c[:name] + " (" + c[:role] + ")"}.join(",")%></td>        
         </tr>
-        </table>
+        </table class='table table-dark'>
         </div>
          <!–– <div class='col-5' id='map' ––>
          <!–– </div ––>
@@ -68,7 +68,7 @@
 </td>
 <td>Adjudication</td>
 <td>
-<table>
+<table class='table table-dark'>
 <tr>
                     <% item[:adjudication].each do |adj|%>
                         <td> <%= adj[1] %> </td>
