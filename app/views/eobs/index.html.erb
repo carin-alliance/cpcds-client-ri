@@ -1,5 +1,4 @@
-<h1>Eob#index
-</h1>
+<h1>Eob#index</h1>
 <section class='container'> 
 <section class='row col-12'> 
 <div class='col-12'> 
@@ -7,17 +6,22 @@
 <div class='btn-group float-right mt-2' role='group'> 
 </div> 
 </div> <table class='table table-dark'> 
+<thead>
 <tr> 
-<th scope='col'>Date</th> 
+<th scope='col'></th> 
+<th scope='col'>Date of Claim</th> 
 <th scope='col'>Claim</th> 
-<th scope='col'>Patient</th>
-<th scope='col'>Provider</th> 
-<th scope='col'>Facility</th> 
+<th scope='col'>Patient Name</th>
+<th scope='col'>Provider Name</th> 
+<th scope='col'>Facility Name</th> 
 </tr> 
+</thead>
 <% @eobs.each do |eob| %> 
 <tr> 
-   <% period = eob.startdate + "-" + eob.enddate %>
+<% period = eob.startdate + "-" + eob.enddate %>
+<th scope="row">
 <td> <%= link_to sanitize(period), eob_path(eob.id)%>
+</th>
 <td> <%= eob.claim_reference.last(6)%> </td> 
 <td> <%= eob.claimpatient%> </td>
 <td> <%= eob.careteam.values.map{ |c| c[:name]}.join(",")%> </td> 
