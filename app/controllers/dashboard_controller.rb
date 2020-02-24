@@ -17,9 +17,10 @@ class DashboardController < ApplicationController
  #   else
   #    redirect_to :root
   #  end
-    load_bundle
+    load_patient_specific_data_from_server
     # sets up @patient
-    @patient = Patient.new(@patients[0], @resources, nil)
+    @patient = Patient.new(@fhir_patients[0], @resources, @client)
+    binding.pry 
   end
 
 end
