@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   resources :eobs,            only: [:index, :show]
   resources	:practitioners,		only: [:show]
 
-  get '/home', to: 'home#index'
+  get '/home', to: 'dashboard#index'
   get '/dashboard', to: 'dashboard#index'
 
   root 'welcome#index'
