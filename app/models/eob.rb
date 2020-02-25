@@ -10,14 +10,15 @@ class EOB < Resource
 
 	include ActiveModel::Model
   #-----------------------------------------------------------------------------
-   attr_accessor :id, :startdate, :enddate, :category, :careteam, :claim_reference, :claim, :facility, :use, :insurer, :provider, :contained,
+   attr_accessor :id, :created, :billingstartdate, :billingenddate, :category, :careteam, :claim_reference, :claim, :facility, :use, :insurer, :provider, :contained,
       :coverage, :items, :fhir_client, :sortDate, :claimpatient,:total, :payment 
 
   def initialize(fhir_eob, fhir_resources, fhir_client)
     @id = fhir_eob.id
-    @sortDate = DateTime.parse(fhir_eob.billablePeriod.start).to_i
-    @startdate = DateTime.parse(fhir_eob.billablePeriod.start).strftime("%m/%d/%Y")
-    @enddate = DateTime.parse(fhir_eob.billablePeriod.end).strftime("%m/%d/%Y")
+    @sortDate = DateTime.parse(fhir_eob.created).to_i
+    @created = DateTime.parse(fhir_eob.created).strftime("%m/%d/%Y")
+    @billingstartdate = DateTime.parse(fhir_eob.billablePeriod.start).strftime("%m/%d/%Y")
+    @billingenddate = DateTime.parse(fhir_eob.billablePeriod.end).strftime("%m/%d/%Y")
     @careteam = fhir_eob.careTeam.each_with_object({}) do |member, hash|
             reference = member.provider.reference
             practitioner =  get_fhir_resources(fhir_client, FHIR::Practitioner, reference)[0]
@@ -49,6 +50,7 @@ class EOB < Resource
       itemcat = ["none"] unless itemcat.length > 0
       itemenc = item.encounter.map(&:reference)
       itemenc = ["none"] unless itemenc.length > 0 
+=begin
       observations = itemenc.map {|enc|
          fhir_observations = fhir_resources[:observations]
          observations = fhir_observations.select { |obs| obs.encounter.reference == enc.split("/")[1]}
@@ -65,6 +67,8 @@ class EOB < Resource
           }
          }
         }.flatten(1)
+
+=end
       itemloc = item.location.coding.map(&:display)
       itemloc = ["none"] unless itemloc.length
       itemproductOrService = item.productOrService.text
@@ -81,8 +85,8 @@ class EOB < Resource
       }.compact.sort_by { |el| el[1] }.map {|e| [e[0], e[1][1..-1]]}
       {
       :category => itemcat,
-      :encounter => itemenc,
-      :observations => observations,
+      #:encounter => itemenc,
+      #:observations => observations,
       :location => itemloc,
       :productOrService => itemproductOrService,
       :startTime => itemstartTime,

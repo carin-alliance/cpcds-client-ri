@@ -11,7 +11,8 @@ class Patient < Resource
 	include ActiveModel::Model
 
   attr_reader :id, :names, :telecoms, :addresses, :birth_date, :gender, 
-  								:marital_status, :photo, :observations, :medications, :procedures, :conditions, :docrefs, :immunizations 
+                  :marital_status, :photo
+                  #, :observations, :medications, :procedures, :conditions, :docrefs, :immunizations 
 
   #-----------------------------------------------------------------------------
 
@@ -24,18 +25,18 @@ class Patient < Resource
   	@gender 					= fhir_patient.gender
   	@marital_status 	= fhir_patient.maritalStatus
     @photo						= nil
-    binding.pry 
-    @medications      = get_medications (fhir_resources[:medicationrequests])
-    @observations     = get_observations (fhir_resources[:observations])
-    @procedures     = get_procedures (fhir_resources[:procedures])
-    @conditions     = get_conditions (fhir_resources[:conditions])
-    @docrefs     = get_docrefs (fhir_resources[:documentreferences])
-    @immunizations = get_immunizations (fhir_resources[:immunizations])
-    binding.pry 
+=begin 
+    #@medications      = get_medications (fhir_resources[:medicationrequests])
+    #@observations     = get_observations (fhir_resources[:observations])
+    #@procedures     = get_procedures (fhir_resources[:procedures])
+    #@conditions     = get_conditions (fhir_resources[:conditions])
+    #@docrefs     = get_docrefs (fhir_resources[:documentreferences])
+    #@immunizations = get_immunizations (fhir_resources[:immunizations])
+=end
     @fhir_client			= fhir_client
   end
 
-#---------------------------
+=begin #---------------------------
 def get_docrefs (fhir_docrefs)
   docrefs = []
 
@@ -75,7 +76,7 @@ def get_conditions (fhir_conditions)
 
   fhir_bundle = @fhir_client.search(FHIR::MedicationRequest, search_param).resource
   fhir_medications = filter(fhir_bundle.entry.map(&:resource), 'Medication')
-=end
+
    
    fhir_conditions.each do |fhir_condition|
     conditions << Condition.new(fhir_condition) unless fhir_condition.nil?
@@ -101,7 +102,7 @@ end
 
     fhir_bundle = @fhir_client.search(FHIR::MedicationRequest, search_param).resource
     fhir_medications = filter(fhir_bundle.entry.map(&:resource), 'Medication')
-=end
+
      
      fhir_medications.sort_by{| med | DateTime.parse(med.authoredOn).to_i}
      fhir_medications.each do |fhir_medication|
@@ -126,7 +127,7 @@ end
 
     fhir_bundle = @fhir_client.search(FHIR::Observation, search_param).resource
     fhir_medications = filter(fhir_bundle.entry.map(&:resource), 'Observation')
-=end
+
 
     fhir_observations.each do |fhir_observation|
     	observations << Observation.new(fhir_observation) unless fhir_observation.nil?
@@ -141,7 +142,7 @@ end
   	procedures = []
 
   	# /Procedure?patient=[@id]&_include=MedicationRequest:medication
-=begin search_param = 	{ search: 
+search_param = 	{ search: 
     									{ parameters: 
     										{ 
                           patient: @id, 
@@ -152,7 +153,7 @@ end
 
     fhir_bundle = @fhir_client.search(FHIR::MedicationRequest, search_param).resource
     fhir_medications = filter(fhir_bundle.entry.map(&:resource), 'Medication')
-=end
+
      
      fhir_procedures.each do |fhir_procedure|
     	procedures << Procedure.new(fhir_procedure) unless fhir_procedure.nil?
@@ -161,7 +162,7 @@ end
     return procedures.sort_by { |a|  -a.sortDate }
   end
 
-
+=end
 
 
   def age

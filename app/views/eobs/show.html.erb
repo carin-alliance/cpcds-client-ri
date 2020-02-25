@@ -12,7 +12,7 @@
         </tr>
                 <tr>
         <td> <h4>Dates: </td>
-        <td><%= @eob.startdate%>-<%=@eob.enddate%> </td>        
+        <td><%= @eob.created%> </td>        
         </tr>
                         <tr>
         <td> <h4>Facility: </td>
@@ -51,8 +51,6 @@
               <th scope='col'>Category<th>
               <th scope='col'>Location</th> 
               <th scope='col'>Product or Service</th>
-              <th scope='col'>Encounter</th> 
-
             </tr> 
             <% @eob.items.each do |item| %> 
             <tr>
@@ -60,7 +58,6 @@
              <td><%= item[:category].join(",")%></td>
             <td><%= item[:location].join(",")%></td>
             <td><%= item[:productOrService]%></td>
-            <td><%= item[:encounter].map{|e| e.last(6)}.join(",")%></td>
             </tr>
 <% if item[:adjudication].length > 0%>
 <tr>

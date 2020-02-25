@@ -2,14 +2,14 @@
 <section class='container'> 
 <section class='row col-12'> 
 <div class='col-12'> 
-<h3 class='float-left text-white'>Explanation of Benefits - Index</h3> 
+<h3 class='float-left text-white'>Explanation of Benefits <%= @start_date %> - <%= @end_date %> </h3> 
 <div class='btn-group float-right mt-2' role='group'> 
 </div> 
 </div> <table class='table table-dark'> 
 <thead>
 <tr> 
 <th scope='col'></th> 
-<th scope='col'>Date of Claim</th> 
+<th scope='col'>Date Created</th> 
 <th scope='col'>Claim</th> 
 <th scope='col'>Patient Name</th>
 <th scope='col'>Provider Name</th> 
@@ -18,9 +18,8 @@
 </thead>
 <% @eobs.each do |eob| %> 
 <tr> 
-<% period = eob.startdate + "-" + eob.enddate %>
 <th scope="row">
-<td> <%= link_to sanitize(period), eob_path(eob.id)%>
+<td> <%= link_to sanitize(eob.created), eob_path(eob.id)%>
 </th>
 <td> <%= eob.claim_reference.last(6)%> </td> 
 <td> <%= eob.claimpatient%> </td>
