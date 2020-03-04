@@ -15,6 +15,7 @@
  *= require bootstrap-toggle
  */
 
+
 @import 'bootstrap';
 @import 'style';
 
@@ -40,3 +41,23 @@ header.main {
         display:none;
     }
 }
+
+table {
+    adjudication {
+        font-size: 1em
+    }
+  }
+  
+  td, th {
+    text-overflow: ellipsis;
+    overflow:hidden;
+  }
+
+  tr.adjudication{
+        font-size: 0.75em
+  }
+
+  tr.eobitem{
+    font-size: 1em
+ }
+ 
