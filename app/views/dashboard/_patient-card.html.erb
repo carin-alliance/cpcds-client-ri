@@ -57,7 +57,26 @@
        <% end %>
     </div>
     </section>
-<section class='row' col-12> 
+    <section class='row'> 
+    <div>
+    <h2 class="text-light">Explanation of Benefits</h2>
+    <div class='row mb-1'>
+      <%= form_tag eobs_path, method: 'get', class: 'form-inline welcome-form', id: 'eob-form' do %>
+        <div class='form-group col-md-4'>
+          <%= text_field_tag :start_date, nil, class: 'form-control', placeholder: 'Start Date' %>
+        </div>			
+        <div class='form-group col-md-4 last'>
+          <%= text_field_tag :end_date, nil, class: 'form-control code-input', placeholder: 'End Date'%>
+        </div>
+        <%= button_tag 'Display', class: 'btn btn-primary col-md-3', id: 'display-eob', disabled: @client.nil? %>
+        <div class='col'></div>
+      <% end %>
+    </div>
+    <p class='text-info guidance ml-auto mr-auto mb-5'>
+      Please specify a date range.   Display without a date range returns all records.
+    </p>
+    </div>
+ 
   </div>
   
  </section>

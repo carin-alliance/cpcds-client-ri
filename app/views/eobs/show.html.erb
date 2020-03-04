@@ -1,6 +1,6 @@
 <section class='container'>
   <section class='row'>
-      <div class='col-12'>
+      <div class='col-9'>
         <table class='table table-dark'>
         <tr>
         <td><h3>Explanation of Benefit:</td>
@@ -44,20 +44,29 @@
         </div>
          <!–– <div class='col-5' id='map' ––>
          <!–– </div ––>
-         <div class='col-12'>
+         <div class='col-9'>
           <table class='table table-dark'>
+          <colgroup>
+          <col style="width: 15%"></col>
+          <col style="width: 25%"></col>
+          <col style="width: 40%"></col>
+          <col style="width: 20%"></col>
+        </colgroup>
+          <thead>
             <tr> 
-              <th scope='col'>Date</th> 
-              <th scope='col'>Category<th>
-              <th scope='col'>Location</th> 
-              <th scope='col'>Product or Service</th>
+            <th>Date</th> 
+            <th>Category<th>
+            <th>P/S</th>
+            <th>Location</th> 
             </tr> 
+            </thead>
+            </tbody>
             <% @eob.items.each do |item| %> 
-            <tr>
-             <td><%= item[:startTime]%></td>
+            <tr class='eobitem'>
+             <td><%= item[:startDate]%></td>
              <td><%= item[:category].join(",")%></td>
-            <td><%= item[:location].join(",")%></td>
-            <td><%= item[:productOrService]%></td>
+             <td><%= item[:productOrService]%></td>
+             <td><%= item[:location].join(",")%></td>
             </tr>
 <% if item[:adjudication].length > 0%>
 <tr>
@@ -65,18 +74,19 @@
 </td>
 <td>Adjudication</td>
 <td>
-<table class='table table-dark'>
-<tr>
+<table class='table table-dark '>
+<tbody>
+<tr class=adjudication>
                     <% item[:adjudication].each do |adj|%>
                         <td> <%= adj[1] %> </td>
                      <%end%>
 </tr>
-<tr>
+<tr class=adjudication>
                     <% item[:adjudication].each do |adj|%>
                         <td> <%= adj[0]%> </td>
                      <%end%>
 </tr>
-
+</tbody>
 </table>
 </td>
 <td>
@@ -84,6 +94,7 @@
 </tr>
 <%end %>
          <% end %>
+         </tbody>
          </table>
  
       </div>

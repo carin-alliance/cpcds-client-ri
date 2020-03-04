@@ -12,10 +12,7 @@ class ApplicationController < ActionController::Base
     :observations, :procedures, :immunizations, :diagnosticreports, :documentreferences, :claims, :conditions, :medicationrequests,
     :careteams, :careplans, :devices, :provenances, :resources
     attr_accessor :fhir_explanationofbenefits, :fhir_claims, :fhir_practitioners, :fhir_patients,  :fhir_organizations, :fhir_practitionerroles, :patient_resources
-    #, :fhir_encounters, :fhir_encounters,
-    #:fhir_observations, :fhir_procedures, :fhir_immunizations, :fhir_diagnosticreports, :fhir_documentreferences, :fhir_claims, :fhir_conditions, :fhir_medicationrequests,
-    #:fhir_careteams, :fhir_careplans, :fhir_devices, :fhir_provenances, :fhir_locations,
-
+    
         CPCDS_PATIENT_PROFILE_URL = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient'
         CPCDS_ENCOUNTER_PROFILE_URL = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter'
         CPCDS_EOB_PROFILE_URL = 'http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-InsurancePlan'
@@ -24,13 +21,13 @@ class ApplicationController < ActionController::Base
         CPCDS_ORGANIZATION_PROFILE_URL = 'http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-PractitionerRole'
              
 
-
+=begin
     def load_patient_specific_data_from_server
         # read all patient data from server
-        pid = session[:patient_id]
+       pid = session[:patient_id]
         binding.pry if pid == nil 
         @fhir_claims = @fhir_claims || load_patient_resources(FHIR::Claim, nil, :patient, pid )
-        @fhir_explanationofbenefits = @fhir_explanationofbenefits || load_patient_resources(FHIR::ExplanationOfBenefit, nil, :patient, pid, :created )
+         @fhir_explanationofbenefits = @fhir_explanationofbenefits || load_patient_resources(FHIR::ExplanationOfBenefit, nil, :patient, pid, :created )
         #@fhir_procedures = @fhir_procedures || load_patient_resources(FHIR::Procedure, nil, :subject, pid )
         #@fhir_encounters = @fhir_encounters || load_patient_resources(FHIR::Encounter, nil, :subject, pid )
         #@fhir_observations = @fhir_observations || load_patient_resources(FHIR::Observation, nil, :subject, pid )
@@ -67,7 +64,8 @@ class ApplicationController < ActionController::Base
   #      :devices => @fhir_devices,
         }
        end
-    
+=end
+
        def load_patient_resources (type, profile, patientfield, pid, datefield=nil)
         parameters = {}
         parameters[patientfield] = "Patient/" + pid
@@ -79,13 +77,17 @@ class ApplicationController < ActionController::Base
             parameters[datefield] << "ge"+ DateTime.parse(start_date).strftime("%Y-%m-%d")   if start_date.present?
             parameters[datefield] << "le"+ DateTime.parse(end_date).strftime("%Y-%m-%d")    if end_date.present?
         end
-
         search = {parameters: parameters }
         results = @client.search(type, search: search )
         results.resource.entry.map(&:resource)
        end
 
-       
+       def get_fhir_resources(fhir_client, type, resource_id)
+        search = { parameters: {  _id: resource_id} }
+        results = fhir_client.search(type, search: search )
+        results.resource.entry.map(&:resource)
+      end
+  
    
   # Get the FHIR server url
 def server_url

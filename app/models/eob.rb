@@ -11,7 +11,7 @@ class EOB < Resource
 	include ActiveModel::Model
   #-----------------------------------------------------------------------------
    attr_accessor :id, :created, :billingstartdate, :billingenddate, :category, :careteam, :claim_reference, :claim, :facility, :use, :insurer, :provider, :contained,
-      :coverage, :items, :fhir_client, :sortDate, :claimpatient,:total, :payment 
+      :coverage, :items, :fhir_client, :sortDate, :claimpatient,:total, :payment, :supportingInfo
 
   def initialize(fhir_eob, fhir_resources, fhir_client)
     @id = fhir_eob.id
@@ -20,21 +20,30 @@ class EOB < Resource
     @billingstartdate = DateTime.parse(fhir_eob.billablePeriod.start).strftime("%m/%d/%Y")
     @billingenddate = DateTime.parse(fhir_eob.billablePeriod.end).strftime("%m/%d/%Y")
     @careteam = fhir_eob.careTeam.each_with_object({}) do |member, hash|
-            reference = member.provider.reference
-            practitioner =  get_fhir_resources(fhir_client, FHIR::Practitioner, reference)[0]
+            sequence = member.sequence
+            practitioner =  get_fhir_resources(fhir_client, FHIR::Practitioner, member.provider.reference)[0]
             name = practitioner.name[0]
             rendername = name.prefix.join(" ") if name.prefix
             rendername = rendername + " " + name.given.join(" ") + " " + name.family 
-            hash[reference] = { :name => rendername,
+            hash[sequence] = { :name => rendername,
                                 :role =>  member.role.coding.map {|coding| coding.display}.join(",")
              }
     end
+    if fhir_eob.diagnosis 
+        @diagnosis = fhir_eob.diagnosis.each_with_object({}) do |d, hash|
+          sequence = d.sequence
+          codeable = ""
+          d.diagnosisCodeableConcept.map(&:coding).map {|e|  e[0]}.map{|e| e.display + "(" + e.code + ")"}.flatten.join(",") if d.diagnosisCodeableConcept 
+          type = d.type.map(&:coding).map {|e|  e[0]}.map(&:code).flatten.join(",")
+          hash[sequence]  = {:code => codeable, :type => type }
+        end
+    end
 
     @claim_reference = fhir_eob.claim.reference
-    fhir_claims = fhir_resources[:claims]
-    claim = fhir_claims.select { |claim| claim.id == @claim_reference.split("/")[1]}[0] 
+    claim = get_fhir_resources(fhir_client, FHIR::Claim, @claim_reference.split("/")[1])[0]
     binding.pry  if claim == nil || claim.patient == nil 
     @claimpatient= claim.patient.display 
+    @supportingInfo = claim.supportingInfo
     @facility =  fhir_eob.facility.display     
     @use = fhir_eob.use || "<MISSING>"
     @insurer = fhir_eob.insurer.display || "<MISSING>"
@@ -44,35 +53,16 @@ class EOB < Resource
     @contained = fhir_eob.contained.each_with_object({}) do |object, hash|
       hash[object.id] = object.class.to_s
     end
-    @coverage = fhir_eob.insurance[0].coverage.display    
+    @coverage = fhir_eob.insurance[0].coverage.display  
+  
     @items = fhir_eob.item.map { | item | 
-      itemcat = item.category.coding.map(&:display)
-      itemcat = ["none"] unless itemcat.length > 0
       itemenc = item.encounter.map(&:reference)
       itemenc = ["none"] unless itemenc.length > 0 
-=begin
-      observations = itemenc.map {|enc|
-         fhir_observations = fhir_resources[:observations]
-         observations = fhir_observations.select { |obs| obs.encounter.reference == enc.split("/")[1]}
-         observations_extract = observations.map{ | obs |
-          obscategory = obs.category.map(&:coding)[0].map(&:display).join(",")
-
-          code = obs.code.text
-          value = valueToText(obs)
-           {
-            :id => id, 
-            :category => obscategory,
-            :code => code,
-            :value => value
-          }
-         }
-        }.flatten(1)
-
-=end
       itemloc = item.location.coding.map(&:display)
       itemloc = ["none"] unless itemloc.length
       itemproductOrService = item.productOrService.text
       itemproductOrService = ["none"] unless item.productOrService.text
+      itemstartDate = DateTime.parse(item.servicedPeriod.start).strftime("%m/%d/%Y")
       itemstartTime = DateTime.parse(item.servicedPeriod.start).strftime("%m/%d/%Y %H:%M")
       itemendTime = DateTime.parse(item.servicedPeriod.start).strftime("%m/%d/%Y %H:%M")
       # Strip off line that means nothing.
@@ -83,17 +73,27 @@ class EOB < Resource
           adjText = @@adjudicationToText[adj.category.coding[0].code]
           adjvalue = [value,  adjText ]   if adjText
       }.compact.sort_by { |el| el[1] }.map {|e| [e[0], e[1][1..-1]]}
+   
+      category = item.category.coding.map(&:display)
+      category = ["none"] unless category.length > 0
       {
-      :category => itemcat,
+      :category => category,
       #:encounter => itemenc,
       #:observations => observations,
+      :diagnosisSequence =>item.diagnosisSequence,
+      :procedureSequence =>item.procedureSequence,
+      :careteamSequence =>item.careTeamSequence,
+      :informationSequence =>item.informationSequence,
       :location => itemloc,
       :productOrService => itemproductOrService,
+      :startDate => itemstartDate,
       :startTime => itemstartTime,
       :endTime => itemendTime,
-      :adjudication => itemadjudication
+      :adjudication => itemadjudication,
+      :revenue => item.revenue,
+      :quantity => item.quantity 
       }
-  }
+    }
   	@fhir_client			= fhir_client
 end
   #-----------------------------------------------------------------------------
