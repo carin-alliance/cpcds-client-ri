@@ -15,5 +15,49 @@
  *= require bootstrap-toggle
  */
 
+
 @import 'bootstrap';
 @import 'style';
+
+body {
+    margin:0;
+    padding: 0;
+}
+caption {
+    caption-side: top;
+    margin: 1;
+    padding{
+        top:1em
+    }
+}
+header.main {
+    text-align: center;
+    @media (min-width: 30em){
+        text-align: left;
+    }
+    background: #282;
+    margin: 0;
+    h1{
+        display:none;
+    }
+}
+
+table {
+    adjudication {
+        font-size: 1em
+    }
+  }
+  
+  td, th {
+    text-overflow: ellipsis;
+    overflow:hidden;
+  }
+
+  tr.adjudication{
+        font-size: 0.75em
+  }
+
+  tr.eobitem{
+    font-size: 1em
+ }
+ 

@@ -11,11 +11,12 @@ class Patient < Resource
 	include ActiveModel::Model
 
   attr_reader :id, :names, :telecoms, :addresses, :birth_date, :gender, 
-  								:marital_status, :photo
+                  :marital_status, :photo
+                  #, :observations, :medications, :procedures, :conditions, :docrefs, :immunizations 
 
   #-----------------------------------------------------------------------------
 
-  def initialize(fhir_patient, fhir_client)
+  def initialize(fhir_patient, fhir_resources, fhir_client)
     @id               = fhir_patient.id
   	@names 						= fhir_patient.name
   	@telecoms 				= fhir_patient.telecom
@@ -23,18 +24,74 @@ class Patient < Resource
   	@birth_date 			= fhir_patient.birthDate.to_date
   	@gender 					= fhir_patient.gender
   	@marital_status 	= fhir_patient.maritalStatus
-  	@photo						= nil
-
-  	@fhir_client			= fhir_client
+    @photo						= nil
+=begin 
+    #@medications      = get_medications (fhir_resources[:medicationrequests])
+    #@observations     = get_observations (fhir_resources[:observations])
+    #@procedures     = get_procedures (fhir_resources[:procedures])
+    #@conditions     = get_conditions (fhir_resources[:conditions])
+    #@docrefs     = get_docrefs (fhir_resources[:documentreferences])
+    #@immunizations = get_immunizations (fhir_resources[:immunizations])
+=end
+    @fhir_client			= fhir_client
   end
+
+=begin #---------------------------
+def get_docrefs (fhir_docrefs)
+  docrefs = []
+
+   fhir_docrefs.each do |fhir_docref|
+    docrefs << DocumentReference.new(fhir_docref) unless fhir_docref.nil?
+  end
+
+  return docrefs.sort_by { |a|  -a.sortDate }
+end
+
+#---------------------------
+def get_immunizations (fhir_immunizations)
+  immunizations = []
+
+  fhir_immunizations.each do |fhir_immunization|
+    immunizations << Immunization.new(fhir_immunization) unless fhir_immunization.nil?
+  end
+
+  return immunizations.sort_by { |a|  -a.sortDate }
+end
+
 
   #-----------------------------------------------------------------------------
 
-  def medications
+def get_conditions (fhir_conditions)
+  conditions = []
+
+  # /MedicationRequest?patient=[@id]&_include=MedicationRequest:medication
+=begin search_param = 	{ search: 
+                    { parameters: 
+                      { 
+                        patient: @id, 
+                        _include: ['MedicationRequest:medication'] 
+                      } 
+                    } 
+                  }
+
+  fhir_bundle = @fhir_client.search(FHIR::MedicationRequest, search_param).resource
+  fhir_medications = filter(fhir_bundle.entry.map(&:resource), 'Medication')
+
+   
+   fhir_conditions.each do |fhir_condition|
+    conditions << Condition.new(fhir_condition) unless fhir_condition.nil?
+  end
+
+  return conditions.sort_by { |a|  -a.sortDate }
+end
+
+  #-----------------------------------------------------------------------------
+
+  def get_medications (fhir_medications)
   	medications = []
 
   	# /MedicationRequest?patient=[@id]&_include=MedicationRequest:medication
-    search_param = 	{ search: 
+=begin search_param = 	{ search: 
     									{ parameters: 
     										{ 
                           patient: @id, 
@@ -46,80 +103,67 @@ class Patient < Resource
     fhir_bundle = @fhir_client.search(FHIR::MedicationRequest, search_param).resource
     fhir_medications = filter(fhir_bundle.entry.map(&:resource), 'Medication')
 
-    fhir_medications.each do |fhir_medication|
+     
+     fhir_medications.sort_by{| med | DateTime.parse(med.authoredOn).to_i}
+     fhir_medications.each do |fhir_medication|
     	medications << Medication.new(fhir_medication) unless fhir_medication.nil?
     end
 
-    return medications
+    return medications.sort_by { |a|  -a.sortDate }
   end
-
   #-----------------------------------------------------------------------------
+  def get_observations (fhir_observations)
+  	observations = []
 
-  def bundled_functional_statuses
-  	bundled_functional_statuses = []
+  	# /Observation?patient=[@id]&_include=Observation:observation
+=begin search_param = 	{ search: 
+    									{ parameters: 
+    										{ 
+                          patient: @id, 
+    											_include: ['Observation:observation'] 
+    										} 
+    									} 
+    								}
 
-    fhir_functional_statuses = get_fhir_statuses_with_profile('http://hl7.org/fhir/us/PACIO-functional-cognitive-status/StructureDefinition/pacio-fs-BundledFunctionalStatus')
-  	fhir_functional_statuses.each do |fhir_functional_status|
-      bundled_functional_statuses << 
-                BundledFunctionalStatus.new(fhir_functional_status, @fhir_client) unless 
-                                                          fhir_functional_status.nil?
-  	end
+    fhir_bundle = @fhir_client.search(FHIR::Observation, search_param).resource
+    fhir_medications = filter(fhir_bundle.entry.map(&:resource), 'Observation')
 
-  	return bundled_functional_statuses
-  end
 
-  #-----------------------------------------------------------------------------
-
-  def bundled_cognitive_statuses
-  	bundled_cognitive_statuses = []
-
-  	fhir_cognitive_statuses = get_fhir_statuses_with_profile('http://hl7.org/fhir/us/PACIO-functional-cognitive-status/StructureDefinition/pacio-cs-BundledCognitiveStatus')
-  	fhir_cognitive_statuses.each do |fhir_cognitive_status|
-  		bundled_cognitive_statuses << 
-                BundledCognitiveStatus.new(fhir_cognitive_status, @fhir_client) unless
-                                                            fhir_cognitive_status.nil?
-  	end
-
-  	return bundled_cognitive_statuses
-  end
-
-  #-----------------------------------------------------------------------------
-
-  def all_functional_statuses
-    all_functional_statuses = []
-
-    fhir_functional_statuses = get_fhir_statuses_with_profile('http://hl7.org/fhir/us/PACIO-functional-cognitive-status/StructureDefinition/pacio-fs-BundledFunctionalStatus')
-    fhir_functional_statuses.each do |fhir_functional_status|
-      functional_statuses = {}
-      functional_statuses[:bundle] = 
-                BundledFunctionalStatus.new(fhir_functional_status, @fhir_client) unless 
-                                                          fhir_functional_status.nil?
-      functional_statuses[:assessments] = functional_statuses[:bundle].functional_statuses
-      all_functional_statuses << functional_statuses
+    fhir_observations.each do |fhir_observation|
+    	observations << Observation.new(fhir_observation) unless fhir_observation.nil?
     end
 
-    return all_functional_statuses
+    return observations.sort_by { |a| [  -a.sortDate, a.category ] }
   end
 
-  #-----------------------------------------------------------------------------
+    
+   #-----------------------------------------------------------------------------
+   def get_procedures (fhir_procedures)
+  	procedures = []
 
-  def all_cognitive_statuses
-    all_cognitive_statuses = []
+  	# /Procedure?patient=[@id]&_include=MedicationRequest:medication
+search_param = 	{ search: 
+    									{ parameters: 
+    										{ 
+                          patient: @id, 
+    											_include: ['MedicationRequest:medication'] 
+    										} 
+    									} 
+    								}
 
-    fhir_cognitive_statuses = get_fhir_statuses_with_profile('http://hl7.org/fhir/us/PACIO-functional-cognitive-status/StructureDefinition/pacio-cs-BundledCognitiveStatus')
-    fhir_cognitive_statuses.each do |fhir_cognitive_status|
-      cognitive_statuses = {}
-      cognitive_statuses[:bundle] =
-                BundledCognitiveStatus.new(fhir_cognitive_status, @fhir_client) unless 
-                                                          fhir_cognitive_status.nil?
-      cognitive_statuses[:assessments] = cognitive_statuses[:bundle].cognitive_statuses
-      all_cognitive_statuses << cognitive_statuses
+    fhir_bundle = @fhir_client.search(FHIR::MedicationRequest, search_param).resource
+    fhir_medications = filter(fhir_bundle.entry.map(&:resource), 'Medication')
+
+     
+     fhir_procedures.each do |fhir_procedure|
+    	procedures << Procedure.new(fhir_procedure) unless fhir_procedure.nil?
     end
 
-    return all_cognitive_statuses
+    return procedures.sort_by { |a|  -a.sortDate }
   end
 
-  #-----------------------------------------------------------------------------
+=end
+
 
   def age
     now = Time.now.to_date
