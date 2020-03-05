@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/fhir-crucible/fhir_client.git
-  revision: 59ccd55c4130c821d7ace4e992296850fc9e6291
+  revision: 57cce514a94f4a7834298e63b3f121ee275e0575
   specs:
-    fhir_client (4.0.3)
+    fhir_client (4.0.4)
       activesupport (>= 3)
       addressable (>= 2.3)
       fhir_dstu2_models (>= 1.0.10)
@@ -63,12 +63,12 @@ GEM
     archive-zip (0.12.0)
       io-like (~> 0.3.0)
     arel (9.0.0)
-    autoprefixer-rails (9.7.3)
+    autoprefixer-rails (9.7.4)
       execjs
     bcp47 (0.3.3)
       i18n
     bindex (0.8.1)
-    bootsnap (1.4.5)
+    bootsnap (1.4.6)
       msgpack (~> 1.0)
     bootstrap (4.4.1)
       autoprefixer-rails (>= 9.1.0)
@@ -76,8 +76,8 @@ GEM
       sassc-rails (>= 2.0.0)
     bootstrap-toggle-rails (2.2.1.0)
     builder (3.2.4)
-    byebug (11.0.1)
-    capybara (3.30.0)
+    byebug (11.1.1)
+    capybara (3.31.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -98,8 +98,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.1.5)
-    crass (1.0.5)
+    concurrent-ruby (1.1.6)
+    crass (1.0.6)
     date_time_precision (0.8.1)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
@@ -107,7 +107,7 @@ GEM
     execjs (2.7.0)
     faraday (1.0.0)
       multipart-post (>= 1.2, < 3)
-    ffi (1.11.3)
+    ffi (1.12.2)
     fhir_dstu2_models (1.0.10)
       bcp47 (>= 0.3)
       date_time_precision (>= 0.8)
@@ -128,11 +128,11 @@ GEM
     http-accept (1.7.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
-    i18n (1.7.0)
+    i18n (1.8.2)
       concurrent-ruby (~> 1.0)
-    io-like (0.3.0)
-    jbuilder (2.9.1)
-      activesupport (>= 4.2.0)
+    io-like (0.3.1)
+    jbuilder (2.10.0)
+      activesupport (>= 5.0.0)
     jquery-rails (4.3.5)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
@@ -155,32 +155,32 @@ GEM
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2019.1009)
-    mimemagic (0.3.3)
+    mimemagic (0.3.4)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
-    minitest (5.13.0)
-    msgpack (1.3.1)
+    minitest (5.14.0)
+    msgpack (1.3.3)
     multi_json (1.14.1)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     netrc (0.11.0)
     nio4r (2.5.2)
-    nokogiri (1.10.7)
+    nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
-    oauth2 (1.4.2)
+    oauth2 (1.4.4)
       faraday (>= 0.8, < 2.0)
       jwt (>= 1.0, < 3.0)
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
-    pg (1.2.1)
-    popper_js (1.14.5)
+    pg (1.2.2)
+    popper_js (1.16.0)
     pry (0.12.2)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
-    public_suffix (4.0.2)
-    puma (3.12.2)
-    rack (2.0.8)
+    public_suffix (4.0.3)
+    puma (3.12.4)
+    rack (2.2.2)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (5.2.4.1)
@@ -212,14 +212,14 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     rdoc (6.2.1)
-    regexp_parser (1.6.0)
+    regexp_parser (1.7.0)
     rest-client (2.1.0)
       http-accept (>= 1.7.0, < 2.0)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
     ruby_dep (1.5.0)
-    rubyzip (2.0.0)
+    rubyzip (2.2.0)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -296,7 +296,7 @@ DEPENDENCIES
   masonry-rails
   pg
   pry
-  puma (~> 3.12.2)
+  puma (~> 3.12.4)
   rails (~> 5.2.4.1)
   rdoc
   sass-rails (~> 5.0)
@@ -312,4 +312,4 @@ RUBY VERSION
    ruby 2.6.3p62
 
 BUNDLED WITH
-   2.0.2
+   2.1.4

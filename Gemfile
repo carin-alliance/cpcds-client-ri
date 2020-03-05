@@ -5,7 +5,7 @@ ruby '2.6.3'
 
 gem 'rails', '~> 5.2.4.1'       # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'pg'                   		# Use Postgres as the database for Active Record
-gem 'puma', '~> 3.12.2'         # Use Puma as the app server
+gem 'puma', '~> 3.12.4'         # Use Puma as the app server
 gem 'sass-rails', '~> 5.0'      # Use SCSS for stylesheets
 gem 'uglifier', '>= 1.3.0'      # Use Uglifier as compressor for JavaScript assets
 
@@ -26,7 +26,7 @@ gem 'bootstrap-toggle-rails'    # bootstrap toggle
 gem 'fhir_client', git: 'https://github.com/fhir-crucible/fhir_client.git'  # FHIR client from MITRE's crucible project
 gem 'rdoc'                      # RDoc for documentation
 gem 'chartkick'					# Integrates chart.js functionality into Ruby
-gem 'masonry-rails'				
+gem 'masonry-rails'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

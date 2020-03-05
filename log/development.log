@@ -13763,3 +13763,41 @@ Processing by HomeController#index as HTML
 Completed 200 OK in 912ms (Views: 41.5ms | ActiveRecord: 0.0ms)
 
 
+Started GET "/" for ::1 at 2020-03-05 10:35:10 -0500
+Processing by WelcomeController#index as HTML
+  Rendering welcome/index.html.erb within layouts/application
+  Rendered welcome/index.html.erb within layouts/application (2.4ms)
+  Rendered partials/_head.html.erb (3614.9ms)
+  Rendered partials/_header.html.erb (0.5ms)
+  Rendered partials/_messages.html.erb (0.5ms)
+  Rendered partials/_footer.html.erb (0.4ms)
+Completed 200 OK in 3640ms (Views: 3633.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/home?utf8=%E2%9C%93&server_url=http%3A%2F%2Fhapi.fhir.org%2FbaseR4&button=" for ::1 at 2020-03-05 10:35:18 -0500
+Processing by HomeController#index as HTML
+  Parameters: {"utf8"=>"✓", "server_url"=>"http://hapi.fhir.org/baseR4", "button"=>""}
+  Rendering home/index.html.erb within layouts/application
+  Rendered home/index.html.erb within layouts/application (0.9ms)
+  Rendered partials/_head.html.erb (33.4ms)
+  Rendered partials/_header.html.erb (0.5ms)
+  Rendered partials/_messages.html.erb (0.3ms)
+  Rendered partials/_footer.html.erb (0.3ms)
+Completed 200 OK in 823ms (Views: 40.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard?patient=cms-patient-01" for ::1 at 2020-03-05 10:35:23 -0500
+Processing by DashboardController#index as HTML
+  Parameters: {"patient"=>"cms-patient-01"}
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered partials/_address.html.erb (2.0ms)
+  Rendered partials/_address.html.erb (1.0ms)
+  Rendered dashboard/_patient-card.html.erb (21.1ms)
+  Rendered dashboard/index.html.erb within layouts/application (22.5ms)
+  Rendered partials/_head.html.erb (30.0ms)
+  Rendered partials/_header.html.erb (0.5ms)
+  Rendered partials/_messages.html.erb (0.6ms)
+  Rendered partials/_footer.html.erb (0.4ms)
+Completed 200 OK in 758ms (Views: 59.5ms | ActiveRecord: 0.0ms)
+
+
