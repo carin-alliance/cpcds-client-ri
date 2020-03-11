@@ -7,6 +7,8 @@
 ################################################################################
 
 class ApplicationController < ActionController::Base
+    require 'rest-client'
+    require 'json'
 
     attr_accessor :explanationofbenefits, :practitioners, :patients, :locations, :organizations, :practitionerroles, :encounters, :fhir_encounters,
     :observations, :procedures, :immunizations, :diagnosticreports, :documentreferences, :claims, :conditions, :medicationrequests,
@@ -21,50 +23,6 @@ class ApplicationController < ActionController::Base
         CPCDS_ORGANIZATION_PROFILE_URL = 'http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-PractitionerRole'
              
 
-=begin
-    def load_patient_specific_data_from_server
-        # read all patient data from server
-       pid = session[:patient_id]
-        binding.pry if pid == nil 
-        @fhir_claims = @fhir_claims || load_patient_resources(FHIR::Claim, nil, :patient, pid )
-         @fhir_explanationofbenefits = @fhir_explanationofbenefits || load_patient_resources(FHIR::ExplanationOfBenefit, nil, :patient, pid, :created )
-        #@fhir_procedures = @fhir_procedures || load_patient_resources(FHIR::Procedure, nil, :subject, pid )
-        #@fhir_encounters = @fhir_encounters || load_patient_resources(FHIR::Encounter, nil, :subject, pid )
-        #@fhir_observations = @fhir_observations || load_patient_resources(FHIR::Observation, nil, :subject, pid )
-        #@fhir_immunizations = @fhir_immunizations || load_patient_resources(FHIR::Immunization, nil, :patient, pid )
-        #@fhir_conditions = @fhir_conditions || load_patient_resources(FHIR::Condition, nil, :subject, pid )
-        #@fhir_diagnosticreports = @fhir_diagnosticreports || load_patient_resources(FHIR::DiagnosticReport, nil, :subject, pid )
-        #@fhir_documentreferences = @fhir_documentreferences || load_patient_resources(FHIR::DocumentReference, nil, :subject, pid )
-        #@fhir_medicationrequests = @fhir_medicationrequests || load_patient_resources(FHIR::MedicationRequest, nil, :subject, pid )
-        #@fhir_careteams = @fhir_careteams || load_patient_resources(FHIR::CareTeam, nil, :subject, pid )
-        #@fhir_devices = @fhir_careteams || load_patient_resources(FHIR::Device, nil, :subject, pid )
-        #@locations = nil # ||= @bundle.entry.select { |entry| entry.resource.instance_of? FHIR::Location }.map(&:resource)
-        #@organizations = nil # ||= @bundle.entry.select { |entry| entry.resource.instance_of? FHIR::Organization }.map(&:resource)
-        #@practitioners nil # ||= @bundle.entry.select { |entry| entry.resource.instance_of? FHIR::Practitioner }.map(&:resource)
-        #@practitionerroles nil # ||= @bundle.entry.select { |entry| entry.resource.instance_of? FHIR::PractitionerRole }.map(&:resource)
-      @resources = {
-         :patient => @fhir_patients,
-         :explanationofbenefits => @fhir_explanationofbenefits,
-         :claims => @fhir_claims
-  #      :locations => @locations,
-  #      :organizations => @organizations,
-  #      :practitioners => @practitioners,
-  #      :practitionerroles => @practitionerroles,
-  #      :encounters => @fhir_encounters,
-  #      :observations => @fhir_observations,
-  #      :procedures => @fhir_procedures,
-  #      :immunizations => @fhir_immunizations,
-  #      :diagnosticreports => @fhir_diagnosticreports,
-  #      :documentreferences => @fhir_documentreferences,
-  #      :observations => @fhir_observations,
-  #      :conditions => @fhir_conditions,
-  #      :medicationrequests => @fhir_medicationrequests,
-  #      :careteams => @fhir_careteams,
-  #      :careplans => @fhir_careplans,
-  #      :devices => @fhir_devices,
-        }
-       end
-=end
 
        def load_patient_resources (type, profile, patientfield, pid, datefield=nil)
         parameters = {}
@@ -93,11 +51,15 @@ class ApplicationController < ActionController::Base
 def server_url
     params[:server_url] || session[:server_url]
   end
+  def auth_url
+    params[:auth_url] || session[:auth_url]
+  end
+
   def patient_id
     params[:patient_id] || session[:patient_id]
   end
-  def patient_key
-    params[:patient_key] || session[:patient_key]
+  def password
+    params[:password] || session[:password]
   end
   def start_date
     params[:start_date] || session[:start_date]
@@ -105,7 +67,10 @@ def server_url
   
   def end_date
   params[:end_date] || session[:end_date]
-end
+  end
+  def access_token
+        session[:access_token]
+  end
 
 
   # Connect the FHIR client with the specified server and save the connection
@@ -129,34 +94,67 @@ end
   #-----------------------------------------------------------------------------
   
   def establish_session_handler
-    if server_url.present? && patient_id.present? && patient_key.present?
+    binding.pry 
+    return if  session[:access_token]  && session_url.present?  
+    if server_url.present? && patient_id.present? && auth_url.present? && password.present? 
       session[:wakeupsession] = "ok" # using session hash prompts rails session to load
       #SessionHandler.establish(session.id, params[:server_url])
+      # Try to connect to authenticatiorcn server
+
+
+      puts "establish_session_handler with session: " + session[:session_id]
+      client = FHIR::Client.new(server_url)
+      
+      session[:patient_id] = patient_id
+      session[:server_url] = server_url 
+      authurl = auth_url + "/authorization"
+      patient_key =  patient_id + (Time.now.to_i%100000).to_s   # Each attempt for a given patient gets a different key
+      session[:patient_key] = patient_key
+      statecontent = {
+          "patient_id"=> patient_id,
+          "patient_key" => patient_key,
+          "server_url" => server_url,
+          "auth_url" => auth_url,
+          "password" => password
+      }
+      state = Base64.encode64(JSON.generate(statecontent))
+      binding.pry 
+      rcRequest = RestClient::Request.new(
+        :url => authurl,
+        :method => :get,
+        :headers => {
+           :params => {
+            :max_redirects => 0,
+            :response_type => 'code',
+             :client_id => patient_id,
+             :state => state,
+             :scope => 'patient/*.read',
+             :aud => server_url,
+             :redirect_uri => 'http://localhost:4000/login'      
+            }
+        }
+      )
+      begin 
+        rcRequest.execute
+      rescue => error
+        p error 
+        binding.pry 
+      end
+       return 
     else 
-        err = "Please enter a FHIR server address, a valid patient ID, and a valid patient key."
+        err = "Please enter a FHIR server address, an authorization server address, a valid patient ID, and a valid password."
         cookies[:session_url] = nil
-        session[:patient_key] = nil
-        cookies[:patient_id] = nil
+        cookies[:auth_url] = nil
+        session[:session_url] = nil
+        session[:auth_url] = nil
         session[:patient_id] = nil
+        cookies[:patient_id] = nil
+        session[:password] = nil
+        cookies[:password] = nil
         redirect_to root_path, flash: { error: err }
         return
     end 
-      @client = FHIR::Client.new(server_url)
-      @client.use_r4
-      @client.set_bearer_token(patient_key)
-
-      # profile = 'http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-patient'
-      profile = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient'
-      search = { parameters: { _profile: profile,  _id: patient_id}}
-      results = @client.search(FHIR::Patient, search: search )
-      raise 'Serious Error -- retrieved patient has wrong ID'  unless patient_id == results.resource.entry[0].resource.id 
-      @fhir_patients = results.resource.entry.map(&:resource)
-      cookies[:patient_key] = patient_key
-      session[:patient_key] = patient_key
-      cookies[:patient_id] = patient_id
-      session[:patient_id] = patient_id 
-      cookies[:server_url] = server_url
-      session[:server_url] = server_url 
-     
-    end
+     end
+   rescue => exception
+       binding.pry 
 end

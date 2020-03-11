@@ -10,13 +10,13 @@
 
 Rails.application.routes.draw do
 
-  get 'claim/index'
-  get 'claim/show'
+ 
   resources :eobs,            only: [:index, :show]
   resources	:practitioners,		only: [:show]
 
   get '/home', to: 'dashboard#index'
   get '/dashboard', to: 'dashboard#index'
+  get '/login', to: 'dashboard#login'
 
   root 'welcome#index'
 end

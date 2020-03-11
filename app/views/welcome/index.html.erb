@@ -5,12 +5,12 @@
 	<% if @client %>
 		<p class="text-success m-auto client-connected" style='text-align: center'>
 			Connected to <%= cookies[:server_url] -%>
+			Connected to <%= session[:server_url] -%>
 		</p>
 		<p class="text-success m-auto client-connected" style='text-align: center'>
 		Patient <%= cookies[:patient_id] -%>
+		Patient <%= session[:patient_id] -%>
 	</p>
-	<p class="text-success m-auto client-connected" style='text-align: center'>
-	    Key  <%= cookies[:patient_key] -%>
 </p>
 	<%else%>
 		<p class="text-danger m-auto" style='text-align: center'>No Connection Established</p>
@@ -24,12 +24,15 @@
 		<label class="float-left"> FHIR Server (e.g., http://localhost:8080/cpcds-server/fhir)</label>
 			<%= text_field_tag :server_url, cookies[:server_url], class: 'form-control',
 						placeholder: 'http://hapi.fhir.org/baseR4' %>
+		<label class="float-left"> Auth Server (e.g., http://localhost:8180)</label>
+			<%= text_field_tag :auth_url, cookies[:auth_url], class: 'form-control',
+									placeholder: 'http://localhost:8180' %>
 			<label class="float-left"> Patient ID (e.g., 1)</label>
 			<%= text_field_tag :patient_id, cookies[:patient_id], class: 'form-control',
 						placeholder: 'Patient/1' %>
-			<label class="float-left"> Patient Key (e.g., dfw98h38r)</label>
-			<%= text_field_tag :patient_key, cookies[:patient_key], class: 'form-control',
-						placeholder: 'dfw98h38r' %>
+			<label class="float-left"> Password (for now, anything)</label>
+			<%= text_field_tag :password, cookies[:password], class: 'form-control',
+			placeholder: 'anything' %>
 		</div>
 		<%= button_tag 'Connect', class: 'btn btn-primary col-md-2', id: 'server-url' %>
 		<div class='col'></div>
