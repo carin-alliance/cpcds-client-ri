@@ -64,8 +64,9 @@ class DashboardController < ApplicationController
 
     # Now we need to persist the token, the token validity time for retrieval by the original session using the
     # patient_key which is the patient_id with a timestamped suffix.
-    binding.pry 
-    session = Session.new do |s|
+
+=begin 
+    session = PatientSession.create do |s|
       s.patient_key = patient_key
       s.patient_id = patient_id
       s.token = access_token
@@ -73,8 +74,8 @@ class DashboardController < ApplicationController
       s.auth_url = auth_url
       s.token_expiration = token_expiration
     end
-    binding.pry 
-    return
+=end
+    redirect_to home_url, notice: "signed in"
 
   rescue => exception
     puts "restful call failure"
