@@ -10,71 +10,87 @@ class DashboardController < ApplicationController
   require 'rest-client'
   require 'json'
   require 'base64'
-  before_action :establish_session_handler, only: [ :index, :show ]
+
   def index
-  #   load_patient_specific_data_from_server
-    # sets up @patient
-    @patient = Patient.new(@fhir_patients[0], @resources, @client)
+    connect_to_server if @client == nil
+    # profile = 'http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-patient'
+    # profile = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient'
+    #search = { parameters: { _profile: profile,  _id: patient_id}}
+    search = { parameters: { _id: patient_id}}
+    results = @client.search(FHIR::Patient, search: search )
+    @patient = Patient.new(results.resource.entry.map(&:resource)[0], @client)
+  end
+
+  def launch
+    binding.pry 
+    iss = params[:iss]
+    launch = params[:launch]
+
+    # Get Server Metadata
+    rcRequest = RestClient::Request.new(
+      :method => :get,
+      :url => iss + "/metadata",
+     )
+    rcResult = JSON.parse(rcRequest.execute)
+    auth_url = rcResult["rest"][0]["security"]["extension"][0]["extension"].select{|e| e["url"] == "authorize"}[0]["valueUri"]
+    token_url = rcResult["rest"][0]["security"]["extension"][0]["extension"].select{|e| e["url"] == "token"}[0]["valueUri"]
+    session[:auth_url] = auth_url
+    session[:token_url] = token_url
+    session[:iss_url] = iss
+    session[:launch] = launch
+
+    redirect_to_auth_url = auth_url + 
+       "?client_id=9e5cec3a-80f9-4d04-9851-9ce2106bb080"+
+       "&launch="+launch+
+       "&response_type=code"+
+       "&redirect_uri=http://localhost:4000/login" +
+       "&scope=launch+patient%2FPatient.read+openid+fhirUser&" +
+       "&aud=" + iss +
+       "&state=98wrghuwuogerg97"
+
+    binding.pry 
+    redirect_to redirect_to_auth_url
   end
   def login
+    binding.pry 
     code = params[:code]
-    encodedstate = params[:state]
-    state = JSON.parse(Base64.decode64(encodedstate))
-    password = state["password"]
-    server_url = state["server_url"]
-    auth_url = state["auth_url"]
-    patient_id = state["patient_id"]
-    auth = 'Basic ' + Base64.encode64( 'user:passwd' ).chomp
-    redirect_uri = "http://localhost:4000/login"
-    server_url = "http://localhost:8080/cpcds-server/fhir"
+    
+  #  auth = 'Basic ' + Base64.encode64( 'user:passwd' ).chomp
+
     session[:wakeupsession] = "ok" # using session hash prompts rails session to load
-    puts "dashboard/login with session: " + session[:session_id]
+    token_url = session[:token_url]
     rcRequest = RestClient::Request.new(
       :method => :post,
-      :url => "http://localhost:8180/token",
-        :user => patient_id,
-        :password => password,
+      :url => token_url,
       :payload => {
         grant_type: 'authorization_code', 
         code: code, 
-        redirect_uri: redirect_uri 
+        redirect_uri: "http://localhost:4000/login" ,
+        client_id: "9e5cec3a-80f9-4d04-9851-9ce2106bb080"
       }
     )
     rcResult = JSON.parse(rcRequest.execute)
+    binding.pry 
     access_token = rcResult["access_token"]
     expires_in = rcResult["expires_in"]
-    server_url = "http://localhost:8080/cpcds-server/fhir"
+    patient_id = rcResult["patient"]
+    scope = rcResult["scope"]
 
     session[:access_token] = access_token
-    token_expiration = Time.now + expires_in.to_i
-  
-    @client = FHIR::Client.new(server_url)
+    session[:patient_id] = patient_id
+    session[:token_expiration] = Time.now + expires_in.to_i
+    binding.pry
+    @client = FHIR::Client.new(iss_url)
     @client.use_r4
     @client.set_bearer_token(access_token)
 
     # profile = 'http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-patient'
-    profile = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient'
-    search = { parameters: { _profile: profile,  _id: patient_id}}
+    # profile = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient'
+    #search = { parameters: { _profile: profile,  _id: patient_id}}
+    search = { parameters: { _id: patient_id}}
     results = @client.search(FHIR::Patient, search: search )
     raise 'Serious Error -- retrieved patient has wrong ID'  unless patient_id == results.resource.entry[0].resource.id 
-
-    # At this point we have verified that:
-    #   1) the userid/password combination can authenticate and yield a token
-    #   2) the userid/password combination gives access for the right patient
-
-    # Now we need to persist the token, the token validity time for retrieval by the original session using the
-    # patient_key which is the patient_id with a timestamped suffix.
-
-=begin 
-    session = PatientSession.create do |s|
-      s.patient_key = patient_key
-      s.patient_id = patient_id
-      s.token = access_token
-      s.server_url = server_url
-      s.auth_url = auth_url
-      s.token_expiration = token_expiration
-    end
-=end
+    binding.pry
     redirect_to home_url, notice: "signed in"
 
   rescue => exception

@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get '/home', to: 'dashboard#index'
   get '/dashboard', to: 'dashboard#index'
   get '/login', to: 'dashboard#login'
+  get '/launch', to: 'dashboard#launch'
 
   root 'welcome#index'
 end
