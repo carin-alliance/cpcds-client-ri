@@ -74,6 +74,7 @@ class ApplicationController < ActionController::Base
   # for future requests.
 
   def connect_to_server
+    binding.pry 
     if iss_url.present?
       @client = FHIR::Client.new(iss_url)
       @client.use_r4

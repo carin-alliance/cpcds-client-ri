@@ -22,10 +22,10 @@ class DashboardController < ApplicationController
   end
 
   def launch
+    iss = params[:iss_url] || session[:iss_url]
+    launch = params[:launch] || session[:launch] || "launch"
+    client_id = params[:client_id] || session[:client_id]
     binding.pry 
-    iss = params[:iss]
-    launch = params[:launch]
-
     # Get Server Metadata
     rcRequest = RestClient::Request.new(
       :method => :get,
@@ -40,10 +40,10 @@ class DashboardController < ApplicationController
     session[:launch] = launch
 
     redirect_to_auth_url = auth_url + 
-       "?client_id=9e5cec3a-80f9-4d04-9851-9ce2106bb080"+
+       "?client_id=" + client_id+
        "&launch="+launch+
        "&response_type=code"+
-       "&redirect_uri=http://localhost:4000/login" +
+       "&redirect_uri="+ login_url +
        "&scope=launch+patient%2FPatient.read+openid+fhirUser&" +
        "&aud=" + iss +
        "&state=98wrghuwuogerg97"
@@ -91,7 +91,7 @@ class DashboardController < ApplicationController
     results = @client.search(FHIR::Patient, search: search )
     raise 'Serious Error -- retrieved patient has wrong ID'  unless patient_id == results.resource.entry[0].resource.id 
     binding.pry
-    redirect_to home_url, notice: "signed in"
+    redirect_to dashboard_url, notice: "signed in"
 
   rescue => exception
     puts "restful call failure"

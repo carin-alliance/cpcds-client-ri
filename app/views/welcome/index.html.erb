@@ -18,21 +18,15 @@
 
 	<section class='row col-12'>
 	<div class='row'>
-	<%= form_tag home_path, method: 'get', class: 'form-inline welcome-form', id: 'server-form' do %>
+	<%= form_tag launch_path, method: 'get', class: 'form-inline welcome-form', id: 'server-form' do %>
 		<div class='col'></div>
 		<div class='form-group col-md-7 last'>
-		<label class="float-left"> FHIR Server (e.g., http://localhost:8080/cpcds-server/fhir)</label>
-			<%= text_field_tag :server_url, cookies[:server_url], class: 'form-control',
+		<label class="float-left"> FHIR Server (e.g., http://localhost:8080/cpcds-server/fhir, or https://api.logicahealth.org/STU301withSynthea/data)</label>
+			<%= text_field_tag :iss_url, cookies[:iss_url], class: 'form-control',
 						placeholder: 'http://hapi.fhir.org/baseR4' %>
-		<label class="float-left"> Auth Server (e.g., http://localhost:8180)</label>
-			<%= text_field_tag :auth_url, cookies[:auth_url], class: 'form-control',
-									placeholder: 'http://localhost:8180' %>
-			<label class="float-left"> Patient ID (e.g., 1)</label>
-			<%= text_field_tag :patient_id, cookies[:patient_id], class: 'form-control',
-						placeholder: 'Patient/1' %>
-			<label class="float-left"> Password (for now, anything)</label>
-			<%= text_field_tag :password, cookies[:password], class: 'form-control',
-			placeholder: 'anything' %>
+			<label class="float-left"> ClientID (for MITRE RI this should be 9e5cec3a-80f9-4d04-9851-9ce2106bb080)</label>
+			<%= text_field_tag :client_id, cookies[:client_id], class: 'form-control',
+			placeholder: '9e5cec3a-80f9-4d04-9851-9ce2106bb080' %>
 		</div>
 		<%= button_tag 'Connect', class: 'btn btn-primary col-md-2', id: 'server-url' %>
 		<div class='col'></div>
