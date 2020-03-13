@@ -24,7 +24,7 @@ class DashboardController < ApplicationController
   def launch
     iss = params[:iss_url] || session[:iss_url]
     launch = params[:launch] || session[:launch] || "launch"
-    client_id = params[:client_id] || session[:client_id]
+    client_id = params[:client_id] || session[:client_id] || "9e5cec3a-80f9-4d04-9851-9ce2106bb080"   # hard coded is for launch from logica sandbox
     binding.pry 
     # Get Server Metadata
     rcRequest = RestClient::Request.new(
