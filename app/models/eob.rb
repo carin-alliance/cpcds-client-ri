@@ -13,7 +13,7 @@ class EOB < Resource
    attr_accessor :id, :created, :billingstartdate, :billingenddate, :category, :careteam, :claim_reference, :claim, :facility, :use, :insurer, :provider, :contained,
       :coverage, :items, :fhir_client, :sortDate, :claimpatient,:total, :payment, :supportingInfo
 
-  def initialize(fhir_eob, fhir_resources, fhir_client)
+  def initialize(fhir_eob, fhir_resources, fhir_client, patient_id)
     @id = fhir_eob.id
     @sortDate = DateTime.parse(fhir_eob.created).to_i
     @created = DateTime.parse(fhir_eob.created).strftime("%m/%d/%Y")
@@ -40,7 +40,7 @@ class EOB < Resource
     end
 
     @claim_reference = fhir_eob.claim.reference
-    claim = get_fhir_resources(fhir_client, FHIR::Claim, @claim_reference.split("/")[1])[0]
+    claim = get_fhir_resources(fhir_client, FHIR::Claim, @claim_reference.split("/")[1], patient_id)[0]
     binding.pry  if claim == nil || claim.patient == nil 
     @claimpatient= claim.patient.display 
     @supportingInfo = claim.supportingInfo

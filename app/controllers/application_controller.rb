@@ -39,10 +39,15 @@ class ApplicationController < ActionController::Base
         results = @client.search(type, search: search )
         results.resource.entry.map(&:resource)
        end
-
-       def get_fhir_resources(fhir_client, type, resource_id)
-        search = { parameters: {  _id: resource_id} }
+#Get Fhir Resources
+       def get_fhir_resources(fhir_client, type, resource_id, patient_id=nil)
+        if patient_id == nil
+            search = { parameters: {  _id: resource_id} } 
+        else
+            search = { parameters: {  _id: resource_id, patient: patient_id} }
+        end
         results = fhir_client.search(type, search: search )
+        binding.pry if results == nil || results.resource == nil || results.resource.entry == nil 
         results.resource.entry.map(&:resource)
       end
   
@@ -74,7 +79,6 @@ class ApplicationController < ActionController::Base
   # for future requests.
 
   def connect_to_server
-    binding.pry 
     if iss_url.present?
       @client = FHIR::Client.new(iss_url)
       @client.use_r4

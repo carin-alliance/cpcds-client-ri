@@ -25,6 +25,7 @@ class DashboardController < ApplicationController
     iss = params[:iss_url] || session[:iss_url]
     launch = params[:launch] || session[:launch] || "launch"
     client_id = params[:client_id] || session[:client_id] || "9e5cec3a-80f9-4d04-9851-9ce2106bb080"   # hard coded is for launch from logica sandbox
+    client_secret = params[:client_secret] || session[:client_secret]   
     binding.pry 
     # Get Server Metadata
     rcRequest = RestClient::Request.new(
@@ -38,39 +39,60 @@ class DashboardController < ApplicationController
     session[:token_url] = token_url
     session[:iss_url] = iss
     session[:launch] = launch
+    session[:client_id] = client_id
+    session[:client_secret] = client_secret 
+
+    # http://localhost:8180/authorization?response_type=code&redirect_uri=http://localhost:4000/login&aud=http://localhost:8080/cpcds-server/fhir&state=98wrghuwuogerg97&scope=launch patient/Patient.read openid fhirUser&client_id=0oa41ji88gUjAKHiE4x6
 
     redirect_to_auth_url = auth_url + 
-       "?client_id=" + client_id+
-       "&launch="+launch+
-       "&response_type=code"+
-       "&redirect_uri="+ login_url +
-       "&scope=launch+patient%2FPatient.read+openid+fhirUser&" +
-       "&aud=" + iss +
-       "&state=98wrghuwuogerg97"
-
+      "?response_type=code"+
+      "&redirect_uri="+ login_url +
+      "&aud=" + iss +
+      "&state=98wrghuwuogerg97" +
+      "&scope=launch+patient%2FPatient.read+openid+fhirUser&" +
+      "&client_id=" + client_id 
     binding.pry 
     redirect_to redirect_to_auth_url
   end
+
+
   def login
+    client_id = params[:client_id] || session[:client_id] || "9e5cec3a-80f9-4d04-9851-9ce2106bb080"   # hard coded is for launch from logica sandbox
+    client_secret = params[:client_secret] || session[:client_secret]   
     binding.pry 
     code = params[:code]
     
-  #  auth = 'Basic ' + Base64.encode64( 'user:passwd' ).chomp
-
+     auth = 'Basic ' + Base64.encode64( client_id +":"+client_secret).chomp
+     binding.pry 
     session[:wakeupsession] = "ok" # using session hash prompts rails session to load
     token_url = session[:token_url]
-    rcRequest = RestClient::Request.new(
-      :method => :post,
-      :url => token_url,
-      :payload => {
-        grant_type: 'authorization_code', 
-        code: code, 
-        redirect_uri: "http://localhost:4000/login" ,
-        client_id: "9e5cec3a-80f9-4d04-9851-9ce2106bb080"
+
+ #  rcRequest = RestClient::Request.new(
+ #     :method => :post,
+ #     :url => token_url,
+ #     :Authorization => auth,
+  #    :payload => {
+  #      grant_type: 'authorization_code', 
+  #      code: code, 
+  #      redirect_uri: "http://localhost:4000/login" ,
+  #      client_id: "9e5cec3a-80f9-4d04-9851-9ce2106bb080"    - this is for a public, we need confidential using Authorization header
+  #    }
+  #  )
+  #  rcResult = JSON.parse(rcRequest.execute)
+   rcResult = JSON.parse(
+      RestClient.post(
+       token_url,
+       {
+          grant_type: 'authorization_code', 
+          code: code, 
+          redirect_uri: "http://localhost:4000/login" ,
+          client_id: "9e5cec3a-80f9-4d04-9851-9ce2106bb080"    # this is for a public, we need confidential using Authorization header
+      },
+      {
+        :Authorization => auth
       }
-    )
-    rcResult = JSON.parse(rcRequest.execute)
-    binding.pry 
+      )
+   )
     access_token = rcResult["access_token"]
     expires_in = rcResult["expires_in"]
     patient_id = rcResult["patient"]
@@ -79,7 +101,6 @@ class DashboardController < ApplicationController
     session[:access_token] = access_token
     session[:patient_id] = patient_id
     session[:token_expiration] = Time.now + expires_in.to_i
-    binding.pry
     @client = FHIR::Client.new(iss_url)
     @client.use_r4
     @client.set_bearer_token(access_token)
@@ -90,7 +111,7 @@ class DashboardController < ApplicationController
     search = { parameters: { _id: patient_id}}
     results = @client.search(FHIR::Patient, search: search )
     raise 'Serious Error -- retrieved patient has wrong ID'  unless patient_id == results.resource.entry[0].resource.id 
-    binding.pry
+
     redirect_to dashboard_url, notice: "signed in"
 
   rescue => exception

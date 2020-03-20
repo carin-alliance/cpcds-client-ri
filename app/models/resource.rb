@@ -25,11 +25,15 @@ class Resource
     @errors = [] unless @errors.present?
     @errors.append(message)
   end
-  
-  def get_fhir_resources(fhir_client, type, resource_id)
-      search = { parameters: {  _id: resource_id} }
-      results = fhir_client.search(type, search: search )
-      results.resource.entry.map(&:resource)
+  def get_fhir_resources(fhir_client, type, resource_id, patient_id=nil)
+    if patient_id == nil
+        search = { parameters: {  _id: resource_id} } 
+    else
+        search = { parameters: {  _id: resource_id, patient: patient_id} }
+    end
+    results = fhir_client.search(type, search: search )
+    binding.pry if results == nil
+    results.resource.entry.map(&:resource)
   end
 
 end

@@ -1,2 +1,2 @@
-class Session < ApplicationRecord
+class PatientSession < ApplicationRecord
 end
