@@ -9,7 +9,7 @@
 class WelcomeController < ApplicationController
 
   def index
-    binding.pry
+    # binding.pry
     session[:iss_url] = nil
     session[:client_id] = nil
     session[:auth_url] = nil

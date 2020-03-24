@@ -26,7 +26,7 @@ class DashboardController < ApplicationController
     launch = params[:launch] || session[:launch] || "launch"
     client_id = params[:client_id] || session[:client_id] || "9e5cec3a-80f9-4d04-9851-9ce2106bb080"   # hard coded is for launch from logica sandbox
     client_secret = params[:client_secret] || session[:client_secret]   
-    binding.pry 
+    # binding.pry 
     # Get Server Metadata
     rcRequest = RestClient::Request.new(
       :method => :get,
@@ -51,7 +51,7 @@ class DashboardController < ApplicationController
       "&state=98wrghuwuogerg97" +
       "&scope=launch+patient%2FPatient.read+openid+fhirUser&" +
       "&client_id=" + client_id 
-    binding.pry 
+    # binding.pry 
     redirect_to redirect_to_auth_url
   end
 
@@ -59,11 +59,11 @@ class DashboardController < ApplicationController
   def login
     client_id = params[:client_id] || session[:client_id] || "9e5cec3a-80f9-4d04-9851-9ce2106bb080"   # hard coded is for launch from logica sandbox
     client_secret = params[:client_secret] || session[:client_secret]   
-    binding.pry 
+    # binding.pry 
     code = params[:code]
     
      auth = 'Basic ' + Base64.encode64( client_id +":"+client_secret).chomp
-     binding.pry 
+     #binding.pry 
     session[:wakeupsession] = "ok" # using session hash prompts rails session to load
     token_url = session[:token_url]
 
