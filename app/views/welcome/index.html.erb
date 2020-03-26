@@ -24,13 +24,12 @@
 		<label class="float-left"> FHIR Server (e.g., http://localhost:8080/cpcds-server/fhir, or https://api.logicahealth.org/STU301withSynthea/data)</label>
 			<%= text_field_tag :iss_url, cookies[:iss_url], class: 'form-control',
 						placeholder: 'http://hapi.fhir.org/baseR4' %>
-			<label class="float-left"> ClientID (for MITRE RI this should be 0oa41ji88gUjAKHiE4x6)</label>
+			<label class="float-left"> ClientID (for MITRE RI leave blank)</label>
 			<%= text_field_tag :client_id, cookies[:client_id], class: 'form-control',
-			placeholder: '0oa41ji88gUjAKHiE4x6' %>
-			<label class="float-left"> Client Secret (for MITRE RI this should be jR76UPXp6Q1cg6fM)</label>
+			placeholder: 'for MITRE RI leave blank' %>
+			<label class="float-left"> Client Secret (for MITRE RI leave blank) </label>
 			<%= text_field_tag :client_secret, cookies[:client_secret], class: 'form-control',
-			placeholder: 'jR76UPXp6Q1cg6fM' %>
-
+			placeholder: 'for MITRE RI leave blank' %>
 		</div>
 		<%= button_tag 'Connect', class: 'btn btn-primary col-md-2', id: 'server-url' %>
 		<div class='col'></div>
