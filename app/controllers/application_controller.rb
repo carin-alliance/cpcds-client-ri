@@ -149,6 +149,11 @@ end
       profile = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient'
       search = { parameters: { _profile: profile,  _id: patient_id}}
       results = @client.search(FHIR::Patient, search: search )
+      if results.response[:code] >= 400
+        err = results.body
+        redirect_to root_path, flash: { error: err }
+        return
+      end
       raise 'Serious Error -- retrieved patient has wrong ID'  unless patient_id == results.resource.entry[0].resource.id 
       @fhir_patients = results.resource.entry.map(&:resource)
       cookies[:patient_key] = patient_key

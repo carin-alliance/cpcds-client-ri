@@ -7,11 +7,11 @@
 			Connected to <%= cookies[:server_url] -%>
 		</p>
 		<p class="text-success m-auto client-connected" style='text-align: center'>
-		Patient <%= cookies[:patient_id] -%>
-	</p>
-	<p class="text-success m-auto client-connected" style='text-align: center'>
-	    Key  <%= cookies[:patient_key] -%>
-</p>
+			Patient <%= cookies[:patient_id] -%>
+		</p>
+		<p class="text-success m-auto client-connected" style='text-align: center'>
+		    Key  <%= cookies[:patient_key] -%>
+		</p>
 	<%else%>
 		<p class="text-danger m-auto" style='text-align: center'>No Connection Established</p>
 	<% end %>
@@ -30,8 +30,8 @@
 			<label class="float-left"> Patient Key (e.g., dfw98h38r)</label>
 			<%= text_field_tag :patient_key, cookies[:patient_key], class: 'form-control',
 						placeholder: 'dfw98h38r' %>
+			<%= button_tag 'Connect', class: 'btn btn-primary connect', id: 'server-url' %>
 		</div>
-		<%= button_tag 'Connect', class: 'btn btn-primary col-md-2', id: 'server-url' %>
 		<div class='col'></div>
 	<% end %>
 </div>
