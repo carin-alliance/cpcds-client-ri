@@ -93,6 +93,10 @@ class ApplicationController < ActionController::Base
   # for future requests.
 
   def connect_to_server
+    if session.empty? 
+      err = "Session Expired"
+      redirect_to root_path, flash: { error: err }
+    end
     if session[:iss_url].present?
       @client = FHIR::Client.new(session[:iss_url])
       @client.use_r4
@@ -133,6 +137,7 @@ class ApplicationController < ActionController::Base
         redirect_to root_path, flash: { error: err }
   
   end
+
 
 end
 

@@ -22,10 +22,11 @@ class DashboardController < ApplicationController
   end
 
   def launch
+    reset_session 
     if params[:iss_url].length == 0
       params[:iss_url] = "http://localhost:8080/cpcds-server/fhir"
-      params[:client_id] = "ed27a597-cfd5-4cbd-b4ed-1d213d5b38f2"
-      params[:client_secret] = "a3gyqjMuNTsaDIATXmhBEOJTHY6dgY5FEAtTCUelT0yJVFfr8XgPqFSAqxKrOcrB3vgf4Xut9nV2rbnYn8XyEY7b8UPChJQGXa88954pJ34HAtUYfwVMUbIz47Wgr0CAWekcmeGL8PE2oKPcdJ4Bg150tBt4K53AQFrpf8dLo7X7cwjX4YINXosUCxWe2ojaKtjHD6a3jiRdhtPlY8uFdqtRsMV65pIFZUXVxY9yGvuf7op0ASNC2XrUGaJQqUOC"
+      params[:client_id] = "b0c46635-c0b4-448c-a8b9-9bd282d2e05a"
+      params[:client_secret] = "bUYbEj5wpazS8Xv1jyruFKpuXa24OGn9MHuZ3ygKexaI5mhKUIzVEBvbv2uggVf1cW6kYD3cgTbCIGK3kjiMcmJq3OG9bn85Fh2x7JKYgy7Jwagdzs0qufgkhPGDvEoVpImpA4clIhfwn58qoTrfHx86ooWLWJeQh4s0StEMqoxLqboywr8u11qmMHd1xwBLehGXUbqpEBlkelBHDWaiCjkhwZeRe4nVu4o8wSAbPQIECQcTjqYBUrBjHlMx5vXU"
     end 
     launch = params[:launch] || session[:launch] || "launch"
     iss = params[:iss_url] || session[:iss_url] 
@@ -58,6 +59,12 @@ class DashboardController < ApplicationController
 
 
   def login
+
+    if params[:error].present? 
+      binding.pry 
+      err = params[:error] + ": " + params[:error_description]
+      redirect_to root_path, flash: { error: err }
+    end
     session[:wakeupsession] = "ok" # using session hash prompts rails session to load
     session[:client_id] = params[:client_id] || session[:client_id] || "9e5cec3a-80f9-4d04-9851-9ce2106bb080"   # hard coded is for launch from logica sandbox
     session[:client_secret]  = params[:client_secret] || session[:client_secret]   

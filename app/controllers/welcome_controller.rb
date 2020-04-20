@@ -10,10 +10,7 @@ class WelcomeController < ApplicationController
 
   def index
     # binding.pry
-    session[:iss_url] = nil
-    session[:client_id] = nil
-    session[:auth_url] = nil
-    session[:access_token]=nil
+    reset_session 
 #    redirect_to launch_url
   end
 
