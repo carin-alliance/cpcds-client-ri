@@ -1,35 +1,41 @@
-<h1>Eob#index</h1>
 <section class='container'> 
-<section class='row col-12'> 
-<div class='col-12'> 
-<h3 class='float-left text-white'>Explanation of Benefits <%= @start_date %> - <%= @end_date %> </h3> 
-<div class='btn-group float-right mt-2' role='group'> 
-</div> 
-</div> <table class='table table-dark'> 
-<thead>
-<tr> 
-<th scope='col'></th> 
-<th scope='col'>Date Created</th> 
-<th scope='col'>Claim</th> 
-<th scope='col'>Patient Name</th>
-<th scope='col'>Provider Name</th> 
-<th scope='col'>Facility Name</th> 
-</tr> 
-</thead>
-<% @eobs.each do |eob| %> 
-<tr> 
-<th scope="row">
-<td> <%= link_to sanitize(eob.created), eob_path(eob.id)%>
-</th>
-<td> <%= eob.claim_reference.last(6)%> </td> 
-<td> <%= eob.claimpatient%> </td>
-<td> <%= eob.careteam.values.map{ |c| c[:name]}.join(",")%> </td> 
-<td> <%= eob.facility%> </td> 
- </tr> 
- <% end %> 
- </table> 
- <div class='col-12'> 
- <div class='btn-group float-right mt-2' role='group'> 
- </div> </div> 
- </section>
- </section>
+  <section class='row col-12'> 
+    <div class='col-12'> 
+      <h2 class='text-white'>
+        Explanation of Benefits 
+        <% if @start_date.present? && @end_date.present? %>
+          <%= @start_date %> - <%= @end_date %> 
+        <% end %>
+      </h2> 
+      <div class='btn-group float-right mt-2' role='group'> 
+      </div> 
+    </div> 
+    <table class='table table-striped table-dark status'> 
+      <thead>
+        <tr> 
+          <th scope='col'></th> 
+          <th scope='col'>Date Created</th> 
+          <th scope='col'>Claim</th> 
+          <th scope='col'>Patient Name</th>
+          <th scope='col'>Provider Name</th> 
+          <th scope='col'>Facility Name</th> 
+        </tr> 
+      </thead>
+      <% @eobs.each do |eob| %> 
+        <tr> 
+          <th scope="row">
+            <td><%= link_to sanitize(eob.created), eob_path(eob.id) %></td>
+          </th>
+          <td><%= sanitize(eob.claim_reference.last(6)) %></td> 
+          <td><%= sanitize(eob.claimpatient) %></td>
+          <td><%= sanitize(eob.careteam.values.map{ |c| c[:name]}.join(",")) %></td> 
+          <td><%= sanitize(eob.facility) %></td> 
+        </tr> 
+      <% end %> 
+    </table> 
+    <div class='col-12'> 
+      <div class='btn-group float-right mt-2' role='group'> 
+      </div> 
+    </div> 
+  </section>
+</section>
