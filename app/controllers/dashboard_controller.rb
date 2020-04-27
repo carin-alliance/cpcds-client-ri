@@ -2,7 +2,7 @@
 #
 # Dashboard Controller
 #
-# Copyright (c) 2019 The MITRE Corporation.  All rights reserved.
+# Copyright (c) 2020 The MITRE Corporation.  All rights reserved.
 #
 ################################################################################
 
@@ -16,7 +16,7 @@ class DashboardController < ApplicationController
     # profile = 'http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-patient'
     # profile = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient'
     #search = { parameters: { _profile: profile,  _id: patient_id}}
-    search = { parameters: { _id: patient_id}}
+    search = { parameters: { _id: patient_id } }
     results = @client.search(FHIR::Patient, search: search )
     @patient = Patient.new(results.resource.entry.map(&:resource)[0], @client)
   end

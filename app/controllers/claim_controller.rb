@@ -1,3 +1,11 @@
+################################################################################
+#
+# Claim Controller
+#
+# Copyright (c) 2020 The MITRE Corporation.  All rights reserved.
+#
+################################################################################
+
 class ClaimController < ApplicationController
   def index
        #load_patient_specific_data_from_server
