@@ -9,8 +9,9 @@
 class WelcomeController < ApplicationController
 
   def index
-    # Start from scratch
-    SessionHandler.disconnect(session.id) if session.id
+    # binding.pry
+    reset_session 
+#    redirect_to launch_url
   end
 
 end

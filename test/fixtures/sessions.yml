@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  patient_key: MyString
+  patient_id: MyString
+  token: MyString
+  token_expiration: MyString
+  server_url: MyString
+  auth_url: MyString
+
+two:
+  patient_key: MyString
+  patient_id: MyString
+  token: MyString
+  token_expiration: MyString
+  server_url: MyString
+  auth_url: MyString

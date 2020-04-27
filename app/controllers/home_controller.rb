@@ -15,7 +15,7 @@ class HomeController < ApplicationController
   def index
     # Get list of patients from cached results from server
     load_patient_specific_data_from_server
-    binding.pry
+    # binding.pry
     
   end
 
