@@ -14,16 +14,8 @@ class ApplicationController < ActionController::Base
     :observations, :procedures, :immunizations, :diagnosticreports, :documentreferences, :claims, :conditions, :medicationrequests,
     :careteams, :careplans, :devices, :provenances, :resources
     attr_accessor :fhir_explanationofbenefits, :fhir_claims, :fhir_practitioners, :fhir_patients,  :fhir_organizations, :fhir_practitionerroles, :patient_resources
-    
-        CPCDS_PATIENT_PROFILE_URL = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient'
-        CPCDS_ENCOUNTER_PROFILE_URL = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter'
-        CPCDS_EOB_PROFILE_URL = 'http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-InsurancePlan'
-        CPCDS_ENCOUNTER_PROFILE_URL = 'http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Network'
-        CPCDS_PRACTITIONER_PROFILE_URL = 'http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Practitioner'
-        CPCDS_ORGANIZATION_PROFILE_URL = 'http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-PractitionerRole'
-             
 
-
+  # load_patient_resources:  Builds and executes a search for a given type restricted to a single patient and the appropriate profile      
        def load_patient_resources (type, profile, patientfield, pid, datefield=nil)
         parameters = {}
         parameters[patientfield] = "Patient/" + pid
@@ -39,7 +31,8 @@ class ApplicationController < ActionController::Base
         results = @client.search(type, search: search )
         results.resource.entry.map(&:resource)
        end
-#Get Fhir Resources
+
+  # Get Fhir Resources:  Retrieves a referenced resource by ID, and optionally patientID
        def get_fhir_resources(fhir_client, type, resource_id, patient_id=nil)
         if patient_id == nil
             search = { parameters: {  _id: resource_id} } 
@@ -52,7 +45,7 @@ class ApplicationController < ActionController::Base
       end
   
    
-  # Get the FHIR server url
+  # Utility accessors that reference session data
   def iss_url
      session[:iss_url]
   end
@@ -91,10 +84,12 @@ class ApplicationController < ActionController::Base
 
   # Connect the FHIR client with the specified server and save the connection
   # for future requests.
+  # If token is expired or within 10s of expiration, refresh the token
 
   def connect_to_server
     if session.empty? 
       err = "Session Expired"
+      binding.pry 
       redirect_to root_path, flash: { error: err }
     end
     if session[:iss_url].present?
@@ -111,8 +106,9 @@ class ApplicationController < ActionController::Base
        redirect_to root_path, flash: { error: err }
   end
 
+  # Get a mew token from the authorization server
   def get_new_token
-
+    binding.pry 
     auth = 'Basic ' + Base64.strict_encode64( session[:client_id] +":"+session[:client_secret]).chomp
   
     rcResultJson = RestClient.post(
@@ -135,7 +131,6 @@ class ApplicationController < ActionController::Base
         binding.pry 
         err = "Failed to refresh token"
         redirect_to root_path, flash: { error: err }
-  
   end
 
 

@@ -21,13 +21,16 @@ class DashboardController < ApplicationController
     @patient = Patient.new(results.resource.entry.map(&:resource)[0], @client)
   end
 
+  # launch:  Pass either params or hardcoded server and client data to the auth_url via redirection
   def launch
-    reset_session 
-    if params[:iss_url].length == 0
+    reset_session    # Get a completely fresh session for each launch.  This is a rails method.
+    if params[:iss_url].length == 0     # Use hardcoded data for the Reference Implementation
       params[:iss_url] = "http://localhost:8080/cpcds-server/fhir"
       params[:client_id] = "b0c46635-c0b4-448c-a8b9-9bd282d2e05a"
       params[:client_secret] = "bUYbEj5wpazS8Xv1jyruFKpuXa24OGn9MHuZ3ygKexaI5mhKUIzVEBvbv2uggVf1cW6kYD3cgTbCIGK3kjiMcmJq3OG9bn85Fh2x7JKYgy7Jwagdzs0qufgkhPGDvEoVpImpA4clIhfwn58qoTrfHx86ooWLWJeQh4s0StEMqoxLqboywr8u11qmMHd1xwBLehGXUbqpEBlkelBHDWaiCjkhwZeRe4nVu4o8wSAbPQIECQcTjqYBUrBjHlMx5vXU"
     end 
+
+    # Let Params values over-ride session values if they are present
     launch = params[:launch] || session[:launch] || "launch"
     iss = params[:iss_url] || session[:iss_url] 
     session[:client_id] = params[:client_id] || session[:client_id] 
@@ -43,8 +46,6 @@ class DashboardController < ApplicationController
     session[:iss_url] = iss
     session[:launch] = launch
 
-    # http://localhost:8180/authorization?response_type=code&redirect_uri=http://localhost:4000/login&aud=http://localhost:8080/cpcds-server/fhir&state=98wrghuwuogerg97&scope=launch patient/Patient.read openid fhirUser&client_id=0oa41ji88gUjAKHiE4x6
-
     redirect_to_auth_url = auth_url + 
       "?response_type=code"+
       "&redirect_uri="+ login_url +
@@ -57,15 +58,18 @@ class DashboardController < ApplicationController
   end
 
 
+  # login:  Once authorization has happened, auth server redirects to here.   
+  #         Use the returned info to get a token  
+  #         Use the returned token and patientID to get the patient info
   def login
 
-    if params[:error].present? 
+    if params[:error].present?   # Authentication Failure
       binding.pry 
       err = params[:error] + ": " + params[:error_description]
       redirect_to root_path, flash: { error: err }
     end
     session[:wakeupsession] = "ok" # using session hash prompts rails session to load
-    session[:client_id] = params[:client_id] || session[:client_id] || "9e5cec3a-80f9-4d04-9851-9ce2106bb080"   # hard coded is for launch from logica sandbox
+    session[:client_id] = params[:client_id] || session[:client_id] # || "9e5cec3a-80f9-4d04-9851-9ce2106bb080"   # hard coded is for launch from logica sandbox
     session[:client_secret]  = params[:client_secret] || session[:client_secret]   
     code = params[:code]
     
@@ -77,8 +81,7 @@ class DashboardController < ApplicationController
        {
           grant_type: 'authorization_code', 
           code: code, 
-          redirect_uri: "http://localhost:4000/login" ,
-          client_id: "9e5cec3a-80f9-4d04-9851-9ce2106bb080"    # this is for a public, we need confidential using Authorization header
+          redirect_uri: "http://localhost:4000/login" 
       },
       {
         :Authorization => auth
@@ -94,9 +97,10 @@ class DashboardController < ApplicationController
     @client.use_r4
     @client.set_bearer_token(session[:access_token])
 
+    # This query should use the appropriate prpofile when data is updated
     # profile = 'http://hl7.org/fhir/us/carin/StructureDefinition/carin-bb-patient'
     # profile = 'http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient'
-    #search = { parameters: { _profile: profile,  _id: patient_id}}
+    # search = { parameters: { _profile: profile,  _id: patient_id}}
     search = { parameters: { _id: session[:patient_id]}}
     results = @client.search(FHIR::Patient, search: search )
     raise 'Serious Error -- retrieved patient has wrong ID'  unless patient_id == results.resource.entry[0].resource.id 
