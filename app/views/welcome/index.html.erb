@@ -6,7 +6,6 @@
 			Connected to <%= session[:server_url] -%>
 		</p>
 		<p class="text-success m-auto client-connected" style='text-align: center'>
-			Patient <%= cookies[:patient_id] -%>
 			Patient <%= session[:patient_id] -%>
 		</p>
 	<%else%>
@@ -32,6 +31,7 @@
 				<div class='col'></div>
 			<% end %>
 		</div>
+
 	</section>
 </section>
 
