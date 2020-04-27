@@ -43,7 +43,6 @@ class DashboardController < ApplicationController
     session[:iss_url] = iss
     session[:launch] = launch
 
-
     # http://localhost:8180/authorization?response_type=code&redirect_uri=http://localhost:4000/login&aud=http://localhost:8080/cpcds-server/fhir&state=98wrghuwuogerg97&scope=launch patient/Patient.read openid fhirUser&client_id=0oa41ji88gUjAKHiE4x6
 
     redirect_to_auth_url = auth_url + 

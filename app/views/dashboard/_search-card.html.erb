@@ -1,0 +1,24 @@
+<div class='card bg-dark text-white'>
+  <div class='card-body'>
+    <h2 class="text-light">Explanation of Benefits</h2>
+
+    <div class='row col-12'>
+      <%= form_tag eobs_path, method: 'get', class: 'form-inline welcome-form' do %>
+        <div class='form-row'>
+          <div class='form-group col-4'>
+            <%= text_field_tag :start_date, nil, class: 'form-control', placeholder: 'Start Date' %>
+          </div>			
+          <div class='form-group col-4'>
+            <%= text_field_tag :end_date, nil, class: 'form-control', placeholder: 'End Date'%>
+          </div>
+          <div class='col-4'>
+            <%= button_tag 'Display', class: 'btn btn-primary', id: 'display-eob', disabled: @client.nil? %>
+          </div>
+      <% end %>
+    </div>
+
+    <p class='text-info guidance ml-auto mr-auto'>
+      Please specify a date range.   Display without a date range returns all records.
+    </p>
+  </div>
+</div>
