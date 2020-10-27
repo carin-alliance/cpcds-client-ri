@@ -17,15 +17,13 @@
 			<%= form_tag launch_path, method: 'get', class: 'form-inline welcome-form', id: 'server-form' do %>
 				<div class='col'></div>
 				<div class='form-group col-md-7 last'>
-					<label class="float-left"> FHIR Server (e.g., http://localhost:8080/cpcds-server/fhir, or https://api.logicahealth.org/STU301withSynthea/data)</label>
+					<label class="float-left"> FHIR Server</label>
 					<%= text_field_tag :iss_url, cookies[:iss_url], class: 'form-control',
 								placeholder: 'http://hapi.fhir.org/baseR4' %>
-					<label class="float-left"> ClientID (for MITRE RI leave blank)</label>
-					<%= text_field_tag :client_id, cookies[:client_id], class: 'form-control',
-								placeholder: 'for MITRE RI leave blank' %>
-					<label class="float-left"> Client Secret (for MITRE RI leave blank) </label>
-					<%= text_field_tag :client_secret, cookies[:client_secret], class: 'form-control',
-								placeholder: 'for MITRE RI leave blank' %>
+					<label class="float-left"> ClientID</label>
+					<%= text_field_tag :client_id, cookies[:client_id], class: 'form-control' %>
+					<label class="float-left"> Client Secret</label>
+					<%= text_field_tag :client_secret, cookies[:client_secret], class: 'form-control' %>
 					<%= button_tag 'Connect', class: 'btn btn-primary col-md-2 connect', id: 'server-url' %>
 				</div>
 				<div class='col'></div>
