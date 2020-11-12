@@ -16,28 +16,19 @@ class Patient < Resource
 
   #-----------------------------------------------------------------------------
 
-  def initialize(fhir_patient, fhir_client)
-    @id               = fhir_patient.id
-  	@names 						= fhir_patient.name
-  	@telecoms 				= fhir_patient.telecom
-  	@addresses 				= fhir_patient.address
-  	@birth_date 			= fhir_patient.birthDate.to_date
-    @gender 					= fhir_patient.gender
-    if fhir_patient.maritalStatus
-      @marital_status = fhir_patient.maritalStatus.text
-    else
-      @marital_status = "none"
-    end
-    @photo						= nil
-=begin 
-    #@medications      = get_medications (fhir_resources[:medicationrequests])
-    #@observations     = get_observations (fhir_resources[:observations])
-    #@procedures     = get_procedures (fhir_resources[:procedures])
-    #@conditions     = get_conditions (fhir_resources[:conditions])
-    #@docrefs     = get_docrefs (fhir_resources[:documentreferences])
-    #@immunizations = get_immunizations (fhir_resources[:immunizations])
-=end
-    @fhir_client			= fhir_client
+  def initialize(fhir_patient)
+          @id               = fhir_patient.id
+          @names 						= fhir_patient.name
+          @telecoms 				= fhir_patient.telecom
+          @addresses 				= fhir_patient.address
+          @birth_date 			= fhir_patient.birthDate.to_date
+          @gender 					= fhir_patient.gender
+          if fhir_patient.maritalStatus
+            @marital_status = fhir_patient.maritalStatus.text
+          else
+            @marital_status = "none"
+          end
+          @photo						= nil
   end
 
 =begin #---------------------------

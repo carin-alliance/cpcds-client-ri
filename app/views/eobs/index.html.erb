@@ -15,7 +15,6 @@
         <tr> 
           <th scope='col'></th> 
           <th scope='col'>Date Created</th> 
-          <th scope='col'>Claim</th> 
           <th scope='col'>Patient Name</th>
           <th scope='col'>Provider Name</th> 
           <th scope='col'>Facility Name</th> 
@@ -26,9 +25,9 @@
           <th scope="row">
             <td><%= link_to sanitize(eob.created), eob_path(eob.id) %></td>
           </th>
-          <td><%= sanitize(eob.claim_reference.last(6)) %></td> 
-          <td><%= sanitize(eob.claimpatient) %></td>
-          <td><%= sanitize(eob.careteam.values.map{ |c| c[:name]}.join(",")) %></td> 
+          <% @patient.names.each do |name| %>
+            <%= display_human_name(name) %><br />
+          <% end %>
           <td><%= sanitize(eob.facility) %></td> 
         </tr> 
       <% end %> 

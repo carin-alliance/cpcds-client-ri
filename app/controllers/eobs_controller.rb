@@ -10,37 +10,28 @@ class EobsController < ApplicationController
   before_action :connect_to_server, only: [ :index, :show ]
 
   # GET /eobs 
-  def index # read a bundle from a file 
+  def index # show a collection of EOBs
     patient_id = session[:patient_id]
-    binding.pry if patient_id == nil 
-    @fhir_explanationofbenefits = @fhir_explanationofbenefits || load_patient_resources(FHIR::ExplanationOfBenefit, nil, :patient, patient_id, :created )
-    explanationofbenefits = fhir_explanationofbenefits.map { |eob| EOB.new(eob, @resources, @client, patient_id) }.sort_by { |a|  -a.sortDate }
-    @eobs = explanationofbenefits
+
+    # Factor out initial search for all EOBs for a patient during the last year, or by service-date window if specified 
+    load_fhir_eobs (patient_id)
     @start_date = start_date
     @end_date = end_date 
+    binding.pry 
   end
 
   # GET /eobs/[id] 
-  def show 
+  def show # show a single EOB
     patient_id = session[:patient_id]
     id = params[:id]
-    binding.pry if patient_id == nil 
 
-    search = { parameters: { _id: patient_id } }
-    results = @client.search(FHIR::Patient, search: search )
-    @patient = Patient.new(results.resource.entry.map(&:resource)[0], @client)
-
-    # binding.pry 
+    # Factor out search for an EOB by id with patient id 
+    load_fhir_eobs (patient_id, eob_id=id) 
+    @eob = nil
     if @eobs
       @eob = @eobs.select{|p| p.id == id}[0] 
-    elsif @fhir_explanationofbenefits
-      fhir_explanationofbenefit = @fhir_explanationofbenefits.select{|p| p.id == id}[0]
-      @eob = EOB.new(fhir_explanationofbenefit, @resources, @client, patient_id)
-    else
-      fhir_explanationofbenefit = get_fhir_resources(@client, FHIR::ExplanationOfBenefit, id, patient_id)[0]
-      @eob = EOB.new(fhir_explanationofbenefit, @resources, @client, patient_id)
     end
-    # binding.pry 
+    binding.pry 
   end
 
 end
