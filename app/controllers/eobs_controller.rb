@@ -18,21 +18,21 @@ class EobsController < ApplicationController
     load_fhir_eobs(patient_id, eobid )
     @start_date = start_date
     @end_date = end_date 
-    binding.pry 
+    # binding.pry 
   end
 
   # GET /eobs/[id] 
   def show # show a single EOB
     patient_id = session[:patient_id]
     id = params[:id]
-    binding.pry 
+    # binding.pry 
     # Factor out search for an EOB by id with patient id 
     load_fhir_eobs(patient_id, id) 
     @eob = nil
     if @eobs
       @eob = @eobs.select{|p| p.id == id}[0] 
     end
-    binding.pry 
+    # binding.pry 
   end
 
 end

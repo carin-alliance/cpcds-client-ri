@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
     def load_fhir_eobs (patientid, eobid)
       puts "==>load_fhir_eobs Patient =#{patientid}" #" include=#{include}  filterbydate=#{filterbydate}"
       parameters = {}
-      binding.pry 
+      #     binding.pry 
       parameters[:_id] = eobid if eobid 
       parameters[:patient] = patientid 
       #
@@ -32,9 +32,9 @@ class ApplicationController < ActionController::Base
                      "ExplanationOfBenefit:provider"]
       parameters[:_include] = includelist
       search = {parameters: parameters }
-      binding.pry 
+      #     binding.pry 
       results = @client.search(FHIR::ExplanationOfBenefit, search: search )
-      binding.pry 
+      #     binding.pry 
       entries = results.resource.entry.map(&:resource)
       fhir_explanationofbenefits = entries.select {|entry| entry.resourceType == "ExplanationOfBenefit" }
       fhir_practitioners = entries.select {|entry| entry.resourceType == "Practitioner" }
@@ -60,7 +60,7 @@ class ApplicationController < ActionController::Base
         parameters[patientfield] = pid
         parameters[:_profile] = profile if profile
 #        parameters[:_count] = 1000 
-        binding.pry 
+        #     binding.pry 
         if datefield 
             parameters[datefield] = []
             parameters[datefield] << "ge"+ DateTime.parse(start_date).strftime("%Y-%m-%d")   if start_date.present?
@@ -79,7 +79,7 @@ class ApplicationController < ActionController::Base
             search = { parameters: {  _id: resource_id, patient: patient_id} }
         end
         results = fhir_client.search(type, search: search )
-        binding.pry if results == nil || results.resource == nil || results.resource.entry == nil 
+        #     binding.pry if results == nil || results.resource == nil || results.resource.entry == nil 
         results.resource.entry.map(&:resource)
       end
   
@@ -134,7 +134,7 @@ class ApplicationController < ActionController::Base
     end
     if session.empty? 
       err = "Session Expired"
-      binding.pry 
+      #     binding.pry 
       redirect_to root_path, flash: { error: err }
     end
     if session[:iss_url].present?
@@ -172,7 +172,7 @@ class ApplicationController < ActionController::Base
       session[:refresh_token] = rcResult["refresh_token"]
       session[:token_expiration] = Time.now.to_i + rcResult["expires_in"].to_i  
     rescue => exception
-        binding.pry 
+        #     binding.pry 
         err = "Failed to refresh token"
         redirect_to root_path, flash: { error: err }
   end

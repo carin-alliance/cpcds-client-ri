@@ -11,7 +11,7 @@ class EOB < Resource
 	include ActiveModel::Model
   #-----------------------------------------------------------------------------
    attr_accessor :id, :created, :billingstartdate, :billingenddate, :category, :careteam, :claim_reference, :claim, :facility, :use, :insurer, :provider, 
-      :coverage, :items, :fhir_client, :sortDate, :total, :payment, :supportingInfo, :patient,  :payeetype, :payeeparty, :outcome, :type, :adjudication 
+      :coverage, :items, :fhir_client, :sortDate, :total, :payment, :supportingInfo, :patient,  :payeetype, :payeeparty, :type, :adjudication , :outcome 
 
   def initialize(fhir_eob, patients, practitioners, locations, organizations, coverages, practitionerroles)
     @id = fhir_eob.id
@@ -33,7 +33,7 @@ class EOB < Resource
     @outcome = fhir_eob.outcome 
 =begin  @careteam = fhir_eob.careTeam.each_with_object({}) do |member, hash|
              sequence = member.sequence
-             binding.pry 
+             #     #     binding.pry 
              practitioner =  elementwithid( practitioners, member.provider.reference )
              name = practitioner.name[0]
              rendername = name.prefix.join(" ") if name.prefix
@@ -59,7 +59,7 @@ class EOB < Resource
     @provider = fhir_eob.provider.display || "<MISSING>"
     @total =  [ fhir_eob.total[0].category.text, amountToString(fhir_eob.total[0].amount)] || []
     @payment = fhir_eob.payment && fhir_eob.payment.amount ? amountToString(fhir_eob.payment.amount) : "<MISSING>"  
-    binding.pry 
+    #     #     binding.pry 
     @paymenttype= fhir_eob.payment ? codingToString(fhir_eob.payment.type.coding) : "<MISSING>"  
     @paymentdate=  fhir_eob.payment ? dateToString(fhir_eob.payment.date) : "<MISSING>"  
     @supportingInfo = parseSupportingInfo(fhir_eob.supportingInfo)
@@ -68,10 +68,10 @@ class EOB < Resource
     #end
   
     @coverage = elementwithid(coverages,fhir_eob.insurance[0].coverage.reference)  
-    binding.pry 
+    #     #     binding.pry 
     @items = parseItems (fhir_eob.item) if fhir_eob.item 
     @adjudication = parseAdjudication(fhir_eob.adjudication) 
-    binding.pry 
+   binding.pry 
    end
 
 def elementwithid(entries, id)
@@ -110,7 +110,7 @@ def parseAdjudication(adjudication)
       amount = item.amount ? amountToString(item.amount) : "missing"
     end
     {
-     :slice => slice,
+     :slice => slice.to_s,
      :type => type,
      :amount => amount,
      :value => value,
@@ -135,7 +135,7 @@ def parseItems(items)
   items.map { | item | 
       itemenc = item.encounter.map(&:reference)
       itemenc = ["none"] unless itemenc.length > 0 
-      itemloc = item.location ? item.location.coding.map(&:display) : ["none"]
+      itemloc = item.location ? item.location.coding.map(&:display).join(",") : "none"
       itemproductOrService = codingToString(item.productOrService.coding)
       itemstartDate = item.servicedPeriod ? DateTime.parse(item.servicedPeriod.start).strftime("%m/%d/%Y") : ""
       itemstartTime = item.servicedPeriod ? DateTime.parse(item.servicedPeriod.start).strftime("%m/%d/%Y %H:%M") :  ""
@@ -143,17 +143,14 @@ def parseItems(items)
       # Strip off line that means nothing.
       # Always return entries in the same order, then strip off first character.
       itemadjudication = item.adjudication.map{ | adj|  
-          value = "missing"  ;
-          value = amountToString(adj.amount) if adj.amount ;
-
+          value = adj.amount ? amountToString(adj.amount) : "missing" 
           adjText = codingToString(adj.category.coding)
           adjvalue = [value,  adjText ]   if adjText
       }
-      category = item.category ? codingToString(item.category.coding) : "missing"
+      binding.pry 
+      revenue = item.revenue ? codingToString(item.revenue.coding) : "missing"
       {
-      :category => category,
-      #:encounter => itemenc,
-      #:observations => observations,
+      :revenue => revenue,
       :diagnosisSequence =>item.diagnosisSequence,
       :procedureSequence =>item.procedureSequence,
       :careteamSequence =>item.careTeamSequence,
@@ -164,7 +161,6 @@ def parseItems(items)
       :startTime => itemstartTime,
       :endTime => itemendTime,
       :adjudication => itemadjudication,
-      :revenue => item.revenue,
       :quantity => item.quantity 
       }
     }
