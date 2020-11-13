@@ -11,13 +11,13 @@ class ApplicationController < ActionController::Base
     require 'json'
 
     attr_accessor :explanationofbenefits, :practitioners, :patients, :locations, :organizations, :practitionerroles, :coverages, :resources
-    attr_accessor :fhir_explanationofbenefits,  :fhir_practitioners, :fhir_patients,  :fhir_organizations, :fhir_practitionerroles, :fir_coverages, :fhir_locations, :patient_resources
+    attr_accessor :fhir_explanationofbenefits,  :fhir_practitioners, :fhir_patients,  :fhir_organizations, :fir_coverages, :fhir_locations, :patient_resources, :patient, :eob, :eobs 
 
-    def load_fhir_eobs (patientid, eobid=nil)
+    def load_fhir_eobs (patientid, eobid)
       puts "==>load_fhir_eobs Patient =#{patientid}" #" include=#{include}  filterbydate=#{filterbydate}"
       parameters = {}
-
-      parameters[:id] = eobid if eobid 
+      binding.pry 
+      parameters[:_id] = eobid if eobid 
       parameters[:patient] = patientid 
       #
       #  parameters[:"service-date"] = []
@@ -29,7 +29,6 @@ class ApplicationController < ActionController::Base
                      "ExplanationOfBenefit:care-team",
                      "ExplanationOfBenefit:coverage", 
                      "ExplanationOfBenefit:insurer", 
-                     "ExplanationOfBenefit:payee", 
                      "ExplanationOfBenefit:provider"]
       parameters[:_include] = includelist
       search = {parameters: parameters }
@@ -39,23 +38,19 @@ class ApplicationController < ActionController::Base
       entries = results.resource.entry.map(&:resource)
       fhir_explanationofbenefits = entries.select {|entry| entry.resourceType == "ExplanationOfBenefit" }
       fhir_practitioners = entries.select {|entry| entry.resourceType == "Practitioner" }
-      fhir_practitionerroles = entries.select {|entry| entry.resourceType == "PractitionerRole" }
       fhir_patients = entries.select {|entry| entry.resourceType == "Patient" }
       fhir_locations = entries.select {|entry| entry.resourceType == "Location" }
       fhir_organizations = entries.select {|entry| entry.resourceType == "Organization" }
       fhir_coverages = entries.select {|entry| entry.resourceType == "Coverage" }
-  
 
       patients = fhir_patients.map { |patient| Patient.new(patient) }
       @patient = patients[0] 
       practitioners = fhir_practitioners.map { |practitioner| Practitioner.new(practitioner) }
       locations = fhir_locations.map { |location| Location.new(location) }
       organizations = fhir_organizations.map { |organization| Organization.new(organization) }
-      practitionerroles = fhir_practitionerroles.map { |practitionerrole| PractitionerRole.new(practitionerrole) }
       coverages = fhir_coverages.map { |coverage| Coverage.new(coverage) }
       explanationofbenefits = fhir_explanationofbenefits.map { |eob| EOB.new(eob, patients, practitioners, locations, organizations, coverages, practitionerroles) }.sort_by { |a|  -a.sortDate }
       @eobs = explanationofbenefits
-      binding.pry 
     end
   
     # load_patient_resources:  Builds and executes a search for a given type restricted to a single patient and the appropriate profile      

@@ -11,12 +11,12 @@ class EOB < Resource
 	include ActiveModel::Model
   #-----------------------------------------------------------------------------
    attr_accessor :id, :created, :billingstartdate, :billingenddate, :category, :careteam, :claim_reference, :claim, :facility, :use, :insurer, :provider, 
-      :coverage, :items, :fhir_client, :sortDate, :total, :payment, :supportingInfo, :patient,  :payeetype, :payeeparty, :outcome, :type
+      :coverage, :items, :fhir_client, :sortDate, :total, :payment, :supportingInfo, :patient,  :payeetype, :payeeparty, :outcome, :type, :adjudication 
 
   def initialize(fhir_eob, patients, practitioners, locations, organizations, coverages, practitionerroles)
     @id = fhir_eob.id
     @type = fhir_eob.type.coding[0].code
-    if @type == "institutional" && meta.profile[0].include("inpatient")
+    if @type == "institutional" && fhir_eob.meta.profile[0].include?("Inpatient")
       @type = "inpatient institutional"
     else
       @type = "inpatient institutional"
@@ -26,7 +26,6 @@ class EOB < Resource
     @created = DateTime.parse(fhir_eob.created).strftime("%m/%d/%Y")
     @billingstartdate = fhir_eob.billablePeriod ? DateTime.parse(fhir_eob.billablePeriod.start).strftime("%m/%d/%Y") : "none"
     @billingenddate = fhir_eob.billablePeriod ? DateTime.parse(fhir_eob.billablePeriod.end).strftime("%m/%d/%Y") : "none"
-    binding.pry 
     @insurer = elementwithid(organizations, fhir_eob.insurer).names
     @provider =  (elementwithid(practitioners, fhir_eob.provider) || elementwithid(organizations, fhir_eob.provider)).names
     @payeetype = fhir_eob.payee ? codingToString(fhir_eob.payee.type.coding) : "none"
@@ -60,8 +59,9 @@ class EOB < Resource
     @provider = fhir_eob.provider.display || "<MISSING>"
     @total =  [ fhir_eob.total[0].category.text, amountToString(fhir_eob.total[0].amount)] || []
     @payment = fhir_eob.payment && fhir_eob.payment.amount ? amountToString(fhir_eob.payment.amount) : "<MISSING>"  
-    @paymenttype= codingToString(fhir_eob.payment.type.coding)
-    @paymentdate=  dateToString(fhir_eob.payment.date)
+    binding.pry 
+    @paymenttype= fhir_eob.payment ? codingToString(fhir_eob.payment.type.coding) : "<MISSING>"  
+    @paymentdate=  fhir_eob.payment ? dateToString(fhir_eob.payment.date) : "<MISSING>"  
     @supportingInfo = parseSupportingInfo(fhir_eob.supportingInfo)
     #@contained = fhir_eob.contained.each_with_object({}) do |object, hash|
     #  hash[object.id] = object.class.to_s
@@ -132,7 +132,6 @@ def codingToString(coding)
 end
 
 def parseItems(items)
-  binding.pry 
   items.map { | item | 
       itemenc = item.encounter.map(&:reference)
       itemenc = ["none"] unless itemenc.length > 0 
@@ -150,7 +149,6 @@ def parseItems(items)
           adjText = codingToString(adj.category.coding)
           adjvalue = [value,  adjText ]   if adjText
       }
-      binding.pry 
       category = item.category ? codingToString(item.category.coding) : "missing"
       {
       :category => category,

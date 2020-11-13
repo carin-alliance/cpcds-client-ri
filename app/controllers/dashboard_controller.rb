@@ -19,7 +19,12 @@ class DashboardController < ApplicationController
     puts "==>DashboardController.index for patient_id #{@patient}"
     
     patientid =  session[:patient_id]
-    load_fhir_eobs (patientid)
+    @client = FHIR::Client.new(session[:iss_url])
+    @client.use_r4
+    @client.set_bearer_token(session[:access_token])
+    binding.pry 
+    eobid = nil 
+    load_fhir_eobs(patientid, eobid)
   end
 
   # launch:  Pass either params or hardcoded server and client data to the auth_url via redirection
@@ -83,10 +88,12 @@ class DashboardController < ApplicationController
       redirect_to root_path, flash: { error: err }
     end
     session[:wakeupsession] = "ok" # using session hash prompts rails session to load
-    session[:client_id] = params[:client_id] || session[:client_id] 
-    session[:client_secret]  = params[:client_secret] || session[:client_secret]   
+    session[:client_id] = (params[:client_id] || session[:client_id] ).chomp 
+    session[:client_secret]  = (params[:client_secret] || session[:client_secret] ).chomp  
     code = params[:code]
      auth = 'Basic ' + Base64.strict_encode64( session[:client_id]  +":"+session[:client_secret]).chomp
+
+     binding.pry 
      result = RestClient.post(
       session[:token_url],
      {
@@ -109,7 +116,6 @@ class DashboardController < ApplicationController
     @client = FHIR::Client.new(session[:iss_url])
     @client.use_r4
     @client.set_bearer_token(session[:access_token])
-
     binding.pry 
     redirect_to dashboard_url, notice: "signed in"
 
