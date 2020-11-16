@@ -16,18 +16,22 @@ class EOB < Resource
   def initialize(fhir_eob, patients, practitioners, locations, organizations, coverages, practitionerroles)
     @id = fhir_eob.id
     @type = fhir_eob.type.coding[0].code
-    if @type == "institutional" && fhir_eob.meta.profile[0].include?("Inpatient")
-      @type = "inpatient institutional"
-    else
-      @type = "inpatient institutional"
+    if @type == "institutional" 
+      if fhir_eob.meta.profile[0].include?("Inpatient")
+        @type = "inpatient"
+      else
+        @type = "outpatient"
+      end
     end
     @patient = patients[0].names 
     @sortDate = DateTime.parse(fhir_eob.created).to_i
     @created = DateTime.parse(fhir_eob.created).strftime("%m/%d/%Y")
     @billingstartdate = fhir_eob.billablePeriod ? DateTime.parse(fhir_eob.billablePeriod.start).strftime("%m/%d/%Y") : "none"
     @billingenddate = fhir_eob.billablePeriod ? DateTime.parse(fhir_eob.billablePeriod.end).strftime("%m/%d/%Y") : "none"
-    @insurer = elementwithid(organizations, fhir_eob.insurer).names
-    @provider =  (elementwithid(practitioners, fhir_eob.provider) || elementwithid(organizations, fhir_eob.provider)).names
+    i  = elementwithid(organizations, fhir_eob.insurer)
+    @insurer = i ? i.names : "None"
+    p = (elementwithid(practitioners, fhir_eob.provider) || elementwithid(organizations, fhir_eob.provider))
+    @provider = p ? p.names : "None"
     @payeetype = fhir_eob.payee ? codingToString(fhir_eob.payee.type.coding) : "none"
     @payeeparty = fhir_eob.payee ? (elementwithid(patients, fhir_eob.payee.party) || elementwithid(practitioners, fhir_eob.payee.party) || elementwithid(organizations, fhir_eob.payee.party)) : "none"
     @outcome = fhir_eob.outcome 
@@ -55,8 +59,6 @@ class EOB < Resource
     #@supportingInfo = claim.supportingInfo
     @facility =  fhir_eob.facility.display  || "<MISSING>"
     @use = fhir_eob.use || "<MISSING>"
-    @insurer = fhir_eob.insurer.display || "<MISSING>"
-    @provider = fhir_eob.provider.display || "<MISSING>"
     @total =  [ fhir_eob.total[0].category.text, amountToString(fhir_eob.total[0].amount)] || []
     @payment = fhir_eob.payment && fhir_eob.payment.amount ? amountToString(fhir_eob.payment.amount) : "<MISSING>"  
     #     #     binding.pry 
@@ -71,12 +73,11 @@ class EOB < Resource
     #     #     binding.pry 
     @items = parseItems (fhir_eob.item) if fhir_eob.item 
     @adjudication = parseAdjudication(fhir_eob.adjudication) 
-   binding.pry 
    end
 
 def elementwithid(entries, id)
-  entries.select {|entry| entry.id == id }
-  entries[0]
+  hits = entries.select {|entry| entry.id == id }
+  hits[0]
 end
 
 

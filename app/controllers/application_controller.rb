@@ -18,23 +18,24 @@ class ApplicationController < ActionController::Base
       parameters = {}
       #     binding.pry 
       parameters[:_id] = eobid if eobid 
+
       parameters[:patient] = patientid 
-      #
-      #  parameters[:"service-date"] = []
-      #  parameters[:"service-date"] << "ge"+ DateTime.parse(start_date).strftime("%Y-%m-%d")   if start_date.present?
-      #  parameters[:"service-date"] << "le"+ DateTime.parse(end_date).strftime("%Y-%m-%d")    if end_date.present?
+    
+      parameters[:"service-date"] = [] if start_date.present? || end_date.present?
+      parameters[:"service-date"] << "ge"+ DateTime.parse(start_date).strftime("%Y-%m-%d")   if start_date.present?
+      parameters[:"service-date"] << "le"+ DateTime.parse(end_date).strftime("%Y-%m-%d")    if end_date.present?
 
-
+     
       includelist = ["ExplanationOfBenefit:patient", 
                      "ExplanationOfBenefit:care-team",
                      "ExplanationOfBenefit:coverage", 
                      "ExplanationOfBenefit:insurer", 
                      "ExplanationOfBenefit:provider"]
       parameters[:_include] = includelist
+      # parameters[:_format] = "json"
       search = {parameters: parameters }
-      #     binding.pry 
+ 
       results = @client.search(FHIR::ExplanationOfBenefit, search: search )
-      #     binding.pry 
       entries = results.resource.entry.map(&:resource)
       fhir_explanationofbenefits = entries.select {|entry| entry.resourceType == "ExplanationOfBenefit" }
       fhir_practitioners = entries.select {|entry| entry.resourceType == "Practitioner" }

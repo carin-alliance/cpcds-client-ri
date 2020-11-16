@@ -15,6 +15,7 @@
         <tr> 
           <th scope='col'></th> 
           <th scope='col'>Date Created</th> 
+          <th scope='col'>Type</th> 
           <th scope='col'>Patient Name</th>
           <th scope='col'>Provider Name</th> 
         </tr> 
@@ -24,6 +25,8 @@
           <th scope="row">
             <td><%= link_to sanitize(eob.created), eob_path(eob.id) %></td>
           </th>
+          <td> <%= eob.type %>
+          </td>
           <td>
           <% @patient.names.each do |name| %>
             <%= display_human_name(name) %><br />
