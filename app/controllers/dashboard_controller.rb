@@ -103,12 +103,10 @@ class DashboardController < ApplicationController
     session[:refresh_token] = rcResult["refresh_token"]
     @patient = session[:patient_id] = rcResult["patient"]
     session[:token_expiration] = Time.now.to_i + rcResult["expires_in"].to_i
-    binding.pry 
     @client = FHIR::Client.new(session[:iss_url])
     @client.use_r4
     @client.set_bearer_token(session[:access_token])
     @client.default_json
-    binding.pry 
     redirect_to dashboard_url, notice: "signed in"
 
   rescue => exception

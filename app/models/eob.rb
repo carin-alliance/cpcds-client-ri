@@ -148,7 +148,7 @@ def parseItems(items)
           adjText = codingToString(adj.category.coding)
           adjvalue = [value,  adjText ]   if adjText
       }
-      binding.pry 
+      # binding.pry 
       revenue = item.revenue ? codingToString(item.revenue.coding) : "missing"
       {
       :revenue => revenue,
