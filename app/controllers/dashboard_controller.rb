@@ -31,41 +31,39 @@ class DashboardController < ApplicationController
       @client.use_r4
       # @client.set_bearer_token(session[:access_token])
       puts "==>redirect_to #{dashboard_url}"
-      redirect_to dashboard_url, notice: "no authentication"
+      redirect_to root_url, alert: "Please provide a client id and secret"
     else
+      # Let Params values over-ride session values if they are present
+      launch = params[:launch] || session[:launch] || "launch"
+      iss = (params[:iss_url] || session[:iss_url] ).delete_suffix("/metadata")
+      session[:client_id] = params[:client_id] || session[:client_id] 
+      session[:client_secret] = params[:client_secret] || session[:client_secret]  
 
+      session[:client_id]
+      session[:client_secret]
 
-    # Let Params values over-ride session values if they are present
-    launch = params[:launch] || session[:launch] || "launch"
-    iss = (params[:iss_url] || session[:iss_url] ).delete_suffix("/metadata")
-    session[:client_id] = params[:client_id] || session[:client_id] 
-    session[:client_secret] = params[:client_secret] || session[:client_secret]  
+      # Get Server Metadata
+      rcRequest = RestClient::Request.new(
+        :method => :get,
+        :url => iss + "/metadata"
+      )
 
-    session[:client_id]
-    session[:client_secret]
-
-    # Get Server Metadata
-    rcRequest = RestClient::Request.new(
-      :method => :get,
-       :url => iss + "/metadata"
-     )
-
-    rcResult = JSON.parse(rcRequest.execute)
-    session[:auth_url] = rcResult["rest"][0]["security"]["extension"][0]["extension"].select{|e| e["url"] == "authorize"}[0]["valueUri"]
-    session[:token_url] = rcResult["rest"][0]["security"]["extension"][0]["extension"].select{|e| e["url"] == "token"}[0]["valueUri"]
-    session[:iss_url] = iss
-    session[:launch] = launch
-    
-    redirect_to_auth_url = auth_url + 
-      "?response_type=code"+
-      "&redirect_uri="+ login_url +
-      "&aud=" + iss +
-      "&state=98wrghuwuogerg97" +
-      "&scope=launch+patient%2FPatient.read+openid+fhirUser&" +
-      "&client_id=" +  session[:client_id] +
-      "&_format=json"
-      puts "===>redirect to #{redirect_to_auth_url}"
-    redirect_to redirect_to_auth_url
+      rcResult = JSON.parse(rcRequest.execute)
+      session[:auth_url] = rcResult["rest"][0]["security"]["extension"][0]["extension"].select{|e| e["url"] == "authorize"}[0]["valueUri"]
+      session[:token_url] = rcResult["rest"][0]["security"]["extension"][0]["extension"].select{|e| e["url"] == "token"}[0]["valueUri"]
+      session[:iss_url] = iss
+      session[:launch] = launch
+      
+      redirect_to_auth_url = auth_url + 
+        "?response_type=code"+
+        "&redirect_uri="+ login_url +
+        "&aud=" + iss +
+        "&state=98wrghuwuogerg97" +
+        "&scope=launch+patient%2FPatient.read+openid+fhirUser&" +
+        "&client_id=" +  session[:client_id] +
+        "&_format=json"
+        puts "===>redirect to #{redirect_to_auth_url}"
+      redirect_to redirect_to_auth_url
     end 
   end
 
@@ -76,43 +74,40 @@ class DashboardController < ApplicationController
   def login
     if params[:error].present?   # Authentication Failure
       binding.pry 
-      err = params[:error] + ": " + params[:error_description]
-      redirect_to root_path, flash: { error: err }
+      err = "Authentication Failure: " + params[:error] + " - " + params[:error_description]
+      redirect_to root_path, alert: err
+    else
+      session[:wakeupsession] = "ok" # using session hash prompts rails session to load
+      session[:client_id] = (params[:client_id] || session[:client_id])
+      session[:client_secret] = params[:client_secret].gsub! /\t/, '' unless params[:client_secret].nil?
+      code = params[:code]
+      auth = 'Basic ' + Base64.strict_encode64( session[:client_id] + ":" + session[:client_secret])
+
+      result = RestClient.post(
+        session[:token_url],
+        {
+            grant_type: "authorization_code", 
+            code: code, 
+         #   _format: "json",
+            redirect_uri: "http://localhost:4000/login" 
+        },
+        {
+          :Authorization => auth
+        }
+      )
+
+      rcResult = JSON.parse(result)
+      scope = rcResult["scope"]
+      session[:access_token] = rcResult["access_token"]
+      session[:refresh_token] = rcResult["refresh_token"]
+      @patient = session[:patient_id] = rcResult["patient"]
+      session[:token_expiration] = Time.now.to_i + rcResult["expires_in"].to_i
+      @client = FHIR::Client.new(session[:iss_url])
+      @client.use_r4
+      @client.set_bearer_token(session[:access_token])
+      @client.default_json
+      redirect_to dashboard_url, notice: "Signed in"
     end
-    session[:wakeupsession] = "ok" # using session hash prompts rails session to load
-    session[:client_id] = (params[:client_id] || session[:client_id] )
-    session[:client_secret]  = (params[:client_secret] || session[:client_secret] ).gsub! /\t/, ''
-    code = params[:code]
-     auth = 'Basic ' + Base64.strict_encode64( session[:client_id]  +":"+session[:client_secret])
-
-     result = RestClient.post(
-      session[:token_url],
-     {
-        grant_type: "authorization_code", 
-        code: code, 
-     #   _format: "json",
-        redirect_uri: "http://localhost:4000/login" 
-    },
-    {
-      :Authorization => auth
-    }
-    )
-     rcResult = JSON.parse(result)
-    scope = rcResult["scope"]
-    session[:access_token] = rcResult["access_token"]
-    session[:refresh_token] = rcResult["refresh_token"]
-    @patient = session[:patient_id] = rcResult["patient"]
-    session[:token_expiration] = Time.now.to_i + rcResult["expires_in"].to_i
-    @client = FHIR::Client.new(session[:iss_url])
-    @client.use_r4
-    @client.set_bearer_token(session[:access_token])
-    @client.default_json
-    redirect_to dashboard_url, notice: "signed in"
-
-  rescue => exception
-    puts "Error"
-    redirect_to dashboard_url, notice: "sign in failure"
-    binding.pry
   end
 
 end

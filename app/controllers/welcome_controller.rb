@@ -11,7 +11,7 @@ class WelcomeController < ApplicationController
   def index
     # binding.pry
     puts "==>WelcomeController.index"
-    reset_session 
+    #reset_session 
 #    redirect_to launch_url
   end
 
