@@ -29,6 +29,7 @@ gem 'chartkick'					# Integrates chart.js functionality into Ruby
 gem 'masonry-rails'
 
 group :development, :test do
+  gem 'pry'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
 end
 
@@ -47,4 +48,4 @@ group :test do
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]    # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'pry'
+
