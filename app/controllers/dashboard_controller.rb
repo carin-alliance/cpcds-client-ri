@@ -65,6 +65,12 @@ class DashboardController < ApplicationController
         puts "===>redirect to #{redirect_to_auth_url}"
       redirect_to redirect_to_auth_url
     end 
+
+  rescue StandardError => exception
+    reset_session
+    err = "Failed to connect: " + exception.message
+    redirect_to root_path, alert: err
+ 
   end
 
 

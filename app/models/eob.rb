@@ -59,7 +59,7 @@ class EOB < Resource
     #@supportingInfo = claim.supportingInfo
     @facility =  fhir_eob.facility.display  || "<MISSING>"
     @use = fhir_eob.use || "<MISSING>"
-    @total =  [ fhir_eob.total[0].category.text, amountToString(fhir_eob.total[0].amount)] || []
+    @total =  parseTotal(fhir_eob.total) 
     @payment = fhir_eob.payment && fhir_eob.payment.amount ? amountToString(fhir_eob.payment.amount) : "<MISSING>"  
     #     #     binding.pry 
     @paymenttype= fhir_eob.payment ? codingToString(fhir_eob.payment.type.coding) : "<MISSING>"  
@@ -80,6 +80,14 @@ def elementwithid(entries, id)
   hits[0]
 end
 
+def parseTotal(total)
+  total.map{ |item|
+    {
+    :category => codingToString(item.category.coding),
+    :amount => "$#{item.amount.value}"
+    }
+  }
+end
 
 def parseSupportingInfo(supportingInfo)
   hash = {}

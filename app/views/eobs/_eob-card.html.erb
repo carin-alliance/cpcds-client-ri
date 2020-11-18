@@ -13,8 +13,12 @@
             <% end %></td>        
           </tr>
           <tr>
-            <td>Date:</td>
+            <td>EOB Created Date:</td>
             <td><%= sanitize(@eob.created) %></td>        
+          </tr>
+          <tr>
+          <td>Billing Period Date:</td>
+          <td><%= sanitize(@eob.billingstartdate) + "-" + sanitize(@eob.billingenddate) %></td>    
           </tr>
           <tr>
             <td>Type:</td>
@@ -23,10 +27,6 @@
           <tr>
             <td>Provider:</td>
             <td><%= sanitize(@eob.provider) %></td>        
-          </tr>
-          <tr>
-            <td>Total:</td>
-            <td><%= sanitize(@eob.total.join(" ")) %></td>        
           </tr>
           <tr>
             <td>Payment:</td>
