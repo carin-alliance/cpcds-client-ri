@@ -10,7 +10,7 @@ class EOB < Resource
 
 	include ActiveModel::Model
   #-----------------------------------------------------------------------------
-   attr_accessor :id, :created, :billingstartdate, :billingenddate, :category, :careteam, :claim_reference, :claim, :facility, :use, :insurer, :provider, 
+  attr_accessor :id, :created, :billingstartdate, :billingenddate, :category, :careteam, :claim_reference, :claim, :facility, :use, :insurer, :provider, 
       :coverage, :items, :fhir_client, :sortDate, :total, :payment, :supportingInfo, :patient,  :payeetype, :payeeparty, :type, :adjudication , :outcome 
 
   def initialize(fhir_eob, patients, practitioners, locations, organizations, coverages, practitionerroles)
@@ -48,13 +48,13 @@ class EOB < Resource
     end
      @careteam = fhir_eob.careTeam
 =end
-     if fhir_eob.diagnosis 
-        @diagnosis = fhir_eob.diagnosis.each_with_object({}) do |d, hash|
-          sequence = d.sequence
-          codeable = codingToString(d.diagnosisCodeableConcept.coding)
-          type = codingToString(d.type.map(&:coding).flatten)
-          hash[sequence]  = {:code => codeable, :type => type}
-        end
+    if fhir_eob.diagnosis 
+      @diagnosis = fhir_eob.diagnosis.each_with_object({}) do |d, hash|
+        sequence = d.sequence
+        codeable = codingToString(d.diagnosisCodeableConcept.coding)
+        type = codingToString(d.type.map(&:coding).flatten)
+        hash[sequence]  = {:code => codeable, :type => type}
+      end
     end
     #@supportingInfo = claim.supportingInfo
     @facility =  fhir_eob.facility.display  || "<MISSING>"
@@ -73,67 +73,69 @@ class EOB < Resource
     #     #     binding.pry 
     @items = parseItems (fhir_eob.item) if fhir_eob.item 
     @adjudication = parseAdjudication(fhir_eob.adjudication) 
-   end
-
-def elementwithid(entries, id)
-  hits = entries.select {|entry| entry.id == id }
-  hits[0]
-end
-
-
-def parseSupportingInfo(supportingInfo)
-  hash = {}
-  supportingInfoHash = supportingInfo.each_with_object({}) do |member, hash|
-    sequence = member.sequence
-    category = codingToString(member.category.coding)
-    code = ( member.code ? codingToString(member.code.coding) : "none" )
-    timing = member.timingPeriod || member.timingDate
-    hash[sequence] = { :category => category,
-                       :timing => timing,
-                       :code => code}
   end
-end
 
-def parseAdjudication(adjudication)
-  adjudication.map{ |item|
-    amount = type = reason = units = value = nil
-    case 
-    when item.category.coding[0].code == "denialreason"
-      slice = :denialreason
-      reason = codingToString(item.denialReason.coding)
-    when item.category.coding[0].code == "allowedunits"
-      slice = :allowedunits
-      units = codingToString(item.denialReason.coding)
-      value = item.value 
-    else
-      slice = :adjudicationamounttype
-      type = codingToString(item.category.coding)
-      amount = item.amount ? amountToString(item.amount) : "missing"
+  def elementwithid(entries, id)
+    hits = entries.select {|entry| entry.id == id }
+    hits[0]
+  end
+
+
+  def parseSupportingInfo(supportingInfo)
+    hash = {}
+    supportingInfoHash = supportingInfo.each_with_object({}) do |member, hash|
+      sequence = member.sequence
+      category = codingToString(member.category.coding)
+      code = ( member.code ? codingToString(member.code.coding) : "none" )
+      timing = member.timingPeriod || member.timingDate
+      hash[sequence] = { :category => category,
+                         :timing => timing,
+                         :code => code}
     end
-    {
-     :slice => slice.to_s,
-     :type => type,
-     :amount => amount,
-     :value => value,
-     :units => units,
-     :reason => reason 
-    }
-  }
+  end
+
+  def parseAdjudication(adjudication)
+    adjudication.map do |item|
+      amount = type = reason = units = value = nil
+      case 
+      when item.category.coding[0].code == "denialreason"
+        slice = :denialreason
+        reason = codingToString(item.denialReason.coding)
+      when item.category.coding[0].code == "allowedunits"
+        slice = :allowedunits
+        units = codingToString(item.denialReason.coding)
+        value = item.value 
+      else
+        slice = :adjudicationamounttype
+        type = codingToString(item.category.coding)
+        amount = item.amount ? amountToString(item.amount) : "missing"
+      end
+      {
+        :slice => slice.to_s,
+        :type => type,
+        :amount => amount,
+        :value => value,
+        :units => units,
+        :reason => reason 
+      }
+    end
   end
 
 
-def amountToString(amount)
-  "$"+ sprintf('%.2f',amount.value)
-end
-def dateToString(date)
-  DateTime.parse(date).strftime("%m/%d/%Y")
-end
-def codingToString(coding)
-  coding ? coding.map{|e| (e.display ? e.display : "none") +  "(" + e.code + ")" }.flatten.join(",") : "none"
-end
+  def amountToString(amount)
+    "$"+ sprintf('%.2f',amount.value)
+  end
 
-def parseItems(items)
-  items.map { | item | 
+  def dateToString(date)
+    DateTime.parse(date).strftime("%m/%d/%Y")
+  end
+
+  def codingToString(coding)
+    coding ? coding.map{|e| (e.display ? e.display : "none") +  "(" + e.code + ")" }.flatten.join(",") : "none"
+  end
+
+  def parseItems(items)
+    items.map do | item | 
       itemenc = item.encounter.map(&:reference)
       itemenc = ["none"] unless itemenc.length > 0 
       itemloc = item.location ? item.location.coding.map(&:display).join(",") : "none"
@@ -141,59 +143,57 @@ def parseItems(items)
       itemstartDate = item.servicedPeriod ? DateTime.parse(item.servicedPeriod.start).strftime("%m/%d/%Y") : ""
       itemstartTime = item.servicedPeriod ? DateTime.parse(item.servicedPeriod.start).strftime("%m/%d/%Y %H:%M") :  ""
       itemendTime = item.servicedPeriod ? DateTime.parse(item.servicedPeriod.start).strftime("%m/%d/%Y %H:%M") : ""
+
       # Strip off line that means nothing.
       # Always return entries in the same order, then strip off first character.
-      itemadjudication = item.adjudication.map{ | adj|  
-          value = adj.amount ? amountToString(adj.amount) : "missing" 
-          adjText = codingToString(adj.category.coding)
-          adjvalue = [value,  adjText ]   if adjText
-      }
+      itemadjudication = item.adjudication.map do |adj|  
+        value = adj.amount ? amountToString(adj.amount) : "missing" 
+        adjText = codingToString(adj.category.coding)
+        adjvalue = [value, adjText] if adjText
+      end
+
       # binding.pry 
       revenue = item.revenue ? codingToString(item.revenue.coding) : "missing"
       {
-      :revenue => revenue,
-      :diagnosisSequence =>item.diagnosisSequence,
-      :procedureSequence =>item.procedureSequence,
-      :careteamSequence =>item.careTeamSequence,
-      :informationSequence =>item.informationSequence,
-      :location => itemloc,
-      :productOrService => itemproductOrService,
-      :startDate => itemstartDate,
-      :startTime => itemstartTime,
-      :endTime => itemendTime,
-      :adjudication => itemadjudication,
-      :quantity => item.quantity 
+        :revenue => revenue,
+        :diagnosisSequence =>item.diagnosisSequence,
+        :procedureSequence =>item.procedureSequence,
+        :careteamSequence =>item.careTeamSequence,
+        :informationSequence =>item.informationSequence,
+        :location => itemloc,
+        :productOrService => itemproductOrService,
+        :startDate => itemstartDate,
+        :startTime => itemstartTime,
+        :endTime => itemendTime,
+        :adjudication => itemadjudication,
+        :quantity => item.quantity 
       }
-    }
+    end
   end
-
-
 
   #-----------------------------------------------------------------------------
 
   def valueToText(obs)
-     value = "nil"
-     value = obs.valueBoolean  if obs.valueBoolean
-     value = obs.valueCodeableConcept.display if obs.valueCodeableConcept
-     value = obs.valueDateTime if obs.valueDateTime
-     value = obs.valueInteger if obs.valueInteger
-     value = obs.valuePeriod if obs.valuePeriod
-     value = sprintf('%.2f',obs.valueQuantity.value) + obs.valueQuantity.unit if obs.valueQuantity 
-     value = obs.valueRange if obs.valueRange 
-     value = obs.valueRatio if obs.valueRatio
-     value = obs.valueSampledData if obs.valueSampledData  
-     value = obs.valueString if obs.valueString 
-     value = obs.valueTime if obs.valueTime    
-end   
+    value = "nil"
+    value = obs.valueBoolean  if obs.valueBoolean
+    value = obs.valueCodeableConcept.display if obs.valueCodeableConcept
+    value = obs.valueDateTime if obs.valueDateTime
+    value = obs.valueInteger if obs.valueInteger
+    value = obs.valuePeriod if obs.valuePeriod
+    value = sprintf('%.2f',obs.valueQuantity.value) + obs.valueQuantity.unit if obs.valueQuantity 
+    value = obs.valueRange if obs.valueRange 
+    value = obs.valueRatio if obs.valueRatio
+    value = obs.valueSampledData if obs.valueSampledData  
+    value = obs.valueString if obs.valueString 
+    value = obs.valueTime if obs.valueTime    
+  end   
 
-@@adjudicationToText = {
-  "https://bluebutton.cms.gov/resources/variables/line_alowd_chrg_amt" => "2Allowed Charge",
-  "https://bluebutton.cms.gov/resources/variables/line_sbmtd_chrg_amt" => "1Submitted Charge",
-  "https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt" => "3Paid to Provider",
-  "https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt" => "4You Owe (Deductible)",
-  "https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt" => "5You Owe (Coinsurance)"
-}
-
-
+  @@adjudicationToText = {
+    "https://bluebutton.cms.gov/resources/variables/line_alowd_chrg_amt" => "2Allowed Charge",
+    "https://bluebutton.cms.gov/resources/variables/line_sbmtd_chrg_amt" => "1Submitted Charge",
+    "https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt" => "3Paid to Provider",
+    "https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt" => "4You Owe (Deductible)",
+    "https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt" => "5You Owe (Coinsurance)"
+  }
 
 end
