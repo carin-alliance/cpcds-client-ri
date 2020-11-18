@@ -79,7 +79,7 @@ class DashboardController < ApplicationController
   #         Use the returned token and patientID to get the patient info
   def login
     if params[:error].present?   # Authentication Failure
-      binding.pry 
+      ## binding.pry 
       err = "Authentication Failure: " + params[:error] + " - " + params[:error_description]
       redirect_to root_path, alert: err
     else
@@ -95,7 +95,7 @@ class DashboardController < ApplicationController
             grant_type: "authorization_code", 
             code: code, 
          #   _format: "json",
-            redirect_uri: "http://localhost:4000/login" 
+            redirect_uri: CLIENT_URL + "/login" 
         },
         {
           :Authorization => auth

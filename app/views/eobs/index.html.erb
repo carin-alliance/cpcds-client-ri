@@ -26,12 +26,11 @@
            <%= link_to sanitize(eob.billingstartdate) + "-" + sanitize(eob.billingenddate), eob_path(eob.id) %>
           </th>
           <td><%= eob.created %></td>    
-          <td> <%= eob.type %>
-          </td>
+          <td> <%= eob.type %></td>
           <td>
-          <% @patient.names.each do |name| %>
-            <%= display_human_name(name) %><br />
-          <% end %>
+            <% @patient.names.each do |name| %>
+              <%= display_human_name(name) %><br />
+            <% end %>
           </td>
           <td><%= sanitize(eob.provider) %></td> 
         </tr> 
