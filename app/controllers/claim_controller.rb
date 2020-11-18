@@ -10,7 +10,7 @@ class ClaimController < ApplicationController
   def index
        #load_patient_specific_data_from_server
        pid = session[:patient_id]
-       binding.pry if pid == nil 
+       ## binding.pry if pid == nil 
        @fhir_claims = @fhir_claims || load_patient_resources(FHIR::Claim, nil, :patient, pid, :created )
        claims = fhir_claims.map { |eob| Claim.new(eob, @resources, @client) }.sort_by { |a|  -a.sortDate }
        @claims = claims
@@ -27,8 +27,8 @@ class ClaimController < ApplicationController
   def show 
     pid = session[:patient_id]
     id = params[:id]
-    binding.pry if pid == nil 
-    binding.pry 
+    ## binding.pry if pid == nil 
+    ## binding.pry 
     if @claims
       @claim = @claims.select{|p| p.id == id}[0] 
     elsif @fhir_claims

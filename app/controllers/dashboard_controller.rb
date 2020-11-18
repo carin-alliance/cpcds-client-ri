@@ -73,7 +73,7 @@ class DashboardController < ApplicationController
   #         Use the returned token and patientID to get the patient info
   def login
     if params[:error].present?   # Authentication Failure
-      binding.pry 
+      ## binding.pry 
       err = "Authentication Failure: " + params[:error] + " - " + params[:error_description]
       redirect_to root_path, alert: err
     else
