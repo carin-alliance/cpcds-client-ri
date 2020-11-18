@@ -89,7 +89,7 @@ class DashboardController < ApplicationController
             grant_type: "authorization_code", 
             code: code, 
          #   _format: "json",
-            redirect_uri: "http://localhost:4000/login" 
+            redirect_uri: CLIENT_URL + "/login" 
         },
         {
           :Authorization => auth
