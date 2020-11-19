@@ -132,6 +132,18 @@ div.address {
 	margin-top: 10px;
 }
 
+.query {
+  border-color: #454d55; 
+  background-color: #343a40; 
+  padding: 10px;
+  word-wrap: break-word !important;
+  margin-bottom: 10px;
+}
+
+div.query {
+  margin-left: 0px;
+}
+
 @media (min-width: 200px) and (max-width: 767px) {
 	.welcome-form {
 		display: block;

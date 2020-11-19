@@ -1,0 +1,10 @@
+<div class='btn-group float-right mt-2' role='group'>
+  <%= link_to('Previous',
+    polymorphic_path(resource, page: 'previous'),
+    class: "btn btn-outline-primary #{@previous_page_disabled}")
+  %>
+  <%= link_to('Next',
+    polymorphic_path(resource, page: 'next'),
+    class: "btn btn-outline-primary #{@next_page_disabled}")
+  %>
+</div>

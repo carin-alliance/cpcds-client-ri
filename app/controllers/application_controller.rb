@@ -36,6 +36,8 @@ class ApplicationController < ActionController::Base
     # parameters[:_format] = "json"
     search = {parameters: parameters }
     results = @client.search(FHIR::ExplanationOfBenefit, search: search )
+    capture_search_query(results)
+
     entries = results.resource.entry.map(&:resource)
     fhir_explanationofbenefits = entries.select {|entry| entry.resourceType == "ExplanationOfBenefit" }
     fhir_practitioners = entries.select {|entry| entry.resourceType == "Practitioner" }
@@ -67,8 +69,8 @@ class ApplicationController < ActionController::Base
       parameters[datefield] << "ge"+ DateTime.parse(start_date).strftime("%Y-%m-%d")   if start_date.present?
       parameters[datefield] << "le"+ DateTime.parse(end_date).strftime("%Y-%m-%d")    if end_date.present?
     end
-    search = {parameters: parameters }
-    results = @client.search(type, search: search )
+    search = { parameters: parameters }
+    results = @client.search(type, search: search)
     results.resource.entry.map(&:resource)
   end
 
@@ -226,6 +228,14 @@ class ApplicationController < ActionController::Base
     err = "Failed to refresh token: " + exception.message
     redirect_to root_path, alert: err
   end
+
+  def capture_search_query(results)
+    if results.present?
+      # Prepare the query string for display on the page
+      @search = "<Search String in Returned Bundle is empty>"
+      @search = URI.decode(results.request[:url]) if results.request[:url].present?
+    end
+  end 
 
 end
 
