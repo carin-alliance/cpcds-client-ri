@@ -15,7 +15,14 @@ class EobsController < ApplicationController
 
     # Factor out initial search for all EOBs for a patient during the last year, or by service-date window if specified 
     eobid = nil 
-    load_fhir_eobs(patient_id, eobid )
+    patientid =  session[:patient_id]
+    @client = FHIR::Client.new(session[:iss_url])
+    @client.use_r4
+    @client.set_bearer_token(session[:access_token])
+    binding.pry 
+    eobid = nil 
+    binding.pry 
+    load_fhir_eobs(patientid, eobid)
     @start_date = start_date
     @end_date = end_date 
     # binding.pry 
