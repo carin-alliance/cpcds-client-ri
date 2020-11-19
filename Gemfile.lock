@@ -100,6 +100,7 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.1.6)
     crass (1.0.6)
+    dalli (2.7.11)
     date_time_precision (0.8.1)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
@@ -289,6 +290,7 @@ DEPENDENCIES
   chartkick
   chromedriver-helper
   coffee-rails (~> 4.2)
+  dalli
   fhir_client!
   jbuilder (~> 2.5)
   jquery-rails
