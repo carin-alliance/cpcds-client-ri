@@ -54,12 +54,16 @@ class DashboardController < ApplicationController
       session[:iss_url] = iss
       session[:launch] = launch
       
+      scope = "launch/patient openid fhirUser offline_access user/ExplanationOfBenefit.read user/Coverage.read user/Organization.read user/Patient.read user/Practitioner.read patient/ExplanationOfBenefit.read patient/Coverage.read patient/Organization.read patient/Patient.read patient/Practitioner.read"
+      scope = scope.gsub(" ","%20" )
+      scope = scope.gsub("/","%2F" )
+      binding.pry 
       redirect_to_auth_url = auth_url + 
         "?response_type=code"+
         "&redirect_uri="+ login_url +
         "&aud=" + iss +
         "&state=98wrghuwuogerg97" +
-        "&scope=launch%2Fpatient%2FPatient%2F*.read%20openid%20fhirUser" +
+        "&scope="+ scope +
         "&client_id=" +  session[:client_id]
         # + "&_format=json"
         puts "===>redirect to #{redirect_to_auth_url}"
@@ -89,6 +93,7 @@ class DashboardController < ApplicationController
       session[:client_secret] = params[:client_secret].gsub! /\t/, '' unless params[:client_secret].nil?
       code = params[:code]
       auth = 'Basic ' + Base64.strict_encode64( session[:client_id] + ":" + session[:client_secret])
+      redirect_uri = CLIENT_URL + "/login" 
       binding.pry 
       result = RestClient.post(
         session[:token_url],
@@ -96,7 +101,7 @@ class DashboardController < ApplicationController
             grant_type: "authorization_code", 
             code: code, 
          #   _format: "json",
-            redirect_uri: CLIENT_URL + "/login" 
+            redirect_uri: redirect_uri 
         },
         {
           :Authorization => auth
