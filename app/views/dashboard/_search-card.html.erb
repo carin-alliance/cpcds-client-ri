@@ -3,7 +3,7 @@
     <h2 class="text-light">Explanation of Benefits</h2>
 
     <div class='row col-12'>
-      <%= form_tag eobs_path, method: 'get', class: 'form-inline welcome-form' do %>
+      <%= form_tag(eobs_path, {:method => :get, :class => "form-inline welcome-form"}) do %>
         <div class='form-row'>
           <div class='form-group col-4'>
             <%= text_field_tag :start_date, nil, class: 'form-control', placeholder: 'Start Date' %>
