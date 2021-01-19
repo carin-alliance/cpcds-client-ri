@@ -183,13 +183,11 @@ class ApplicationController < ActionController::Base
       @client.use_r4
       return  # We do not have authentication
     end
-    binding.pry 
     if session.empty? 
       err = "Session Expired"
       #     binding.pry 
       redirect_to root_path, alert: err
     end
-    binding.pry 
     if iss_url.present?
       @client = FHIR::Client.new(iss_url)
       @client.use_r4
@@ -198,7 +196,6 @@ class ApplicationController < ActionController::Base
         get_new_token
       end
       @client.set_bearer_token(access_token)
-      binding.pry 
     end
   rescue StandardError => exception
     reset_session

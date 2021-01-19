@@ -16,8 +16,6 @@ class DashboardController < ApplicationController
   def index
     connect_to_server if @client == nil
     puts "==>DashboardController.index"
-    binding.pry 
-
   end
 
   # launch:  Pass either params or hardcoded server and client data to the auth_url via redirection
@@ -37,11 +35,8 @@ class DashboardController < ApplicationController
       # Let Params values over-ride session values if they are present
       launch = params[:launch] || session[:launch] || "launch"
       iss = (params[:iss_url] || iss_url ).delete_suffix("/metadata")
-      set_client_id(params[:client_id] || client_id)
-      set_client_secret(params[:client_secret] || client_secret) 
-
-      client_id 
-      client_secret
+      set_client_id(params[:client_id].gsub /\t/, '' || client_id)
+      set_client_secret(params[:client_secret].gsub /\t/, '' || client_secret) 
 
       # Get Server Metadata
       rcRequest = RestClient::Request.new(
@@ -89,12 +84,12 @@ class DashboardController < ApplicationController
       redirect_to root_path, alert: err
     else
       session[:wakeupsession] = "ok" # using session hash prompts rails session to load
-      set_client_id(params[:client_id] || client_id)
-      set_client_secret(params[:client_secret].gsub! /\t/, '') unless params[:client_secret].nil?
+      #set_client_id(params[:client_id].gsub! /\t/, '' || client_id)
+      #set_client_secret(params[:client_secret].gsub! /\t/, '') unless params[:client_secret].nil?
       code = params[:code]
       auth = 'Basic ' + Base64.strict_encode64( client_id + ":" + client_secret)
       redirect_uri = CLIENT_URL + "/login" 
-      binding.pry   
+   
       begin 
         result = RestClient.post(token_url,
         {

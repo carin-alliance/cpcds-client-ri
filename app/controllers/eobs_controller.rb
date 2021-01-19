@@ -7,18 +7,20 @@
 ################################################################################
 
 class EobsController < ApplicationController
+  require 'dalli'
   before_action :connect_to_server, only: [ :index, :show ]
-
+  before_action :setup_dalli, only: [ :index, :show ]
   # GET /eobs 
   def index # show a collection of EOBs
-    patient_id = session[:patient_id]
+    #patient_id = session[:patient_id]
 
     # Factor out initial search for all EOBs for a patient during the last year, or by service-date window if specified 
     eobid = nil 
-    patientid =  session[:patient_id]
-    @client = FHIR::Client.new(session[:iss_url])
+    binding.pry 
+    patientid =  patient_id
+    @client = FHIR::Client.new(iss_url)
     @client.use_r4
-    @client.set_bearer_token(session[:access_token])
+    @client.set_bearer_token(access_token)
     binding.pry 
     eobid = nil 
     binding.pry 
@@ -30,7 +32,7 @@ class EobsController < ApplicationController
 
   # GET /eobs/[id] 
   def show # show a single EOB
-    patient_id = session[:patient_id]
+    #patient_id = session[:patient_id]
     id = params[:id]
     # binding.pry 
     # Factor out search for an EOB by id with patient id 
