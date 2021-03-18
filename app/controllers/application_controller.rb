@@ -35,7 +35,6 @@ class ApplicationController < ActionController::Base
     parameters[:_include] = includelist
     # parameters[:_format] = "json"
     search = {parameters: parameters }
-
     results = @client.search(FHIR::ExplanationOfBenefit, search: search )
     entries = results.resource.entry.map(&:resource)
     fhir_explanationofbenefits = entries.select {|entry| entry.resourceType == "ExplanationOfBenefit" }
@@ -93,7 +92,6 @@ class ApplicationController < ActionController::Base
   # Utility accessors that reference session data
   def iss_url
     @dalli_client.get("iss_url-#{session.id}")
-    # session[:iss_url]
   end
   def set_iss_url(url)
     @dalli_client.set("iss_url-#{session.id}",url)

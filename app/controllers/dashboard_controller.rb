@@ -21,7 +21,6 @@ class DashboardController < ApplicationController
   # launch:  Pass either params or hardcoded server and client data to the auth_url via redirection
   def launch
     #reset_session    # Get a completely fresh session for each launch.  This is a rails method.
-
     if params[:client_id].length == 0   #this is a sentinel for unauthenticated access with the patient ID in the client_secret
       session[:client_secret] = session[:patient_id] = params[:client_secret]
       session[:client_id] = params[:client_id]
@@ -37,20 +36,18 @@ class DashboardController < ApplicationController
       iss = (params[:iss_url] || iss_url ).delete_suffix("/metadata")
       set_client_id(params[:client_id].gsub /\t/, '' || client_id)
       set_client_secret(params[:client_secret].gsub /\t/, '' || client_secret) 
-
       # Get Server Metadata
       rcRequest = RestClient::Request.new(
         :method => :get,
         :url => iss + "/metadata"
       )
-
       rcResult = JSON.parse(rcRequest.execute)
-
       set_auth_url(rcResult["rest"][0]["security"]["extension"][0]["extension"].select{|e| e["url"] == "authorize"}[0]["valueUri"])
       set_token_url (rcResult["rest"][0]["security"]["extension"][0]["extension"].select{|e| e["url"] == "token"}[0]["valueUri"])
       set_iss_url(iss)
       session[:launch] = launch
-      scope = "launch/patient openid fhirUser offline_access user/ExplanationOfBenefit.read user/Coverage.read user/Organization.read user/Patient.read user/Practitioner.read patient/ExplanationOfBenefit.read patient/Coverage.read patient/Organization.read patient/Patient.read patient/Practitioner.read"
+ # for Onyx     scope = "launch/patient openid fhirUser offline_access user/ExplanationOfBenefit.read user/Coverage.read user/Organization.read user/Patient.read user/Practitioner.read patient/ExplanationOfBenefit.read patient/Coverage.read patient/Organization.read patient/Patient.read patient/Practitioner.read"
+      scope = "launch/patient openid fhirUser offline_access user/*.read patient/*.read"
       scope = scope.gsub(" ","%20" )
       scope = scope.gsub("/","%2F" )
       redirect_to_auth_url = auth_url + 
@@ -61,7 +58,7 @@ class DashboardController < ApplicationController
         "&scope="+ scope +
         "&client_id=" +  client_id 
         # + "&_format=json"
-        puts "===>redirect to #{redirect_to_auth_url}"
+      puts "===>redirect to #{redirect_to_auth_url}"
       redirect_to redirect_to_auth_url
     end 
 
@@ -105,7 +102,6 @@ class DashboardController < ApplicationController
       rescue StandardError => exception
         # reset_session
         redirect_to root_path, alert: "Failed to connect: " + exception.message  and return
-        binding.pry 
       end
       
       rcResult = JSON.parse(result)
