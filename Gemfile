@@ -8,7 +8,7 @@ gem 'pg'                   		# Use Postgres as the database for Active Record
 gem 'puma', '~> 3.12.4'         # Use Puma as the app server
 gem 'sass-rails', '~> 5.0'      # Use SCSS for stylesheets
 gem 'uglifier', '>= 1.3.0'      # Use Uglifier as compressor for JavaScript assets
-
+gem 'dalli'
 # gem 'mini_racer', platforms: :ruby  # See https://github.com/rails/execjs#readme for more supported runtimes
 
 gem 'coffee-rails', '~> 4.2'    # Use CoffeeScript for .coffee assets and views
@@ -29,6 +29,7 @@ gem 'chartkick'					# Integrates chart.js functionality into Ruby
 gem 'masonry-rails'
 
 group :development, :test do
+  gem 'pry'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
 end
 
@@ -47,4 +48,4 @@ group :test do
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]    # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'pry'
+

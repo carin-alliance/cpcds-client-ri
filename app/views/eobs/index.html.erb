@@ -13,23 +13,26 @@
     <table class='table table-striped table-dark status'> 
       <thead>
         <tr> 
-          <th scope='col'></th> 
+          <th scope='col'>Billing Period</th>
           <th scope='col'>Date Created</th> 
-          <th scope='col'>Claim</th> 
+          <th scope='col'>Type</th> 
           <th scope='col'>Patient Name</th>
           <th scope='col'>Provider Name</th> 
-          <th scope='col'>Facility Name</th> 
         </tr> 
       </thead>
       <% @eobs.each do |eob| %> 
         <tr> 
           <th scope="row">
-            <td><%= link_to sanitize(eob.created), eob_path(eob.id) %></td>
+           <%= link_to sanitize(eob.billingstartdate) + "-" + sanitize(eob.billingenddate), eob_path(eob.id) %>
           </th>
-          <td><%= sanitize(eob.claim_reference.last(6)) %></td> 
-          <td><%= sanitize(eob.claimpatient) %></td>
-          <td><%= sanitize(eob.careteam.values.map{ |c| c[:name]}.join(",")) %></td> 
-          <td><%= sanitize(eob.facility) %></td> 
+          <td><%= eob.created %></td>    
+          <td> <%= eob.type %></td>
+          <td>
+            <% @patient.names.each do |name| %>
+              <%= display_human_name(name) %><br />
+            <% end %>
+          </td>
+          <td><%= sanitize(eob.provider) %></td> 
         </tr> 
       <% end %> 
     </table> 

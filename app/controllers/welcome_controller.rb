@@ -9,8 +9,9 @@
 class WelcomeController < ApplicationController
 
   def index
-    # binding.pry
-    reset_session 
+    setup_dalli
+    puts "==>WelcomeController.index"
+    #reset_session 
 #    redirect_to launch_url
   end
 

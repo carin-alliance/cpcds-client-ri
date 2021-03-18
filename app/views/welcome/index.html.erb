@@ -2,11 +2,10 @@
 <h2 class="text-light welcome-text">Connect to a FHIR server</h2>
 	<% if @client %>
 		<p class="text-success m-auto client-connected" style='text-align: center'>
-			Connected to <%= cookies[:server_url] -%>
-			Connected to <%= session[:server_url] -%>
+			Connected to <%= server_url -%>
 		</p>
 		<p class="text-success m-auto client-connected" style='text-align: center'>
-			Patient <%= session[:patient_id] -%>
+			Patient <%= patient_id -%>
 		</p>
 	<%else%>
 		<p class="text-danger m-auto" style='text-align: center'>No Connection Established</p>
@@ -19,7 +18,7 @@
 				<div class='form-group col-md-7 last'>
 					<label class="float-left"> FHIR Server</label>
 					<%= text_field_tag :iss_url, cookies[:iss_url], class: 'form-control',
-								placeholder: 'http://hapi.fhir.org/baseR4' %>
+								placeholder: 'http://cpcds-ri.org/cpcds-server/fhir' %>
 					<label class="float-left"> ClientID</label>
 					<%= text_field_tag :client_id, cookies[:client_id], class: 'form-control' %>
 					<label class="float-left"> Client Secret</label>

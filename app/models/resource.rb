@@ -32,7 +32,7 @@ class Resource
         search = { parameters: {  _id: resource_id, patient: patient_id} }
     end
     results = fhir_client.search(type, search: search )
-    binding.pry if results == nil
+    ## binding.pry if results == nil
     results.resource.entry.map(&:resource)
   end
 
