@@ -9,7 +9,6 @@
 class ApplicationController < ActionController::Base
   require 'rest-client'
   require 'json'
-  require 'dalli'
 
   attr_accessor :explanationofbenefits, :practitioners, :patients, :locations, :organizations, :practitionerroles, :coverages, :resources
   attr_accessor :fhir_explanationofbenefits,  :fhir_practitioners, :fhir_patients,  :fhir_organizations, :fir_coverages, :fhir_locations, :patient_resources, :patient, :eob, :eobs 
@@ -86,90 +85,12 @@ class ApplicationController < ActionController::Base
     results.resource.entry.map(&:resource)
   end
   
-  def setup_dalli
-    options = { :namespace => "cpcds", :compress => true }
-    @dalli_client = Dalli::Client.new('localhost:11211', options)
-  end
-
-  # Utility accessors that reference session data
-  def iss_url
-    @dalli_client.get("iss_url-#{session.id}")
-  end
-  def set_iss_url(url)
-    @dalli_client.set("iss_url-#{session.id}",url)
-  end
-
-  def client_id
-    @dalli_client.get("client_id-#{session.id}")
-    #session[:client_id]
-  end
-  def set_client_id(id)
-    @dalli_client.set("client_id-#{session.id}",id)
-    #session[:client_id]
-  end
-
-  def client_secret
-    @dalli_client.get("client_secret-#{session.id}")
-  end
-  def set_client_secret(secret)
-    @dalli_client.set("client_secret-#{session.id}",secret)
-  end
-
-  def auth_url
-    @dalli_client.get("auth_url-#{session.id}")
-    #session[:auth_url]
-  end
-  def set_auth_url(url)
-    @dalli_client.set("auth_url-#{session.id}",url)
-  end
-
-  def token_url
-    @dalli_client.get("token_url-#{session.id}")
-    #session[:token_url]
-  end
-  def set_token_url(url)
-    @dalli_client.set("token_url-#{session.id}",url)
-  end
-
-  def patient_id
-    @dalli_client.get("patient_id-#{session.id}")
-    #session[:patient_id]
-  end
-  def set_patient_id(id)
-    @dalli_client.set("patient_id-#{session.id}",id)
-  end
   def start_date
-    params[:start_date] || @dalli_client.get("start_date-#{session.id}")
+    params[:start_date] || session[:start_date]
   end 
-  def set_start_date(date)
-    @dalli_client.set("start_date-#{session.id}",date)
-  end
   
   def end_date
-    params[:end_date] || @dalli_client.get("end_date-#{session.id}")
-  end
-  def set_end_date(date)
-    @dalli_client.set("end_date-#{session.id}",date)
-  end
-  def access_token
-    @dalli_client.get("access_token-#{session.id}")
-  end
-  def set_access_token(token)
-    @dalli_client.set("access_token-#{session.id}",token)
-  end
-  def refresh_token
-    @dalli_client.get("refresh_token-#{session.id}")
-  end
-  def set_refresh_token(token)
-    @dalli_client.set("refresh_token-#{session.id}",token)
-  end
- 
-
-  def token_expiration
-    @dalli_client.get("token_expiration-#{session.id}")
-  end
-  def set_token_expiration(time)
-    @dalli_client.set("token_expiration-#{session.id}",time)
+    params[:end_date] || session[:end_date]
   end
 
   # Connect the FHIR client with the specified server and save the connection
@@ -178,8 +99,8 @@ class ApplicationController < ActionController::Base
 
   def connect_to_server
     puts "==>connect_to_server"
-    if client_id.length == 0 
-      @client = FHIR::Client.new(iss_url)
+    if session[:client_id].length == 0 
+      @client = FHIR::Client.new(session[:iss_url])
       @client.use_r4
       return  # We do not have authentication
     end
@@ -188,14 +109,14 @@ class ApplicationController < ActionController::Base
       #     binding.pry 
       redirect_to root_path, alert: err
     end
-    if iss_url.present?
-      @client = FHIR::Client.new(iss_url)
+    if session[:iss_url].present?
+      @client = FHIR::Client.new(session[:iss_url])
       @client.use_r4
-      token_expires_in = token_expiration - Time.now.to_i
+      token_expires_in = session[:token_expiration] - Time.now.to_i
       if token_expires_in.to_i < 10   # if we are less than 10s from an expiration, refresh
         get_new_token
       end
-      @client.set_bearer_token(access_token)
+      @client.set_bearer_token(session[:access_token])
     end
   rescue StandardError => exception
     reset_session
@@ -205,13 +126,13 @@ class ApplicationController < ActionController::Base
 
   # Get a mew token from the authorization server
   def get_new_token
-    auth = 'Basic ' + Base64.strict_encode64( client_id +":"+client_secret).chomp
+    auth = 'Basic ' + Base64.strict_encode64( session[:client_id] + ":" + session[:client_secret]).chomp
   
     rcResultJson = RestClient.post(
-      token_url,
+      session[:token_url],
       {
         grant_type: 'refresh_token', 
-        refresh_token: refresh_token, 
+        refresh_token: session[:refresh_token], 
       },
       {
         :Authorization => auth
@@ -219,10 +140,10 @@ class ApplicationController < ActionController::Base
     )
     rcResult = JSON.parse(rcResultJson)
 
-    set_patient_id(rcResult["patient"])
-    set_access_token(rcResult["access_token"])
-    set_refresh_token(rcResult["refresh_token"])
-    set_token_expiration (Time.now.to_i + rcResult["expires_in"].to_i  )
+    session[:patient_id] = rcResult["patient"]
+    session[:access_token] = rcResult["access_token"]
+    session[:refresh_token] = rcResult["refresh_token"]
+    session[:token_expiration] = (Time.now.to_i + rcResult["expires_in"].to_i  )
   rescue StandardError => exception
     #     binding.pry 
     err = "Failed to refresh token: " + exception.message
