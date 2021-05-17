@@ -35,6 +35,8 @@ class ApplicationController < ActionController::Base
     # parameters[:_format] = "json"
     search = {parameters: parameters }
     results = @client.search(FHIR::ExplanationOfBenefit, search: search )
+    #binding.pry
+
     capture_search_query(results)
 
     entries = results.resource.entry.map(&:resource)
@@ -44,6 +46,35 @@ class ApplicationController < ActionController::Base
     fhir_locations = entries.select {|entry| entry.resourceType == "Location" }
     fhir_organizations = entries.select {|entry| entry.resourceType == "Organization" }
     fhir_coverages = entries.select {|entry| entry.resourceType == "Coverage" }
+
+    #temporary testing code
+    #prov_refs = fhir_explanationofbenefits.map(&:provider)
+    #binding.pry
+    #fhir_explanationofbenefits.select {|ref| ref.resourceType == "ExplanationOfBenefit" }
+    # HAPI FHIR Server is not currently supporting _include on either provider or coverage 
+    # Need to figure out how to get the other resources.
+    #provider_parameters = {}
+    #provider_parameters[:_id] = "PractitionerDentalProvider1"
+
+    #search = {parameters: provider_parameters }
+    #results = @client.search(FHIR::Practitioner, search: search )
+    #fhir_practitioners = [@client.read(FHIR::Practitioner, 'PractitionerDentalProvider1').resource]
+    # get the provider references from all of the EOBs. There is a way to write this to continue in the case that one fails.
+    #fhir_explanationofbenefits.map(&:provider).map(&:reference)
+    #binding.pry
+    #capture_search_query(results)
+    #entries = results.resource.entry.map(&:resource)
+    #fhir_practitioners = entries.select {|entry| entry.resourceType == "Practitioner" }
+    #coverage_results = get_fhir_resources(@client, FHIR::Coverage, "Coverage1")
+    #entries = coverage_results.resource.entry.map(&:resource)
+    #fhir_coverages = entries.select {|entry| entry.resourceType == "Coverage" }
+
+    #provider_results = get_fhir_resources(@client, FHIR::Practitioner, "PractitionerDentalProvider1")
+    #entries = provider_results.resource.entry.map(&:resource)
+    #fhir_practitioners = entries.select {|entry| entry.resourceType == "Practitioner" }
+
+
+
 
     patients = fhir_patients.map { |patient| Patient.new(patient) }
     @patient = patients[0] 
