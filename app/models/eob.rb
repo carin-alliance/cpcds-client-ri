@@ -29,9 +29,10 @@ class EOB < Resource
     @billingstartdate = fhir_eob.billablePeriod ? DateTime.parse(fhir_eob.billablePeriod.start).strftime("%m/%d/%Y") : "none"
     @billingenddate = fhir_eob.billablePeriod ? DateTime.parse(fhir_eob.billablePeriod.end).strftime("%m/%d/%Y") : "none"
     i  = elementwithid(organizations, fhir_eob.insurer)
-    @insurer = i ? i.names : "None"
-    p = (elementwithid(practitioners, fhir_eob.provider) || elementwithid(organizations, fhir_eob.provider))
-    @provider = p ? p.names : "None"
+    @insurer = i ? i.name : "None"
+    provider_id = fhir_eob.provider.reference.split('/').last
+    p = (elementwithid(practitioners, provider_id) || elementwithid(organizations, provider_id))
+    @provider = p ? p : Struct.new(*[:name, :telecoms, :addresses]).new(*['None', [], []])
     @payeetype = fhir_eob.payee ? codingToString(fhir_eob.payee.type.coding) : "none"
     @payeeparty = fhir_eob.payee ? (elementwithid(patients, fhir_eob.payee.party) || elementwithid(practitioners, fhir_eob.payee.party) || elementwithid(organizations, fhir_eob.payee.party)) : "none"
     @outcome = fhir_eob.outcome 
@@ -76,8 +77,7 @@ class EOB < Resource
   end
 
   def elementwithid(entries, id)
-    hits = entries.select {|entry| entry.id == id }
-    hits[0]
+    hit = entries.find {|entry| entry.id == id }
   end
 
 def parseTotal(total)

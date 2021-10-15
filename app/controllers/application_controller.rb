@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   attr_accessor :explanationofbenefits, :practitioners, :patients, :locations, :organizations, :practitionerroles, :coverages, :resources
   attr_accessor :fhir_explanationofbenefits,  :fhir_practitioners, :fhir_patients,  :fhir_organizations, :fir_coverages, :fhir_locations, :patient_resources, :patient, :eob, :eobs 
 
-  def load_fhir_eobs (patientid, eobid)
+  def load_fhir_eobs(patientid, eobid)
     puts "==>load_fhir_eobs Patient =#{patientid}" #" include=#{include}  filterbydate=#{filterbydate}"
     parameters = {}
     #     binding.pry 
@@ -22,8 +22,8 @@ class ApplicationController < ActionController::Base
     parameters[:patient] = patientid 
   
     parameters[:"service-date"] = [] if start_date.present? || end_date.present?
-    parameters[:"service-date"] << "ge"+ DateTime.parse(start_date).strftime("%Y-%m-%d")   if start_date.present?
-    parameters[:"service-date"] << "le"+ DateTime.parse(end_date).strftime("%Y-%m-%d")    if end_date.present?
+    parameters[:"service-date"] << "ge#{DateTime.parse(start_date).strftime("%Y-%m-%d")}" if start_date.present?
+    parameters[:"service-date"] << "le#{DateTime.parse(end_date).strftime("%Y-%m-%d")}" if end_date.present?
 
    
     includelist = ["ExplanationOfBenefit:patient", 
@@ -46,7 +46,21 @@ class ApplicationController < ActionController::Base
     fhir_locations = entries.select {|entry| entry.resourceType == "Location" }
     fhir_organizations = entries.select {|entry| entry.resourceType == "Organization" }
     fhir_coverages = entries.select {|entry| entry.resourceType == "Coverage" }
+    
+    # HAPI FHIR Server is not currently supporting _include on either provider or coverage
+    ##################### This is a temporary solution ####################
+    
+    # Get the provider references from all of the EOBs.
+    eob_provider_references = fhir_explanationofbenefits.map(&:provider).map(&:reference)
+    
+    eob_provider_references.each do |reference|
+      resource = @client.read(nil, reference).resource
+      resource.resourceType == 'Organization' ? fhir_organizations << resource 
+                                              : fhir_practitioners << resource
+      # byebug
+    end
 
+    #######################################################################
     #temporary testing code
     #prov_refs = fhir_explanationofbenefits.map(&:provider)
     #binding.pry
@@ -87,7 +101,7 @@ class ApplicationController < ActionController::Base
   end
 
   # load_patient_resources:  Builds and executes a search for a given type restricted to a single patient and the appropriate profile      
-  def load_patient_resources (type, profile, patientfield, pid, datefield=nil)
+  def load_patient_resources(type, profile, patientfield, pid, datefield=nil)
     parameters = {}
 #        parameters[patientfield] = "Patient/" + pid
     parameters[patientfield] = pid

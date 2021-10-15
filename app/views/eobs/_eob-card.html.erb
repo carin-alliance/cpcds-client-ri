@@ -28,7 +28,16 @@
           </tr>
           <tr>
             <td>Provider:</td>
-            <td><%= sanitize(@eob.provider) %></td>        
+            <% telecoms = address_text(@eob.provider.addresses.first) || "" %>
+            <% @eob.provider.telecoms.each do |telecom| %>
+              <% telecoms += "</br>" if telecoms.present? %>
+              <% telecoms += "<small>#{display_telecom(telecom)}</small>"%>
+            <% end %>
+            
+            <td title="<%=telecoms%>" data-toggle='tooltip' data-html='true'>
+              <%= sanitize(@eob.provider.name) %>
+
+            </td>        
           </tr>
           <tr>
             <td>Payment:</td>

@@ -37,7 +37,7 @@ module ApplicationHelper
 	#-----------------------------------------------------------------------------
 
 	def display_telecom(telecom)
-	  sanitize(telecom.system + ': ' + number_to_phone(telecom.value, area_code: true))
+	  sanitize(telecom.system + ': ' + number_to_phone(telecom.value, area_code: true)) if telecom
 	end
 
 	#-----------------------------------------------------------------------------
@@ -104,7 +104,7 @@ module ApplicationHelper
   #-----------------------------------------------------------------------------
 
   def address_text(address)
-    address_text = (address.line + [ address.city, address.state, address.postalCode ]).join(', ')
+    address_text = (address.line + [ address.city, address.state, address.postalCode ]).join(', ') if address
   end
 
 	#-----------------------------------------------------------------------------
