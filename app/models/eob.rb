@@ -28,9 +28,10 @@ class EOB < Resource
     @created = DateTime.parse(fhir_eob.created).strftime("%m/%d/%Y")
     @billingstartdate = fhir_eob.billablePeriod ? DateTime.parse(fhir_eob.billablePeriod.start).strftime("%m/%d/%Y") : "none"
     @billingenddate = fhir_eob.billablePeriod ? DateTime.parse(fhir_eob.billablePeriod.end).strftime("%m/%d/%Y") : "none"
-    i  = elementwithid(organizations, fhir_eob.insurer)
-    @insurer = i ? i.name : "None"
-    provider_id = fhir_eob.provider.reference.split('/').last
+    insurer_id = get_id_from_reference(fhir_eob.insurer.reference)
+    i  = elementwithid(organizations, insurer_id)
+    @insurer = i ? i : Struct.new(*[:name, :telecoms, :addresses]).new(*['None', [], []])
+    provider_id = get_id_from_reference(fhir_eob.provider.reference)
     p = (elementwithid(practitioners, provider_id) || elementwithid(organizations, provider_id))
     @provider = p ? p : Struct.new(*[:name, :telecoms, :addresses]).new(*['None', [], []])
     @payeetype = fhir_eob.payee ? codingToString(fhir_eob.payee.type.coding) : "none"
@@ -62,32 +63,28 @@ class EOB < Resource
     @use = fhir_eob.use || "<MISSING>"
     @total =  parseTotal(fhir_eob.total) 
     @payment = fhir_eob.payment && fhir_eob.payment.amount ? amountToString(fhir_eob.payment.amount) : "<MISSING>"  
-    #     #     binding.pry 
+    # byebug 
     @paymenttype= fhir_eob.payment ? codingToString(fhir_eob.payment.type.coding) : "<MISSING>"  
     @paymentdate=  fhir_eob.payment ? dateToString(fhir_eob.payment.date) : "<MISSING>"  
     @supportingInfo = parseSupportingInfo(fhir_eob.supportingInfo)
     #@contained = fhir_eob.contained.each_with_object({}) do |object, hash|
     #  hash[object.id] = object.class.to_s
     #end
-  
-    @coverage = elementwithid(coverages,fhir_eob.insurance[0].coverage.reference)  
+    coverage_id = get_id_from_reference(fhir_eob.insurance.first.coverage.reference)
+    @coverage = elementwithid(coverages,coverage_id)  
     #     #     binding.pry 
     @items = parseItems (fhir_eob.item) if fhir_eob.item 
     @adjudication = parseAdjudication(fhir_eob.adjudication) 
   end
 
-  def elementwithid(entries, id)
-    hit = entries.find {|entry| entry.id == id }
-  end
-
-def parseTotal(total)
-  total.map{ |item|
-    {
-    :category => codingToString(item.category.coding),
-    :amount => "$#{item.amount.value}"
+  def parseTotal(total)
+    total.map{ |item|
+      {
+      :category => codingToString(item.category.coding),
+      :amount => "$#{item.amount.value}"
+      }
     }
-  }
-end
+  end
 
   def parseSupportingInfo(supportingInfo)
     hash = {}
@@ -132,10 +129,6 @@ end
 
   def amountToString(amount)
     "$"+ sprintf('%.2f',amount.value)
-  end
-
-  def dateToString(date)
-    DateTime.parse(date).strftime("%m/%d/%Y")
   end
 
   def codingToString(coding)

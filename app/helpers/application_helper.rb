@@ -109,6 +109,17 @@ module ApplicationHelper
 
 	#-----------------------------------------------------------------------------
 
+  def display_contact_info(address, telecoms)
+    contact_info = address_text(address) ||''
+    telecoms.each do |telecom|
+      contact_info += "</br>" if contact_info.present?
+      contact_info += "<small>#{display_telecom(telecom)}</small>"
+    end
+
+    contact_info
+  end
+  
+  #-----------------------------------------------------------------------------
 	def display_postal_code(postal_code)
 	  unless postal_code.nil?
 	  	sanitize(postal_code.match(/^\d{9}$/) ?

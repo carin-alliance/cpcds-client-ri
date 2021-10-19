@@ -25,6 +25,7 @@ class Resource
     @errors = [] unless @errors.present?
     @errors.append(message)
   end
+
   def get_fhir_resources(fhir_client, type, resource_id, patient_id=nil)
     if patient_id == nil
         search = { parameters: {  _id: resource_id} } 
@@ -36,4 +37,27 @@ class Resource
     results.resource.entry.map(&:resource)
   end
 
+  def dateToString(date)
+    DateTime.parse(date).strftime("%m/%d/%Y")
+  end
+
+  def elementwithid(entries, id)
+    hit = entries.find { |entry| entry.id == id }
+  end
+
+  def get_id_from_reference(reference)
+    reference.split('/').last
+  end
+  
+  def codeable_concept_to_string(code)
+    begin
+      info = code.coding.first.code
+      if text = code.display ||code.text
+        info = "#{text} (#{info})"
+      end
+    rescue => exception
+      info = 'category/type code missing'
+    end
+    info.capitalize
+  end
 end

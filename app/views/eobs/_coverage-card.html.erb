@@ -1,0 +1,55 @@
+<div class='card bg-dark text-center'>
+  <h2 class='card-header'>Coverage Information</h2>
+  <div class='card-body'>
+    <table class='table table-bordered table-dark status'>
+      <thead class='thead-dark'>
+      
+        <tr>
+          <th>Policy Issuer</th>
+          <th>Period</th>
+          <th>Subscriber ID</th>
+          <th>Subscriber relationship</th>
+          <th colspan='3' scope='colgroup'>Class</th>
+        </tr>
+        <tr>
+          <td colspan='4'></td>
+          <th scope='col'>Name</th>
+          <th scope='col'>Type</th>
+          <th scope='col'>Identifier</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <% span = @eob.coverage.classes.size %>
+          <td rowspan="<%= span %>">
+            
+            <% @eob.coverage.payors.each do |payor| %>
+              <span title="<%= display_contact_info(payor.addresses.first, payor.telecoms)%>" data-toggle='tooltip' data-html='true'>
+                <%= sanitize(payor.name) %>
+              </span>
+            <% end %>
+            
+          </td>
+          <td rowspan="<%= span %>"><%= "#{sanitize(@eob.coverage.period_start)} - #{sanitize(@eob.coverage.period_end)}" %></td>
+          <td rowspan="<%= span %>"><%= sanitize(@eob.coverage.subscriberId) %></td>
+          <td rowspan="<%= span %>"><%= sanitize(@eob.coverage.relationship) %></td>
+          <% @eob.coverage.classes.each_with_index do |cov_class, index| %>
+            
+            <% if index == 0 %>
+              <td scope='rowgroup'><%= sanitize(cov_class.name) %></td>
+              <td><%= sanitize(cov_class.type) %></td>
+              <td><%= sanitize(cov_class.value) %></td>
+            <% else %>
+              <tr>
+                <td scope='rowgroup'><%= sanitize(cov_class.name) %></td>
+                <td><%= sanitize(cov_class.type) %></td>
+                <td><%= sanitize(cov_class.value) %></td>
+              </tr>
+            <% end %>
+            
+          <% end %>  
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

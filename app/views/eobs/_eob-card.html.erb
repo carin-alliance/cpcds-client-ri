@@ -34,14 +34,20 @@
               <% telecoms += "<small>#{display_telecom(telecom)}</small>"%>
             <% end %>
             
-            <td title="<%=telecoms%>" data-toggle='tooltip' data-html='true'>
+            <td title="<%=display_contact_info(@eob.provider.addresses.first, @eob.provider.telecoms)%>" 
+              data-toggle='tooltip' data-html='true'
+            >
               <%= sanitize(@eob.provider.name) %>
 
             </td>        
           </tr>
           <tr>
-            <td>Payment:</td>
-            <td><%= sanitize(@eob.payment) %></td>        
+            <td>Insurer:</td>
+            <td title="<%= display_contact_info(@eob.insurer.addresses.first, @eob.insurer.telecoms) %>"
+              data-toggle='tooltip' data-html='true'
+            >
+              <%= sanitize(@eob.insurer.name) %>
+            </td>        
           </tr>
         </table>
       </div>

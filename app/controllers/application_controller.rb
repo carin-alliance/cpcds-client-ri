@@ -57,7 +57,17 @@ class ApplicationController < ActionController::Base
       resource = @client.read(nil, reference).resource
       resource.resourceType == 'Organization' ? fhir_organizations << resource 
                                               : fhir_practitioners << resource
-      # byebug
+    
+    end
+
+    # Get the coverage references from all of the EOBs.
+    eob_coverage_references = fhir_explanationofbenefits
+                                .map(&:insurance)
+                                .flatten
+                                .map {|insurance| insurance.coverage.reference }
+    
+    eob_coverage_references.each do |reference|
+      fhir_coverages << @client.read(nil, reference).resource
     end
 
     #######################################################################
@@ -95,7 +105,7 @@ class ApplicationController < ActionController::Base
     practitioners = fhir_practitioners.map { |practitioner| Practitioner.new(practitioner) }
     locations = fhir_locations.map { |location| Location.new(location) }
     organizations = fhir_organizations.map { |organization| Organization.new(organization) }
-    coverages = fhir_coverages.map { |coverage| Coverage.new(coverage) }
+    coverages = fhir_coverages.map { |coverage| Coverage.new(coverage, organizations) }
     explanationofbenefits = fhir_explanationofbenefits.map { |eob| EOB.new(eob, patients, practitioners, locations, organizations, coverages, practitionerroles) }.sort_by { |a|  -a.sortDate }
     @eobs = explanationofbenefits
   end
