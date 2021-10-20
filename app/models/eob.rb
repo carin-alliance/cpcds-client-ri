@@ -13,7 +13,7 @@ class EOB < Resource
   attr_accessor :id, :created, :billingstartdate, :billingenddate, :category, :careteam, :claim_reference, :claim, :facility, :use, :insurer, :provider, 
       :coverage, :items, :fhir_client, :sortDate, :total, :payment, :supportingInfo, :patient,  :payeetype, :payeeparty, :type, :adjudication , :outcome 
 
-  def initialize(fhir_eob, patients, practitioners, locations, organizations, coverages, practitionerroles)
+  def initialize(fhir_client, fhir_eob, patients, practitioners, locations, organizations, coverages, practitionerroles)
     @id = fhir_eob.id
     @type = fhir_eob.type.coding[0].code
     if @type == "institutional" 
@@ -66,7 +66,7 @@ class EOB < Resource
     # byebug 
     @paymenttype= fhir_eob.payment ? codingToString(fhir_eob.payment.type.coding) : "<MISSING>"  
     @paymentdate=  fhir_eob.payment ? dateToString(fhir_eob.payment.date) : "<MISSING>"  
-    @supportingInfo = parseSupportingInfo(fhir_eob.supportingInfo)
+    @supportingInfo = parseSupportingInfo(fhir_eob.supportingInfo, fhir_client)
     #@contained = fhir_eob.contained.each_with_object({}) do |object, hash|
     #  hash[object.id] = object.class.to_s
     #end
@@ -86,16 +86,25 @@ class EOB < Resource
     }
   end
 
-  def parseSupportingInfo(supportingInfo)
+  def parseSupportingInfo(supportingInfo, fhir_client)
     hash = {}
     supportingInfoHash = supportingInfo.each_with_object({}) do |member, hash|
       sequence = member.sequence
-      category = codingToString(member.category.coding)
-      code = ( member.code ? codingToString(member.code.coding) : "none" )
-      timing = member.timingPeriod || member.timingDate
-      hash[sequence] = { :category => category,
-                         :timing => timing,
-                         :code => code}
+      category = @@supporting_info_codesystem[codingToString(member.category.coding)]
+      info = 'missing'
+      info = codingToString(member.code.coding) if member.code
+      info = dateToString(member.timingDate) if member.timingDate
+      info = ("#{dateToString(member.timingPeriod.start)} - #{dateToString(member.timingPeriod.end)}") if member.timingPeriod
+      info = member.valueBoolean ||member.valueString ||member.valueQuantity&.value || info
+      if member.valueReference
+        resource = fhir_client.read(nil, member.valueReference.reference).resource
+        info = resource.name
+      end
+      
+      # info = elementwithid(organizations, get_id_from_reference(member.valueReference.reference)).name if member.valueReference
+      # code = ( member.code ? codingToString(member.code.coding) : "none" )
+      # timing = member.timingPeriod || member.timingDate
+      hash[sequence] = { :category => category, :info => info }
     end
   end
 
@@ -132,7 +141,8 @@ class EOB < Resource
   end
 
   def codingToString(coding)
-    coding ? coding.map{|e| (e.display ? e.display : "none") +  "(" + e.code + ")" }.flatten.join(",") : "none"
+    # coding ? coding.map{|e| (e.display ? e.display : "none") +  "(" + e.code + ")" }.flatten.join(",") : "none"
+    coding ? coding.map(&:code).join(',') : 'missing'
   end
 
   def parseItems(items)
@@ -195,6 +205,28 @@ class EOB < Resource
     "https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt" => "3Paid to Provider",
     "https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt" => "4You Owe (Deductible)",
     "https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt" => "5You Owe (Coinsurance)"
+  }
+
+  @@supporting_info_codesystem = {
+    "billingnetworkcontractingstatus" => "Billing Network Contracting Status",
+    "perfomingnetworkcontractingstatus" => "Performing Network Contracting Status",
+    "clmrecvddate" => "Claim Received Date",
+    "servicefacility" => "Service Facility",
+    "patientaccountnumber" => "Patient Account Number",
+    "admissionperiod" => "Admission Period",
+    "pointoforigin" => "Point of Origin",
+    "admtype" => "Admission Type",
+    "brandgenericindicator" => "Brand Generic Indicator",
+    "compoundcode" => "Compound Code",
+    "dawcode" => "DAW (Dispense As Written) code",
+    "dayssupply" => "Days Supply",
+    "discharge-status" => "Discharge Status",
+    "drg" => "Diagnosis Related Group (DRG)",
+    "performingnetworkcontractingstatus" => "Performing Network Contracting Status",
+    "refillnum" => "Refill Number",
+    "rxorigincode" => "Rx Origin Code",
+    "typeofbill" => "Type of Bill",
+    "medicalrecordnumber" => "Medical Record Number"
   }
 
 end

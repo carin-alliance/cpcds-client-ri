@@ -1,0 +1,21 @@
+<div class='card bg-dark text-center'>
+  <h2 class='card-header'>Supporting Information</h2>
+  <div class='card-body'>
+    <table class='table table-dark table-striped status'>
+      <thead class='thead-dark'>
+        <th>Category</th>
+        <th>Information</th>
+      </thead>
+      <tbody>
+        
+        <% @eob.supportingInfo.each do |sequence, supportingInfo| %>
+        <tr>
+          <th scope='row'><%= supportingInfo[:category] %>:</th>
+          <td><%= supportingInfo[:info] %></td>
+        </tr>
+        <% end %>
+        
+      </tbody>
+    </table>
+  </div>
+</div>

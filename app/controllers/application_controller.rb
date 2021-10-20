@@ -106,7 +106,7 @@ class ApplicationController < ActionController::Base
     locations = fhir_locations.map { |location| Location.new(location) }
     organizations = fhir_organizations.map { |organization| Organization.new(organization) }
     coverages = fhir_coverages.map { |coverage| Coverage.new(coverage, organizations) }
-    explanationofbenefits = fhir_explanationofbenefits.map { |eob| EOB.new(eob, patients, practitioners, locations, organizations, coverages, practitionerroles) }.sort_by { |a|  -a.sortDate }
+    explanationofbenefits = fhir_explanationofbenefits.map { |eob| EOB.new(@client, eob, patients, practitioners, locations, organizations, coverages, practitionerroles) }.sort_by { |a|  -a.sortDate }
     @eobs = explanationofbenefits
   end
 
