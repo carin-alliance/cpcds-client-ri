@@ -25,9 +25,9 @@ class EOB < Resource
     end
     @patient = patients[0].names 
     @sortDate = DateTime.parse(fhir_eob.created).to_i
-    @created = DateTime.parse(fhir_eob.created).strftime("%m/%d/%Y")
-    @billingstartdate = fhir_eob.billablePeriod ? DateTime.parse(fhir_eob.billablePeriod.start).strftime("%m/%d/%Y") : "none"
-    @billingenddate = fhir_eob.billablePeriod ? DateTime.parse(fhir_eob.billablePeriod.end).strftime("%m/%d/%Y") : "none"
+    @created = dateToString(fhir_eob.created)
+    @billingstartdate = dateToString(fhir_eob.billablePeriod&.start)
+    @billingenddate = dateToString(fhir_eob.billablePeriod&.end)
     insurer_id = get_id_from_reference(fhir_eob.insurer.reference)
     i  = elementwithid(organizations, insurer_id)
     @insurer = i ? i : Struct.new(*[:name, :telecoms, :addresses]).new(*['None', [], []])
@@ -35,7 +35,8 @@ class EOB < Resource
     p = (elementwithid(practitioners, provider_id) || elementwithid(organizations, provider_id))
     @provider = p ? p : Struct.new(*[:name, :telecoms, :addresses]).new(*['None', [], []])
     @payeetype = codeable_concept_to_string(fhir_eob.payee&.type)
-    @payeeparty = fhir_eob.payee ? (elementwithid(patients, fhir_eob.payee.party) || elementwithid(practitioners, fhir_eob.payee.party) || elementwithid(organizations, fhir_eob.payee.party)) : "none"
+    payeeparty_id = get_id_from_reference(fhir_eob.payee&.party&.reference)
+    @payeeparty = fhir_eob.payee ? (elementwithid(patients, payeeparty_id) || elementwithid(practitioners, payeeparty_id) || elementwithid(organizations, payeeparty_id)) : "none"
     @outcome = fhir_eob.outcome 
 =begin  @careteam = fhir_eob.careTeam.each_with_object({}) do |member, hash|
              sequence = member.sequence
@@ -85,7 +86,7 @@ class EOB < Resource
     hash = {}
     supportingInfoHash = supportingInfo.each_with_object({}) do |member, hash|
       sequence = member.sequence
-      category = @@supporting_info_codesystem[codingToString(member.category.coding)]
+      category = SUPPORTING_INFO_CS[codingToString(member.category.coding)]
       info = 'missing'
       info = codingToString(member.code.coding) if member.code
       info = dateToString(member.timingDate) if member.timingDate
@@ -103,7 +104,7 @@ class EOB < Resource
   def parseAdjudication(adjudication)
     adjudication.map do |item|
       amount = type = reason = value = '&lt;missing&gt;'
-      type = @@adjudication_codesystem[codingToString(item.category.coding)] || type
+      type = ADJUDICATION_CS[codingToString(item.category.coding)] || type
       amount = amountToString(item.amount)
       reason = codeable_concept_to_string(item.reason)
       value = item.value || value
@@ -135,15 +136,12 @@ class EOB < Resource
       itemstartTime = item.servicedPeriod ? DateTime.parse(item.servicedPeriod.start).strftime("%m/%d/%Y %H:%M") :  ""
       itemendTime = item.servicedPeriod ? DateTime.parse(item.servicedPeriod.start).strftime("%m/%d/%Y %H:%M") : ""
 
-      # Strip off line that means nothing.
-      # Always return entries in the same order, then strip off first character.
       itemadjudication = item.adjudication.map do |adj|  
         value = adj.amount ? amountToString(adj.amount) : "missing" 
         adjText = codingToString(adj.category.coding)
         adjvalue = [value, adjText] if adjText
       end
 
-      # binding.pry 
       revenue = item.revenue ? codingToString(item.revenue.coding) : "missing"
       {
         :revenue => revenue,
@@ -185,50 +183,6 @@ class EOB < Resource
     "https://bluebutton.cms.gov/resources/variables/line_prvdr_pmt_amt" => "3Paid to Provider",
     "https://bluebutton.cms.gov/resources/variables/line_bene_ptb_ddctbl_amt" => "4You Owe (Deductible)",
     "https://bluebutton.cms.gov/resources/variables/line_coinsrnc_amt" => "5You Owe (Coinsurance)"
-  }
-
-  @@supporting_info_codesystem = {
-    "billingnetworkcontractingstatus" => "Billing Network Contracting Status",
-    "perfomingnetworkcontractingstatus" => "Performing Network Contracting Status",
-    "clmrecvddate" => "Claim Received Date",
-    "servicefacility" => "Service Facility",
-    "patientaccountnumber" => "Patient Account Number",
-    "admissionperiod" => "Admission Period",
-    "pointoforigin" => "Point of Origin",
-    "admtype" => "Admission Type",
-    "brandgenericindicator" => "Brand Generic Indicator",
-    "compoundcode" => "Compound Code",
-    "dawcode" => "DAW (Dispense As Written) code",
-    "dayssupply" => "Days Supply",
-    "discharge-status" => "Discharge Status",
-    "drg" => "Diagnosis Related Group (DRG)",
-    "performingnetworkcontractingstatus" => "Performing Network Contracting Status",
-    "refillnum" => "Refill Number",
-    "rxorigincode" => "Rx Origin Code",
-    "typeofbill" => "Type of Bill",
-    "medicalrecordnumber" => "Medical Record Number"
-  }
-
-  @@adjudication_codesystem = {
-    "submitted" => "Submitted Amount",
-    "copay" => "CoPay",
-    "eligible" => "Eligible Amount",
-    "deductible" => "Deductible",
-    "benefit" => "Benefit Amount",
-    "coinsurance" => "Coinsurance",
-    "noncovered" => "Non covered",
-    "priorpayerpaid" => "Prior payer paid",
-    "paidbypatient" => "Paid by patient",
-    "paidtopatient" => "Paid to patient",
-    "paidtoprovider" => "Paid to provider",
-    "memberliability" => "Member liability",
-    "discount" => "Discount",
-    "drugcost" => "Drug cost",
-    "innetwork" => "In Network",
-    "outofnetwork" => "Out of Network",
-    "other" => "Other network",
-    "allowedunits" => "Allowed units",
-    "denialreason" => "Denial Reason"
   }
 
 end

@@ -41,11 +41,11 @@ class Resource
     date ? DateTime.parse(date).strftime("%m/%d/%Y") : '&lt;missing&gt;'
   end
 
-  def elementwithid(entries, id)
+  def elementwithid(entries = [], id)
     hit = entries.find { |entry| entry.id == id }
   end
 
-  def get_id_from_reference(reference)
+  def get_id_from_reference(reference = '')
     reference.split('/').last
   end
   
