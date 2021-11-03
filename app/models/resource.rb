@@ -38,7 +38,7 @@ class Resource
   end
 
   def dateToString(date)
-    DateTime.parse(date).strftime("%m/%d/%Y")
+    date ? DateTime.parse(date).strftime("%m/%d/%Y") : '&lt;missing&gt;'
   end
 
   def elementwithid(entries, id)
@@ -51,12 +51,12 @@ class Resource
   
   def codeable_concept_to_string(code)
     begin
-      info = code.coding.first.code
+      info = code.coding.map(&:code).join(',')
       if text = code.display ||code.text
         info = "#{text} (#{info})"
       end
     rescue => exception
-      info = 'category/type code missing'
+      info = '&lt;missing&gt;'
     end
     info.capitalize
   end

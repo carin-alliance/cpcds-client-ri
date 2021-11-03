@@ -15,7 +15,7 @@ class EOB < Resource
 
   def initialize(fhir_client, fhir_eob, patients, practitioners, locations, organizations, coverages, practitionerroles)
     @id = fhir_eob.id
-    @type = fhir_eob.type.coding[0].code
+    @type = codingToString(fhir_eob.type.coding)
     if @type == "institutional" 
       if fhir_eob.meta.profile[0].include?("Inpatient")
         @type = "inpatient"
@@ -34,7 +34,7 @@ class EOB < Resource
     provider_id = get_id_from_reference(fhir_eob.provider.reference)
     p = (elementwithid(practitioners, provider_id) || elementwithid(organizations, provider_id))
     @provider = p ? p : Struct.new(*[:name, :telecoms, :addresses]).new(*['None', [], []])
-    @payeetype = fhir_eob.payee ? codingToString(fhir_eob.payee.type.coding) : "none"
+    @payeetype = codeable_concept_to_string(fhir_eob.payee&.type)
     @payeeparty = fhir_eob.payee ? (elementwithid(patients, fhir_eob.payee.party) || elementwithid(practitioners, fhir_eob.payee.party) || elementwithid(organizations, fhir_eob.payee.party)) : "none"
     @outcome = fhir_eob.outcome 
 =begin  @careteam = fhir_eob.careTeam.each_with_object({}) do |member, hash|
@@ -58,29 +58,24 @@ class EOB < Resource
         hash[sequence]  = {:code => codeable, :type => type}
       end
     end
-    #@supportingInfo = claim.supportingInfo
+    
     @facility =  fhir_eob.facility.display  || "<MISSING>"
     @use = fhir_eob.use || "<MISSING>"
     @total =  parseTotal(fhir_eob.total) 
     @payment = fhir_eob.payment && fhir_eob.payment.amount ? amountToString(fhir_eob.payment.amount) : "<MISSING>"  
-    # byebug 
     @paymenttype= fhir_eob.payment ? codingToString(fhir_eob.payment.type.coding) : "<MISSING>"  
     @paymentdate=  fhir_eob.payment ? dateToString(fhir_eob.payment.date) : "<MISSING>"  
     @supportingInfo = parseSupportingInfo(fhir_eob.supportingInfo, fhir_client)
-    #@contained = fhir_eob.contained.each_with_object({}) do |object, hash|
-    #  hash[object.id] = object.class.to_s
-    #end
     coverage_id = get_id_from_reference(fhir_eob.insurance.first.coverage.reference)
     @coverage = elementwithid(coverages,coverage_id)  
-    #     #     binding.pry 
-    @items = parseItems (fhir_eob.item) if fhir_eob.item 
+    @items = parseItems(fhir_eob.item) if fhir_eob.item 
     @adjudication = parseAdjudication(fhir_eob.adjudication) 
   end
 
   def parseTotal(total)
     total.map{ |item|
       {
-      :category => codingToString(item.category.coding),
+      :category => codeable_concept_to_string(item.category),
       :amount => "$#{item.amount.value}"
       }
     }
@@ -101,35 +96,21 @@ class EOB < Resource
         info = resource.name
       end
       
-      # info = elementwithid(organizations, get_id_from_reference(member.valueReference.reference)).name if member.valueReference
-      # code = ( member.code ? codingToString(member.code.coding) : "none" )
-      # timing = member.timingPeriod || member.timingDate
       hash[sequence] = { :category => category, :info => info }
     end
   end
 
   def parseAdjudication(adjudication)
     adjudication.map do |item|
-      amount = type = reason = units = value = nil
-      case 
-      when item.category.coding[0].code == "denialreason"
-        slice = :denialreason
-        reason = codingToString(item.denialReason.coding)
-      when item.category.coding[0].code == "allowedunits"
-        slice = :allowedunits
-        units = codingToString(item.denialReason.coding)
-        value = item.value 
-      else
-        slice = :adjudicationamounttype
-        type = codingToString(item.category.coding)
-        amount = item.amount ? amountToString(item.amount) : "missing"
-      end
+      amount = type = reason = value = '&lt;missing&gt;'
+      type = @@adjudication_codesystem[codingToString(item.category.coding)] || type
+      amount = amountToString(item.amount)
+      reason = codeable_concept_to_string(item.reason)
+      value = item.value || value
       {
-        :slice => slice.to_s,
         :type => type,
         :amount => amount,
         :value => value,
-        :units => units,
         :reason => reason 
       }
     end
@@ -137,12 +118,11 @@ class EOB < Resource
 
 
   def amountToString(amount)
-    "$"+ sprintf('%.2f',amount.value)
+    amount ? "$#{sprintf('%.2f',amount.value)}" : '&lt;missing&gt;'
   end
 
-  def codingToString(coding)
-    # coding ? coding.map{|e| (e.display ? e.display : "none") +  "(" + e.code + ")" }.flatten.join(",") : "none"
-    coding ? coding.map(&:code).join(',') : 'missing'
+  def codingToString(coding = [])
+    coding.present? ? coding.map(&:code).flatten.join(',') : '&lt;missing&gt;'
   end
 
   def parseItems(items)
@@ -227,6 +207,28 @@ class EOB < Resource
     "rxorigincode" => "Rx Origin Code",
     "typeofbill" => "Type of Bill",
     "medicalrecordnumber" => "Medical Record Number"
+  }
+
+  @@adjudication_codesystem = {
+    "submitted" => "Submitted Amount",
+    "copay" => "CoPay",
+    "eligible" => "Eligible Amount",
+    "deductible" => "Deductible",
+    "benefit" => "Benefit Amount",
+    "coinsurance" => "Coinsurance",
+    "noncovered" => "Non covered",
+    "priorpayerpaid" => "Prior payer paid",
+    "paidbypatient" => "Paid by patient",
+    "paidtopatient" => "Paid to patient",
+    "paidtoprovider" => "Paid to provider",
+    "memberliability" => "Member liability",
+    "discount" => "Discount",
+    "drugcost" => "Drug cost",
+    "innetwork" => "In Network",
+    "outofnetwork" => "Out of Network",
+    "other" => "Other network",
+    "allowedunits" => "Allowed units",
+    "denialreason" => "Denial Reason"
   }
 
 end
