@@ -55,8 +55,10 @@ class ApplicationController < ActionController::Base
     
     eob_provider_references.each do |reference|
       resource = @client.read(nil, reference).resource
-      resource.resourceType == 'Organization' ? fhir_organizations << resource 
+      if resource.present?
+        resource.resourceType == 'Organization' ? fhir_organizations << resource 
                                               : fhir_practitioners << resource
+      end
     
     end
 

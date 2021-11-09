@@ -102,11 +102,13 @@ class EOB < Resource
   end
 
   def parseAdjudication(adjudication)
+    adjudication ||= []
+
     adjudication.map do |item|
-      amount = type = reason = value = '&lt;missing&gt;'
+      amount = type = reason = value = 'N/A'
       type = ADJUDICATION_CS[codingToString(item.category.coding)] || type
       amount = amountToString(item.amount)
-      reason = codeable_concept_to_string(item.reason)
+      reason = item.reason.present? ? codeable_concept_to_string(item.reason) : reason
       value = item.value || value
       {
         :type => type,
@@ -117,32 +119,22 @@ class EOB < Resource
     end
   end
 
-
-  def amountToString(amount)
-    amount ? "$#{sprintf('%.2f',amount.value)}" : '&lt;missing&gt;'
-  end
-
-  def codingToString(coding = [])
-    coding.present? ? coding.map(&:code).flatten.join(',') : '&lt;missing&gt;'
-  end
-
   def parseItems(items)
-    items.map do | item | 
-      itemenc = item.encounter.map(&:reference)
-      itemenc = ["none"] unless itemenc.length > 0 
-      itemloc = item.location ? item.location.coding.map(&:display).join(",") : "none"
-      itemproductOrService = codingToString(item.productOrService.coding)
-      itemstartDate = item.servicedPeriod ? DateTime.parse(item.servicedPeriod.start).strftime("%m/%d/%Y") : ""
-      itemstartTime = item.servicedPeriod ? DateTime.parse(item.servicedPeriod.start).strftime("%m/%d/%Y %H:%M") :  ""
-      itemendTime = item.servicedPeriod ? DateTime.parse(item.servicedPeriod.start).strftime("%m/%d/%Y %H:%M") : ""
+    items ||= []
 
-      itemadjudication = item.adjudication.map do |adj|  
-        value = adj.amount ? amountToString(adj.amount) : "missing" 
-        adjText = codingToString(adj.category.coding)
-        adjvalue = [value, adjText] if adjText
+    items.map do | item | 
+      itemloc = item.locationCodeableConcept.present? ? codeable_concept_to_string(item.locationCodeableConcept) : 'N/A'
+      itemproductOrService = "#{item.productOrService&.coding&.first&.display} (#{codingToString(item.productOrService&.coding)})"
+      itemstartDate = item.servicedDate.present? ? dateToString(item.servicedDate) : @billingstartdate
+
+      itemadjudication = item.adjudication&.map do |adj|  
+        value = adj.amount ? amountToString(adj.amount) : "yes" 
+        type = ADJUDICATION_CS[codingToString(adj.category.coding)]
+        text = adj.category&.text
+        adjvalue = {type: type, value: value, text: text}
       end
 
-      revenue = item.revenue ? codingToString(item.revenue.coding) : "missing"
+      revenue = codeable_concept_to_string(item.revenue)
       {
         :revenue => revenue,
         :diagnosisSequence =>item.diagnosisSequence,
@@ -152,8 +144,6 @@ class EOB < Resource
         :location => itemloc,
         :productOrService => itemproductOrService,
         :startDate => itemstartDate,
-        :startTime => itemstartTime,
-        :endTime => itemendTime,
         :adjudication => itemadjudication,
         :quantity => item.quantity 
       }

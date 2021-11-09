@@ -26,6 +26,10 @@ class Resource
     @errors.append(message)
   end
 
+  #-----------------------------------------------------------------------------
+
+  # Retrieving FHIR Resources
+
   def get_fhir_resources(fhir_client, type, resource_id, patient_id=nil)
     if patient_id == nil
         search = { parameters: {  _id: resource_id} } 
@@ -37,18 +41,39 @@ class Resource
     results.resource.entry.map(&:resource)
   end
 
+  #-----------------------------------------------------------------------------
+
   def dateToString(date)
     date ? DateTime.parse(date).strftime("%m/%d/%Y") : '&lt;missing&gt;'
   end
 
-  def elementwithid(entries = [], id)
-    hit = entries.find { |entry| entry.id == id }
+  #-----------------------------------------------------------------------------
+
+  def amountToString(amount)
+    amount.present? ? "$#{sprintf('%.2f',amount.value)}" : '&lt;missing&gt;'
   end
 
-  def get_id_from_reference(reference = '')
-    reference.split('/').last
+  #-----------------------------------------------------------------------------
+
+  def codingToString(coding)
+    coding.present? ? coding.map(&:code).flatten.join(',') : '&lt;missing&gt;'
+  end
+
+  #-----------------------------------------------------------------------------
+  # Get the element with a given id from the list
+  def elementwithid(entries, id)
+    entries ||= []
+    hit = entries.find { |entry| entry.id == id } if entries.present?
+  end
+
+  #-----------------------------------------------------------------------------
+
+  def get_id_from_reference(reference)
+    reference.split('/').last if reference.present?
   end
   
+  #-----------------------------------------------------------------------------
+
   def codeable_concept_to_string(code)
     begin
       info = code.coding.map(&:code).join(',')
@@ -60,4 +85,6 @@ class Resource
     end
     info.capitalize
   end
+
+  #-----------------------------------------------------------------------------
 end
