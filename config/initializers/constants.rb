@@ -8,7 +8,25 @@
 
 DEFAULT_SERVER = "http://hapi.fhir.org/baseR4"
 
-# Supporting Info Coding System
+#-------------------------------------------------------------------------------
+# Claim Type Code System
+CLAIM_TYPE_CS = {
+  "institutional" => "Institutional",
+  "oral" => "Oral",
+  "pharmacy" => "Pharmacy",
+  "professional" => "Professional",
+  "vision" => "Vision"
+}
+
+#-------------------------------------------------------------------------------
+# Claim Subtype CS
+CLAIM_SUBTYPE_CS = {
+  "inpatient" => "Inpatient",
+  "outpatient" => "Outpatient"
+}
+
+#-------------------------------------------------------------------------------
+# Supporting Info Code System
 SUPPORTING_INFO_CS = {
   "billingnetworkcontractingstatus" => "Billing Network Contracting Status",
   "perfomingnetworkcontractingstatus" => "Performing Network Contracting Status",
@@ -35,6 +53,7 @@ SUPPORTING_INFO_CS = {
   "missingtoothnumber" => "Missing Tooth Number"
 }.freeze
 
+#-------------------------------------------------------------------------------
 # Adjudication Code System
 ADJUDICATION_CS = {
   "submitted" => "Submitted Amount",
@@ -57,3 +76,5 @@ ADJUDICATION_CS = {
   "allowedunits" => "Allowed units",
   "denialreason" => "Denial Reason"
 }.freeze
+
+#-------------------------------------------------------------------------------

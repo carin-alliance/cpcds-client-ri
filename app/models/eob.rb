@@ -11,17 +11,14 @@ class EOB < Resource
 	include ActiveModel::Model
   #-----------------------------------------------------------------------------
   attr_accessor :id, :created, :billingstartdate, :billingenddate, :category, :careteam, :claim_reference, :claim, :facility, :use, :insurer, :provider, 
-      :coverage, :items, :fhir_client, :sortDate, :total, :payment, :supportingInfo, :patient,  :payeetype, :payeeparty, :type, :adjudication , :outcome 
+      :coverage, :items, :fhir_client, :sortDate, :total, :payment, :supportingInfo, :patient,  :payeetype, :payeeparty, :type, :adjudication , :outcome
 
   def initialize(fhir_client, fhir_eob, patients, practitioners, locations, organizations, coverages, practitionerroles)
     @id = fhir_eob.id
-    @type = codingToString(fhir_eob.type.coding)
-    if @type == "institutional" 
-      if fhir_eob.meta.profile[0].include?("Inpatient")
-        @type = "inpatient"
-      else
-        @type = "outpatient"
-      end
+    @type = CLAIM_TYPE_CS[codingToString(fhir_eob.type&.coding)]
+    if @type == "Institutional" 
+      subtype = CLAIM_SUBTYPE_CS[codingToString(fhir_eob.subType&.coding)]
+      @type = "#{@type} (#{subtype})"
     end
     @patient = patients[0].names 
     @sortDate = DateTime.parse(fhir_eob.created).to_i
