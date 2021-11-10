@@ -5,12 +5,12 @@
       <tbody>
         <% @eob.supportingInfo.each do |sequence, supportingInfo| %>
         
-          <% if supportingInfo[:category] == ('In Network' || 'Out of Network' || 'Other Network') %>
-            <caption><h3><%= supportingInfo[:category] %></h3></caption>
+          <% if ['In Network', 'Out of Network', 'Other Network'].include?(supportingInfo[:category]) %>
+            <caption><h3><%= sanitize(supportingInfo[:category]) %></h3></caption>
           <% else %>
             <tr>
-              <th scope='row'><%= supportingInfo[:category] %>:</th>
-              <td><%= supportingInfo[:info] %></td>
+              <th scope='row'><%= sanitize(supportingInfo[:category]) %>:</th>
+              <td><%= sanitize(supportingInfo[:info]) %></td>
             </tr>
           <% end %>
         

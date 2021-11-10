@@ -1,0 +1,50 @@
+<div class='card bg-dark text-white mb-4'>
+  <h2>Item Level Information</h2>
+  <table class='table table-striped table-dark status'>
+    <colgroup>
+      <col style="width: 15%">
+      <col style="width: 25%">
+      <col style="width: 40%">
+      <col style="width: 20%">
+    </colgroup>
+    <thead>
+      <tr> 
+        <th>Date</th> 
+        <th>Location</th>
+        <th>Product/Service</th>
+        <th>Revenue</th> 
+      </tr> 
+    </thead>
+    </tbody>
+      <% @eob.items.each do |item| %> 
+        <tr class='eobitem'>
+          <td><%= sanitize(item[:startDate]) %></td>
+          <td><%= sanitize(item[:location]) %></td>
+          <td>
+            <p><%= sanitize(item[:productOrService]) %></p>
+            <% if item[:adjudication].length > 0 %>
+              <p>Adjudication</p>
+              <table class='table table-dark caption-top'>
+                <tbody>
+                  <% item[:adjudication].each do |adj| %>
+                    
+                    <% if ['In Network', 'Out of Network', 'Other Network'].include?(adj[:type]) %>
+                      <caption><%= sanitize(adj[:type]) %></caption>
+                    <% else %>
+                      <tr class='adjudication'>
+                        <th title='<%= adj[:text]%>' data-toggle='tooltip'><%= sanitize(adj[:type]) %> :</th>
+                        <td><%= sanitize(adj[:value]) %></td>
+                      </tr>
+                    <% end %>
+                    
+                  <% end %>
+                </tbody>
+              </table>
+            <% end %>
+          </td>
+          <td><%= sanitize(item[:revenue]) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

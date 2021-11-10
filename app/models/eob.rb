@@ -96,7 +96,7 @@ class EOB < Resource
         info = resource.name
       end
       
-      hash[sequence] = { :category => category, :info => info }
+      hash[sequence] = { :category => category, :info => info.to_s }
     end
     supportingInfoHash.sort_by { |seq, h| seq }.to_h
   end
@@ -123,12 +123,14 @@ class EOB < Resource
     items ||= []
 
     items.map do | item | 
-      itemloc = item.locationCodeableConcept.present? ? codeable_concept_to_string(item.locationCodeableConcept) : 'N/A'
+      itemloc = item.locationCodeableConcept.present? ? 
+                "#{item.locationCodeableConcept.coding&.first&.display} (#{codingToString(item.locationCodeableConcept.coding)})" 
+                : 'N/A'
       itemproductOrService = "#{item.productOrService&.coding&.first&.display} (#{codingToString(item.productOrService&.coding)})"
       itemstartDate = item.servicedDate.present? ? dateToString(item.servicedDate) : @billingstartdate
 
       itemadjudication = item.adjudication&.map do |adj|  
-        value = adj.amount ? amountToString(adj.amount) : "yes" 
+        value = amountToString(adj.amount) 
         type = ADJUDICATION_CS[codingToString(adj.category.coding)]
         text = adj.category&.text
         adjvalue = {type: type, value: value, text: text}
