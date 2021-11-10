@@ -11,7 +11,7 @@ class EOB < Resource
 	include ActiveModel::Model
   #-----------------------------------------------------------------------------
   attr_accessor :id, :created, :billingstartdate, :billingenddate, :category, :careteam, :claim_reference, :claim, :facility, :use, :insurer, :provider, 
-      :coverage, :items, :fhir_client, :sortDate, :total, :payment, :supportingInfo, :patient,  :payeetype, :payeeparty, :type, :adjudication , :outcome
+      :coverage, :items, :fhir_client, :sortDate, :total, :payment, :supportingInfo, :patient,  :payeetype, :payeeparty, :type, :adjudication , :outcome, :use
 
   def initialize(fhir_client, fhir_eob, patients, practitioners, locations, organizations, coverages, practitionerroles)
     @id = fhir_eob.id
@@ -20,6 +20,7 @@ class EOB < Resource
       subtype = CLAIM_SUBTYPE_CS[codingToString(fhir_eob.subType&.coding)]
       @type = "#{@type} (#{subtype})"
     end
+    @use = fhir_eob.use
     @patient = patients[0].names 
     @sortDate = DateTime.parse(fhir_eob.created).to_i
     @created = dateToString(fhir_eob.created)
@@ -64,7 +65,7 @@ class EOB < Resource
     @paymenttype= fhir_eob.payment ? codingToString(fhir_eob.payment.type.coding) : "<MISSING>"  
     @paymentdate=  fhir_eob.payment ? dateToString(fhir_eob.payment.date) : "<MISSING>"  
     @supportingInfo = parseSupportingInfo(fhir_eob.supportingInfo, fhir_client)
-    coverage_id = get_id_from_reference(fhir_eob.insurance.first.coverage.reference)
+    coverage_id = get_id_from_reference(fhir_eob.insurance&.first&.coverage&.reference)
     @coverage = elementwithid(coverages,coverage_id)  
     @items = parseItems(fhir_eob.item) if fhir_eob.item 
     @adjudication = parseAdjudication(fhir_eob.adjudication) 
@@ -83,7 +84,8 @@ class EOB < Resource
     hash = {}
     supportingInfoHash = supportingInfo.each_with_object({}) do |member, hash|
       sequence = member.sequence
-      category = SUPPORTING_INFO_CS[codingToString(member.category.coding)]
+      category_code = codingToString(member.category.coding)
+      category = SUPPORTING_INFO_CS[category_code] ||ADJUDICATION_CS[category_code]
       info = 'missing'
       info = codingToString(member.code.coding) if member.code
       info = dateToString(member.timingDate) if member.timingDate
@@ -96,6 +98,7 @@ class EOB < Resource
       
       hash[sequence] = { :category => category, :info => info }
     end
+    supportingInfoHash.sort_by { |seq, h| seq }.to_h
   end
 
   def parseAdjudication(adjudication)

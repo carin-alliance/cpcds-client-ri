@@ -16,14 +16,14 @@ CLAIM_TYPE_CS = {
   "pharmacy" => "Pharmacy",
   "professional" => "Professional",
   "vision" => "Vision"
-}
+}.freeze
 
 #-------------------------------------------------------------------------------
 # Claim Subtype CS
 CLAIM_SUBTYPE_CS = {
   "inpatient" => "Inpatient",
   "outpatient" => "Outpatient"
-}
+}.freeze
 
 #-------------------------------------------------------------------------------
 # Supporting Info Code System
@@ -44,6 +44,7 @@ SUPPORTING_INFO_CS = {
   "drg" => "Diagnosis Related Group (DRG)",
   "performingnetworkcontractingstatus" => "Performing Network Contracting Status",
   "refillnum" => "Refill Number",
+  "refillsauthorized" => "Refills Authorized",
   "rxorigincode" => "Rx Origin Code",
   "typeofbill" => "Type of Bill",
   "medicalrecordnumber" => "Medical Record Number",
@@ -72,7 +73,7 @@ ADJUDICATION_CS = {
   "drugcost" => "Drug cost",
   "innetwork" => "In Network",
   "outofnetwork" => "Out of Network",
-  "other" => "Other network",
+  "other" => "Other Network",
   "allowedunits" => "Allowed units",
   "denialreason" => "Denial Reason"
 }.freeze

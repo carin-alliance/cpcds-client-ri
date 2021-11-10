@@ -62,7 +62,6 @@ class Resource
   #-----------------------------------------------------------------------------
   # Get the element with a given id from the list
   def elementwithid(entries, id)
-    entries ||= []
     hit = entries.find { |entry| entry.id == id } if entries.present?
   end
 
