@@ -28,10 +28,10 @@ class EOB < Resource
     @billingenddate = dateToString(fhir_eob.billablePeriod&.end)
     insurer_id = get_id_from_reference(fhir_eob.insurer.reference)
     i  = elementwithid(organizations, insurer_id)
-    @insurer = i ? i : Struct.new(*[:name, :telecoms, :addresses]).new(*['None', [], []])
+    @insurer = i ? i : Struct.new(*[:name, :telecoms, :addresses]).new(*['missing', [], []])
     provider_id = get_id_from_reference(fhir_eob.provider.reference)
     p = (elementwithid(practitioners, provider_id) || elementwithid(organizations, provider_id))
-    @provider = p ? p : Struct.new(*[:name, :telecoms, :addresses]).new(*['None', [], []])
+    @provider = p ? p : Struct.new(*[:name, :telecoms, :addresses]).new(*['missing', [], []])
     @payeetype = codeable_concept_to_string(fhir_eob.payee&.type)
     payeeparty_id = get_id_from_reference(fhir_eob.payee&.party&.reference)
     @payeeparty = fhir_eob.payee ? (elementwithid(patients, payeeparty_id) || elementwithid(practitioners, payeeparty_id) || elementwithid(organizations, payeeparty_id)) : "none"
@@ -88,6 +88,7 @@ class EOB < Resource
       category = SUPPORTING_INFO_CS[category_code] ||ADJUDICATION_CS[category_code]
       info = 'missing'
       info = codingToString(member.code.coding) if member.code
+      info = "#{ADA_UNIVERSAL_NS[info]} (#{info})" if category == "Additional Body Site"  #TODO: to be revised for all EOB profiles
       info = dateToString(member.timingDate) if member.timingDate
       info = ("#{dateToString(member.timingPeriod.start)} - #{dateToString(member.timingPeriod.end)}") if member.timingPeriod
       info = member.valueBoolean ||member.valueString ||member.valueQuantity&.value || info

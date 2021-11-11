@@ -10,29 +10,9 @@
     <%= render 'item-level-info' %>
   <% end %>
     
-    <% unless @eob.total.empty? %>
+  <% unless @eob.total.empty? %>
     <div height="500">&nbsp;</div>
-    <h2>Total</h2>
-      <table class='table table-striped table-dark status'>
-        <colgroup>
-          <col style="width:20%">
-          <col style="width:20%">
-        </colgroup>
-        <thead>
-          <tr> 
-            <th>Type</th>
-            <th>Amount</th>
-          </tr> 
-        </thead>
-        </tbody>
-          <% @eob.total.each do |total| %> 
-            <tr class='eobtotal'>
-              <td><%= sanitize(total[:category]) %></td>
-              <td><%= sanitize(total[:amount]) %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    <% end %>
+    <%= render 'total' %>
+  <% end %>
   </div>
 </div>
