@@ -38,7 +38,6 @@ class EOB < Resource
     @outcome = fhir_eob.outcome 
 =begin  @careteam = fhir_eob.careTeam.each_with_object({}) do |member, hash|
              sequence = member.sequence
-             #     #     binding.pry 
              practitioner =  elementwithid( practitioners, member.provider.reference )
              name = practitioner.name[0]
              rendername = name.prefix.join(" ") if name.prefix

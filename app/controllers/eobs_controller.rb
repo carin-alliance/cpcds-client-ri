@@ -23,7 +23,6 @@ class EobsController < ApplicationController
     load_fhir_eobs(session[:patient_id], eobid)
     @start_date = start_date
     @end_date = end_date 
-    # binding.pry 
   end
 
   # GET /eobs/[id]: show a single EOB
@@ -36,7 +35,6 @@ class EobsController < ApplicationController
     if @eobs
       @eob = @eobs.select{|p| p.id == eob_id}[0] 
     end
-    # binding.pry 
   rescue StandardError => exception
     reset_session
     err = "Failed to connect: " + exception.message

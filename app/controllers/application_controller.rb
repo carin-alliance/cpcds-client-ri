@@ -16,16 +16,17 @@ class ApplicationController < ActionController::Base
   def load_fhir_eobs(patientid, eobid)
     puts "==>load_fhir_eobs Patient =#{patientid}" #" include=#{include}  filterbydate=#{filterbydate}"
     parameters = {}
-    #     binding.pry 
     parameters[:_id] = eobid if eobid 
 
     parameters[:patient] = patientid 
-  
-    parameters[:"service-date"] = [] if start_date.present? || end_date.present?
-    parameters[:"service-date"] << "ge#{DateTime.parse(start_date).strftime("%Y-%m-%d")}" if start_date.present?
-    parameters[:"service-date"] << "le#{DateTime.parse(end_date).strftime("%Y-%m-%d")}" if end_date.present?
+    begin
+      parameters[:"service-date"] = [] if start_date.present? || end_date.present?
+      parameters[:"service-date"] << "ge#{DateTime.parse(start_date).strftime("%Y-%m-%d")}" if start_date.present?
+      parameters[:"service-date"] << "le#{DateTime.parse(end_date).strftime("%Y-%m-%d")}" if end_date.present?
+    rescue => exception
+      redirect_back fallback_location: dashboard_path, alert: "Please provide a valid date in the form (dd/mm/yyyy)"
+    end
 
-   
     includelist = ["ExplanationOfBenefit:patient", 
                    "ExplanationOfBenefit:care-team",
                    "ExplanationOfBenefit:coverage", 
@@ -35,7 +36,6 @@ class ApplicationController < ActionController::Base
     # parameters[:_format] = "json"
     search = {parameters: parameters }
     results = @client.search(FHIR::ExplanationOfBenefit, search: search )
-    #binding.pry
 
     capture_search_query(results)
 
@@ -73,34 +73,6 @@ class ApplicationController < ActionController::Base
     end
 
     #######################################################################
-    #temporary testing code
-    #prov_refs = fhir_explanationofbenefits.map(&:provider)
-    #binding.pry
-    #fhir_explanationofbenefits.select {|ref| ref.resourceType == "ExplanationOfBenefit" }
-    # HAPI FHIR Server is not currently supporting _include on either provider or coverage 
-    # Need to figure out how to get the other resources.
-    #provider_parameters = {}
-    #provider_parameters[:_id] = "PractitionerDentalProvider1"
-
-    #search = {parameters: provider_parameters }
-    #results = @client.search(FHIR::Practitioner, search: search )
-    #fhir_practitioners = [@client.read(FHIR::Practitioner, 'PractitionerDentalProvider1').resource]
-    # get the provider references from all of the EOBs. There is a way to write this to continue in the case that one fails.
-    #fhir_explanationofbenefits.map(&:provider).map(&:reference)
-    #binding.pry
-    #capture_search_query(results)
-    #entries = results.resource.entry.map(&:resource)
-    #fhir_practitioners = entries.select {|entry| entry.resourceType == "Practitioner" }
-    #coverage_results = get_fhir_resources(@client, FHIR::Coverage, "Coverage1")
-    #entries = coverage_results.resource.entry.map(&:resource)
-    #fhir_coverages = entries.select {|entry| entry.resourceType == "Coverage" }
-
-    #provider_results = get_fhir_resources(@client, FHIR::Practitioner, "PractitionerDentalProvider1")
-    #entries = provider_results.resource.entry.map(&:resource)
-    #fhir_practitioners = entries.select {|entry| entry.resourceType == "Practitioner" }
-
-
-
 
     patients = fhir_patients.map { |patient| Patient.new(patient) }
     @patient = patients[0] 
@@ -119,7 +91,6 @@ class ApplicationController < ActionController::Base
     parameters[patientfield] = pid
     parameters[:_profile] = profile if profile
 #        parameters[:_count] = 1000 
-    #     binding.pry 
     if datefield 
       parameters[datefield] = []
       parameters[datefield] << "ge"+ DateTime.parse(start_date).strftime("%Y-%m-%d")   if start_date.present?
@@ -138,7 +109,6 @@ class ApplicationController < ActionController::Base
         search = { parameters: {  _id: resource_id, patient: patient_id} }
     end
     results = fhir_client.search(type, search: search )
-    #     binding.pry if results == nil || results.resource == nil || results.resource.entry == nil 
     results.resource.entry.map(&:resource)
   end
   
@@ -163,7 +133,6 @@ class ApplicationController < ActionController::Base
     end
     if session.empty? 
       err = "Session Expired"
-      #     binding.pry 
       redirect_to root_path, alert: err
     end
     if session[:iss_url].present?
@@ -202,7 +171,6 @@ class ApplicationController < ActionController::Base
     session[:refresh_token] = rcResult["refresh_token"]
     session[:token_expiration] = (Time.now.to_i + rcResult["expires_in"].to_i  )
   rescue StandardError => exception
-    #     binding.pry 
     err = "Failed to refresh token: " + exception.message
     redirect_to root_path, alert: err
   end

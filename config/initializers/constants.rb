@@ -82,5 +82,5 @@ ADJUDICATION_CS = {
 ADA_UNIVERSAL_NS = {
   "1" => "Permanent teeth right maxillary third molar (wisdom tooth)",
   "2" =>"Permanent teeth right second molar (12-year-molar)"
-}
+}.freeze
 #-------------------------------------------------------------------------------
