@@ -11,33 +11,33 @@ class EOB < Resource
 	include ActiveModel::Model
   #-----------------------------------------------------------------------------
   attr_accessor :id, :created, :billingstartdate, :billingenddate, :category, :careteam, :claim_reference, :claim, :facility, :use, :insurer, :provider, 
-      :coverage, :items, :fhir_client, :sortDate, :total, :payment, :supportingInfo, :patient,  :payeetype, :payeeparty, :type, :adjudication , :outcome 
+      :coverage, :items, :fhir_client, :sortDate, :total, :payment, :supportingInfo, :patient,  :payeetype, :payeeparty, :type, :adjudication , :outcome, :use
 
-  def initialize(fhir_eob, patients, practitioners, locations, organizations, coverages, practitionerroles)
+  def initialize(fhir_client, fhir_eob, patients, practitioners, locations, organizations, coverages, practitionerroles)
     @id = fhir_eob.id
-    @type = fhir_eob.type.coding[0].code
-    if @type == "institutional" 
-      if fhir_eob.meta.profile[0].include?("Inpatient")
-        @type = "inpatient"
-      else
-        @type = "outpatient"
-      end
+    @type = CLAIM_TYPE_CS[codingToString(fhir_eob.type&.coding)]
+    if @type == "Institutional" 
+      subtype = CLAIM_SUBTYPE_CS[codingToString(fhir_eob.subType&.coding)]
+      @type = "#{@type} (#{subtype})"
     end
+    @use = fhir_eob.use
     @patient = patients[0].names 
     @sortDate = DateTime.parse(fhir_eob.created).to_i
-    @created = DateTime.parse(fhir_eob.created).strftime("%m/%d/%Y")
-    @billingstartdate = fhir_eob.billablePeriod ? DateTime.parse(fhir_eob.billablePeriod.start).strftime("%m/%d/%Y") : "none"
-    @billingenddate = fhir_eob.billablePeriod ? DateTime.parse(fhir_eob.billablePeriod.end).strftime("%m/%d/%Y") : "none"
-    i  = elementwithid(organizations, fhir_eob.insurer)
-    @insurer = i ? i.names : "None"
-    p = (elementwithid(practitioners, fhir_eob.provider) || elementwithid(organizations, fhir_eob.provider))
-    @provider = p ? p.names : "None"
-    @payeetype = fhir_eob.payee ? codingToString(fhir_eob.payee.type.coding) : "none"
-    @payeeparty = fhir_eob.payee ? (elementwithid(patients, fhir_eob.payee.party) || elementwithid(practitioners, fhir_eob.payee.party) || elementwithid(organizations, fhir_eob.payee.party)) : "none"
+    @created = dateToString(fhir_eob.created)
+    @billingstartdate = dateToString(fhir_eob.billablePeriod&.start)
+    @billingenddate = dateToString(fhir_eob.billablePeriod&.end)
+    insurer_id = get_id_from_reference(fhir_eob.insurer.reference)
+    i  = elementwithid(organizations, insurer_id)
+    @insurer = i ? i : Struct.new(*[:name, :telecoms, :addresses]).new(*['missing', [], []])
+    provider_id = get_id_from_reference(fhir_eob.provider.reference)
+    p = (elementwithid(practitioners, provider_id) || elementwithid(organizations, provider_id))
+    @provider = p ? p : Struct.new(*[:name, :telecoms, :addresses]).new(*['missing', [], []])
+    @payeetype = codeable_concept_to_string(fhir_eob.payee&.type)
+    payeeparty_id = get_id_from_reference(fhir_eob.payee&.party&.reference)
+    @payeeparty = fhir_eob.payee ? (elementwithid(patients, payeeparty_id) || elementwithid(practitioners, payeeparty_id) || elementwithid(organizations, payeeparty_id)) : "none"
     @outcome = fhir_eob.outcome 
 =begin  @careteam = fhir_eob.careTeam.each_with_object({}) do |member, hash|
              sequence = member.sequence
-             #     #     binding.pry 
              practitioner =  elementwithid( practitioners, member.provider.reference )
              name = practitioner.name[0]
              rendername = name.prefix.join(" ") if name.prefix
@@ -56,112 +56,87 @@ class EOB < Resource
         hash[sequence]  = {:code => codeable, :type => type}
       end
     end
-    #@supportingInfo = claim.supportingInfo
+    
     @facility =  fhir_eob.facility.display  || "<MISSING>"
     @use = fhir_eob.use || "<MISSING>"
     @total =  parseTotal(fhir_eob.total) 
     @payment = fhir_eob.payment && fhir_eob.payment.amount ? amountToString(fhir_eob.payment.amount) : "<MISSING>"  
-    #     #     binding.pry 
     @paymenttype= fhir_eob.payment ? codingToString(fhir_eob.payment.type.coding) : "<MISSING>"  
     @paymentdate=  fhir_eob.payment ? dateToString(fhir_eob.payment.date) : "<MISSING>"  
-    @supportingInfo = parseSupportingInfo(fhir_eob.supportingInfo)
-    #@contained = fhir_eob.contained.each_with_object({}) do |object, hash|
-    #  hash[object.id] = object.class.to_s
-    #end
-  
-    @coverage = elementwithid(coverages,fhir_eob.insurance[0].coverage.reference)  
-    #     #     binding.pry 
-    @items = parseItems (fhir_eob.item) if fhir_eob.item 
+    @supportingInfo = parseSupportingInfo(fhir_eob.supportingInfo, fhir_client)
+    coverage_id = get_id_from_reference(fhir_eob.insurance&.first&.coverage&.reference)
+    @coverage = elementwithid(coverages,coverage_id)  
+    @items = parseItems(fhir_eob.item) if fhir_eob.item 
     @adjudication = parseAdjudication(fhir_eob.adjudication) 
   end
 
-  def elementwithid(entries, id)
-    hits = entries.select {|entry| entry.id == id }
-    hits[0]
+  def parseTotal(total)
+    total.map{ |item|
+      {
+      :category => codeable_concept_to_string(item.category),
+      :amount => "$#{item.amount.value}"
+      }
+    }
   end
 
-def parseTotal(total)
-  total.map{ |item|
-    {
-    :category => codingToString(item.category.coding),
-    :amount => "$#{item.amount.value}"
-    }
-  }
-end
-
-  def parseSupportingInfo(supportingInfo)
+  def parseSupportingInfo(supportingInfo, fhir_client)
     hash = {}
     supportingInfoHash = supportingInfo.each_with_object({}) do |member, hash|
       sequence = member.sequence
-      category = codingToString(member.category.coding)
-      code = ( member.code ? codingToString(member.code.coding) : "none" )
-      timing = member.timingPeriod || member.timingDate
-      hash[sequence] = { :category => category,
-                         :timing => timing,
-                         :code => code}
+      category_code = codingToString(member.category.coding)
+      category = SUPPORTING_INFO_CS[category_code] ||ADJUDICATION_CS[category_code]
+      info = 'missing'
+      info = codingToString(member.code.coding) if member.code
+      info = "#{ADA_UNIVERSAL_NS[info]} (#{info})" if category == "Additional Body Site"  #TODO: to be revised for all EOB profiles
+      info = dateToString(member.timingDate) if member.timingDate
+      info = ("#{dateToString(member.timingPeriod.start)} - #{dateToString(member.timingPeriod.end)}") if member.timingPeriod
+      info = member.valueBoolean ||member.valueString ||member.valueQuantity&.value || info
+      if member.valueReference
+        resource = fhir_client.read(nil, member.valueReference.reference).resource
+        info = resource.name
+      end
+      
+      hash[sequence] = { :category => category, :info => info.to_s }
     end
+    supportingInfoHash.sort_by { |seq, h| seq }.to_h
   end
 
   def parseAdjudication(adjudication)
+    adjudication ||= []
+
     adjudication.map do |item|
-      amount = type = reason = units = value = nil
-      case 
-      when item.category.coding[0].code == "denialreason"
-        slice = :denialreason
-        reason = codingToString(item.denialReason.coding)
-      when item.category.coding[0].code == "allowedunits"
-        slice = :allowedunits
-        units = codingToString(item.denialReason.coding)
-        value = item.value 
-      else
-        slice = :adjudicationamounttype
-        type = codingToString(item.category.coding)
-        amount = item.amount ? amountToString(item.amount) : "missing"
-      end
+      amount = type = reason = value = 'N/A'
+      type = ADJUDICATION_CS[codingToString(item.category.coding)] || type
+      amount = amountToString(item.amount)
+      reason = item.reason.present? ? codeable_concept_to_string(item.reason) : reason
+      value = item.value || value
       {
-        :slice => slice.to_s,
         :type => type,
         :amount => amount,
         :value => value,
-        :units => units,
         :reason => reason 
       }
     end
   end
 
-
-  def amountToString(amount)
-    "$"+ sprintf('%.2f',amount.value)
-  end
-
-  def dateToString(date)
-    DateTime.parse(date).strftime("%m/%d/%Y")
-  end
-
-  def codingToString(coding)
-    coding ? coding.map{|e| (e.display ? e.display : "none") +  "(" + e.code + ")" }.flatten.join(",") : "none"
-  end
-
   def parseItems(items)
-    items.map do | item | 
-      itemenc = item.encounter.map(&:reference)
-      itemenc = ["none"] unless itemenc.length > 0 
-      itemloc = item.location ? item.location.coding.map(&:display).join(",") : "none"
-      itemproductOrService = codingToString(item.productOrService.coding)
-      itemstartDate = item.servicedPeriod ? DateTime.parse(item.servicedPeriod.start).strftime("%m/%d/%Y") : ""
-      itemstartTime = item.servicedPeriod ? DateTime.parse(item.servicedPeriod.start).strftime("%m/%d/%Y %H:%M") :  ""
-      itemendTime = item.servicedPeriod ? DateTime.parse(item.servicedPeriod.start).strftime("%m/%d/%Y %H:%M") : ""
+    items ||= []
 
-      # Strip off line that means nothing.
-      # Always return entries in the same order, then strip off first character.
-      itemadjudication = item.adjudication.map do |adj|  
-        value = adj.amount ? amountToString(adj.amount) : "missing" 
-        adjText = codingToString(adj.category.coding)
-        adjvalue = [value, adjText] if adjText
+    items.map do | item | 
+      itemloc = item.locationCodeableConcept.present? ? 
+                "#{item.locationCodeableConcept.coding&.first&.display} (#{codingToString(item.locationCodeableConcept.coding)})" 
+                : 'N/A'
+      itemproductOrService = "#{item.productOrService&.coding&.first&.display} (#{codingToString(item.productOrService&.coding)})"
+      itemstartDate = item.servicedDate.present? ? dateToString(item.servicedDate) : @billingstartdate
+
+      itemadjudication = item.adjudication&.map do |adj|  
+        value = amountToString(adj.amount) 
+        type = ADJUDICATION_CS[codingToString(adj.category.coding)]
+        text = adj.category&.text
+        adjvalue = {type: type, value: value, text: text}
       end
 
-      # binding.pry 
-      revenue = item.revenue ? codingToString(item.revenue.coding) : "missing"
+      revenue = codeable_concept_to_string(item.revenue)
       {
         :revenue => revenue,
         :diagnosisSequence =>item.diagnosisSequence,
@@ -171,8 +146,6 @@ end
         :location => itemloc,
         :productOrService => itemproductOrService,
         :startDate => itemstartDate,
-        :startTime => itemstartTime,
-        :endTime => itemendTime,
         :adjudication => itemadjudication,
         :quantity => item.quantity 
       }

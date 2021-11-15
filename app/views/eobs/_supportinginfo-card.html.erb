@@ -1,0 +1,21 @@
+<div class='card bg-dark text-center'>
+  <h2 class='card-header'>Supporting Information</h2>
+  <div class='card-body'>
+    <table class='table table-dark table-striped status caption-top'>
+      <tbody>
+        <% @eob.supportingInfo.each do |sequence, supportingInfo| %>
+        
+          <% if ['In Network', 'Out of Network', 'Other Network'].include?(supportingInfo[:category]) %>
+            <caption><h3><%= sanitize(supportingInfo[:category]) %></h3></caption>
+          <% else %>
+            <tr>
+              <th scope='row'><%= sanitize(supportingInfo[:category]) %>:</th>
+              <td><%= sanitize(supportingInfo[:info]) %></td>
+            </tr>
+          <% end %>
+        
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -13,19 +13,20 @@ class ApplicationController < ActionController::Base
   attr_accessor :explanationofbenefits, :practitioners, :patients, :locations, :organizations, :practitionerroles, :coverages, :resources
   attr_accessor :fhir_explanationofbenefits,  :fhir_practitioners, :fhir_patients,  :fhir_organizations, :fir_coverages, :fhir_locations, :patient_resources, :patient, :eob, :eobs 
 
-  def load_fhir_eobs (patientid, eobid)
+  def load_fhir_eobs(patientid, eobid)
     puts "==>load_fhir_eobs Patient =#{patientid}" #" include=#{include}  filterbydate=#{filterbydate}"
     parameters = {}
-    #     binding.pry 
     parameters[:_id] = eobid if eobid 
 
     parameters[:patient] = patientid 
-  
-    parameters[:"service-date"] = [] if start_date.present? || end_date.present?
-    parameters[:"service-date"] << "ge"+ DateTime.parse(start_date).strftime("%Y-%m-%d")   if start_date.present?
-    parameters[:"service-date"] << "le"+ DateTime.parse(end_date).strftime("%Y-%m-%d")    if end_date.present?
+    begin
+      parameters[:"service-date"] = [] if start_date.present? || end_date.present?
+      parameters[:"service-date"] << "ge#{DateTime.parse(start_date).strftime("%Y-%m-%d")}" if start_date.present?
+      parameters[:"service-date"] << "le#{DateTime.parse(end_date).strftime("%Y-%m-%d")}" if end_date.present?
+    rescue => exception
+      redirect_back fallback_location: dashboard_path, alert: "Please provide a valid date in the form (dd/mm/yyyy)"
+    end
 
-   
     includelist = ["ExplanationOfBenefit:patient", 
                    "ExplanationOfBenefit:care-team",
                    "ExplanationOfBenefit:coverage", 
@@ -35,6 +36,7 @@ class ApplicationController < ActionController::Base
     # parameters[:_format] = "json"
     search = {parameters: parameters }
     results = @client.search(FHIR::ExplanationOfBenefit, search: search )
+
     capture_search_query(results)
 
     entries = results.resource.entry.map(&:resource)
@@ -44,25 +46,51 @@ class ApplicationController < ActionController::Base
     fhir_locations = entries.select {|entry| entry.resourceType == "Location" }
     fhir_organizations = entries.select {|entry| entry.resourceType == "Organization" }
     fhir_coverages = entries.select {|entry| entry.resourceType == "Coverage" }
+    
+    # HAPI FHIR Server is not currently supporting _include on either provider or coverage
+    ##################### This is a temporary solution ####################
+    
+    # Get the provider references from all of the EOBs.
+    eob_provider_references = fhir_explanationofbenefits.map(&:provider).map(&:reference)
+    
+    eob_provider_references.each do |reference|
+      resource = @client.read(nil, reference).resource
+      if resource.present?
+        resource.resourceType == 'Organization' ? fhir_organizations << resource 
+                                              : fhir_practitioners << resource
+      end
+    
+    end
+
+    # Get the coverage references from all of the EOBs.
+    eob_coverage_references = fhir_explanationofbenefits
+                                .map(&:insurance)
+                                .flatten
+                                .map {|insurance| insurance.coverage.reference }
+    
+    eob_coverage_references.each do |reference|
+      fhir_coverages << @client.read(nil, reference).resource
+    end
+
+    #######################################################################
 
     patients = fhir_patients.map { |patient| Patient.new(patient) }
     @patient = patients[0] 
     practitioners = fhir_practitioners.map { |practitioner| Practitioner.new(practitioner) }
     locations = fhir_locations.map { |location| Location.new(location) }
     organizations = fhir_organizations.map { |organization| Organization.new(organization) }
-    coverages = fhir_coverages.map { |coverage| Coverage.new(coverage) }
-    explanationofbenefits = fhir_explanationofbenefits.map { |eob| EOB.new(eob, patients, practitioners, locations, organizations, coverages, practitionerroles) }.sort_by { |a|  -a.sortDate }
+    coverages = fhir_coverages.map { |coverage| Coverage.new(coverage, organizations) }
+    explanationofbenefits = fhir_explanationofbenefits.map { |eob| EOB.new(@client, eob, patients, practitioners, locations, organizations, coverages, practitionerroles) }.sort_by { |a|  -a.sortDate }
     @eobs = explanationofbenefits
   end
 
   # load_patient_resources:  Builds and executes a search for a given type restricted to a single patient and the appropriate profile      
-  def load_patient_resources (type, profile, patientfield, pid, datefield=nil)
+  def load_patient_resources(type, profile, patientfield, pid, datefield=nil)
     parameters = {}
 #        parameters[patientfield] = "Patient/" + pid
     parameters[patientfield] = pid
     parameters[:_profile] = profile if profile
 #        parameters[:_count] = 1000 
-    #     binding.pry 
     if datefield 
       parameters[datefield] = []
       parameters[datefield] << "ge"+ DateTime.parse(start_date).strftime("%Y-%m-%d")   if start_date.present?
@@ -81,7 +109,6 @@ class ApplicationController < ActionController::Base
         search = { parameters: {  _id: resource_id, patient: patient_id} }
     end
     results = fhir_client.search(type, search: search )
-    #     binding.pry if results == nil || results.resource == nil || results.resource.entry == nil 
     results.resource.entry.map(&:resource)
   end
   
@@ -106,7 +133,6 @@ class ApplicationController < ActionController::Base
     end
     if session.empty? 
       err = "Session Expired"
-      #     binding.pry 
       redirect_to root_path, alert: err
     end
     if session[:iss_url].present?
@@ -145,7 +171,6 @@ class ApplicationController < ActionController::Base
     session[:refresh_token] = rcResult["refresh_token"]
     session[:token_expiration] = (Time.now.to_i + rcResult["expires_in"].to_i  )
   rescue StandardError => exception
-    #     binding.pry 
     err = "Failed to refresh token: " + exception.message
     redirect_to root_path, alert: err
   end

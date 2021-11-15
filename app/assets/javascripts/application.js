@@ -15,6 +15,7 @@
 //= require turbolinks
 //= require jquery3
 //= require jquery_ujs
+//= require popper.js
 //= require bootstrap
 //= require bootstrap-toggle
 //= require jsapi

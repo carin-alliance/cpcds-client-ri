@@ -37,7 +37,7 @@ module ApplicationHelper
 	#-----------------------------------------------------------------------------
 
 	def display_telecom(telecom)
-	  sanitize(telecom.system + ': ' + number_to_phone(telecom.value, area_code: true))
+	  sanitize(telecom.system + ': ' + number_to_phone(telecom.value, area_code: true)) if telecom
 	end
 
 	#-----------------------------------------------------------------------------
@@ -104,11 +104,22 @@ module ApplicationHelper
   #-----------------------------------------------------------------------------
 
   def address_text(address)
-    address_text = (address.line + [ address.city, address.state, address.postalCode ]).join(', ')
+    address_text = (address.line + [ address.city, address.state, address.postalCode ]).join(', ') if address
   end
 
 	#-----------------------------------------------------------------------------
 
+  def display_contact_info(address, telecoms)
+    contact_info = address_text(address) ||''
+    telecoms.each do |telecom|
+      contact_info += "</br>" if contact_info.present?
+      contact_info += "<small>#{display_telecom(telecom)}</small>"
+    end
+
+    contact_info
+  end
+  
+  #-----------------------------------------------------------------------------
 	def display_postal_code(postal_code)
 	  unless postal_code.nil?
 	  	sanitize(postal_code.match(/^\d{9}$/) ?
