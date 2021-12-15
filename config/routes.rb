@@ -10,7 +10,7 @@
 
 Rails.application.routes.draw do
 
- 
+
   resources :eobs,            only: [:index, :show]
   resources	:practitioners,		only: [:show]
 
@@ -19,5 +19,5 @@ Rails.application.routes.draw do
   get '/login', to: 'dashboard#login'
   get '/launch', to: 'dashboard#launch'
 
-  root 'welcome#index'
+  root 'dashboard#launch'
 end

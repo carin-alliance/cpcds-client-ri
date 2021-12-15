@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   attr_accessor :explanationofbenefits, :practitioners, :patients, :locations, :organizations, :practitionerroles, :coverages, :resources
   attr_accessor :fhir_explanationofbenefits,  :fhir_practitioners, :fhir_patients,  :fhir_organizations, :fir_coverages, :fhir_locations, :patient_resources, :patient, :eob, :eobs
 
-  def load_fhir_eobs(patientid, eobid)
+  def load_fhir_eobs(patientid, eobid = nil)
     puts "==>load_fhir_eobs Patient =#{patientid}" #" include=#{include}  filterbydate=#{filterbydate}"
     parameters = {}
     parameters[:_id] = eobid if eobid
@@ -128,7 +128,7 @@ class ApplicationController < ActionController::Base
 
   def connect_to_server(code = nil)
     puts "==>connect_to_server"
-    redirect_to root_path, alert: 'Your session has expired. Please reconnect!' and return if session.empty?
+    redirect_to home_path, alert: 'Your session has expired. Please reconnect!' and return if (session.empty? || session[:iss_url].nil?)
     @client = session[:client]
     if @client.present?
       if !!session[:is_auth_server?]
@@ -169,7 +169,7 @@ class ApplicationController < ActionController::Base
       })
     rescue StandardError => exception
       # reset_session
-      redirect_to root_path, alert: "Failed to connect: " + exception.message and return
+      redirect_to home_path, alert: "Failed to connect: " + exception.message and return
     end
 
     rcResult = JSON.parse(result)
@@ -179,7 +179,7 @@ class ApplicationController < ActionController::Base
     session[:token_expiration] = Time.now.to_i + rcResult["expires_in"].to_i
     session[:patient_id] = rcResult["patient"]
     rescue StandardError => exception
-      redirect_to root_path, alert: "Failed to connect, please try again." and return
+      redirect_to home_path, alert: "Failed to connect, please try again." and return
   end
 
   # Refresh token from the authorization server
@@ -204,7 +204,7 @@ class ApplicationController < ActionController::Base
     session[:token_expiration] = (Time.now.to_i + rcResult["expires_in"].to_i  )
     rescue StandardError => exception
       err = "Failed to refresh token: " + exception.message
-      redirect_to root_path, alert: err and return
+      redirect_to home_path, alert: err and return
   end
 
   def capture_search_query(results)
