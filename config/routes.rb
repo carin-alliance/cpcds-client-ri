@@ -18,6 +18,6 @@ Rails.application.routes.draw do
   get '/dashboard', to: 'dashboard#index'
   get '/login', to: 'dashboard#login'
   get '/launch', to: 'dashboard#launch'
-
+  delete '/disconnect', to: 'dashboard#disconnect'
   root 'dashboard#launch'
 end

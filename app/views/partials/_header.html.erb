@@ -18,6 +18,9 @@
         <li>
           <%= link_to 'EOBs', eobs_path, class: 'nav-link' if !@client.nil? %>
         </li>
+        <li>
+          <%= link_to 'Disconnect server', disconnect_path, method: 'delete', class: 'nav-link text-danger' if !@client.nil? %>
+        </li>
       </ul>
     </div>
   </nav>

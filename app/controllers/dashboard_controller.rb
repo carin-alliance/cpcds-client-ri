@@ -68,4 +68,10 @@ class DashboardController < ApplicationController
       redirect_to dashboard_url, notice: "Signed in with Patient ID: #{session[:patient_id]} "
     end
   end
+
+  def disconnect
+    reset_session
+    redirect_to home_path, notice: "Server has been disconnected."
+  end
+
 end
