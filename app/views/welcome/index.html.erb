@@ -2,16 +2,19 @@
 <h2 class="text-light welcome-text">Connect to a FHIR server</h2>
 	<% if @client %>
 		<p class="text-success m-auto client-connected" style='text-align: center'>
-			Connected to <%= server_url -%>
+			Connected to <%= session[:iss_url] %>
 		</p>
 		<p class="text-success m-auto client-connected" style='text-align: center'>
-			Patient <%= patient_id -%>
+			With Patient ID: <%= session[:patient_id] %>
 		</p>
 	<%else%>
 		<p class="text-danger m-auto" style='text-align: center'>No Connection Established</p>
 	<% end %>
 
-	<section class='row col-12'>
+	<section class='d-flex flex-column align-items-center justify-content-center'>
+    <% if @client %>
+      <h5 class="text-light welcome-text mt-4">Connect to another server or access your dashboard or EOBs from the top menu.</h5>
+    <% end %>
 		<div class='row'>
 			<%= form_tag launch_path, method: 'get', class: 'form-inline welcome-form', id: 'server-form' do %>
 				<div class='col'></div>
@@ -23,12 +26,17 @@
 					<%= text_field_tag :client_id, cookies[:client_id], class: 'form-control' %>
 					<label class="float-left"> Client Secret</label>
 					<%= text_field_tag :client_secret, cookies[:client_secret], class: 'form-control' %>
-					<%= button_tag 'Connect', class: 'btn btn-primary col-md-2 connect', id: 'server-url' %>
+					<%= button_tag 'Connect', class: 'btn btn-primary col-md-4 connect', id: 'server-url' %>
 				</div>
 				<div class='col'></div>
 			<% end %>
 		</div>
-
+    <div class='row bg-dark col-8'>
+      <p class='text-info text-center guidance m-2'>
+        All the fields are required for authenticated servers.<br/>
+        For unauthenticated severs, please provide the FHIR server url and patient ID in the client secret field.
+      </p>
+    </div>
 	</section>
 </section>
 

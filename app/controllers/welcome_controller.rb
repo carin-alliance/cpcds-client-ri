@@ -10,7 +10,8 @@ class WelcomeController < ApplicationController
 
   def index
     puts "==>WelcomeController.index"
-    #reset_session 
+    @client = session[:client]
+    #reset_session
 #    redirect_to launch_url
   end
 

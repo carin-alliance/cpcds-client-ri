@@ -23,9 +23,9 @@ class DashboardController < ApplicationController
     reset_session
     # Set auth sessions  with params values
     session[:launch] = params[:launch].present? ? params[:launch].strip : 'launch'
-    session[:iss_url] = params[:iss_url].strip.delete_suffix('/').delete_suffix('/metadata')
-    session[:client_id] = params[:client_id].strip
-    session[:client_secret] = params[:client_secret].strip
+    session[:iss_url] = cookies[:iss_url] = params[:iss_url].strip.delete_suffix('/').delete_suffix('/metadata')
+    session[:client_id] = cookies[:client_id] = params[:client_id].strip
+    session[:client_secret] = cookies[:client_secret] = params[:client_secret].strip
     redirect_to root_path, alert: 'Please provide a valid server url to connect.' and return if session[:iss_url].blank?
     # Get the server metadata
     rcResult = get_server_metadata(session[:iss_url])
@@ -47,6 +47,7 @@ class DashboardController < ApplicationController
       session[:patient_id] = session[:client_secret]
       redirect_to dashboard_url, notice: "Signed in with Patient ID: #{session[:patient_id]}"
     end
+    cookies.clear
   end
 
   # login:  Once authorization has happened, auth server redirects to here.
