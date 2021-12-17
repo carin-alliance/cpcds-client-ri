@@ -7,12 +7,12 @@
 ################################################################################
 
 class ApplicationController < ActionController::Base
-  require 'rest-client'
-  require 'json'
+  require "rest-client"
+  require "json"
   include AuthHelper
 
   attr_accessor :explanationofbenefits, :practitioners, :patients, :locations, :organizations, :practitionerroles, :coverages, :resources
-  attr_accessor :fhir_explanationofbenefits,  :fhir_practitioners, :fhir_patients,  :fhir_organizations, :fir_coverages, :fhir_locations, :patient_resources, :patient, :eob, :eobs
+  attr_accessor :fhir_explanationofbenefits, :fhir_practitioners, :fhir_patients, :fhir_organizations, :fir_coverages, :fhir_locations, :patient_resources, :patient, :eob, :eobs
 
   def load_fhir_eobs(patientid, eobid = nil)
     puts "==>load_fhir_eobs Patient =#{patientid}" #" include=#{include}  filterbydate=#{filterbydate}"
@@ -35,18 +35,18 @@ class ApplicationController < ActionController::Base
                    "ExplanationOfBenefit:provider"]
     parameters[:_include] = includelist
     # parameters[:_format] = "json"
-    search = {parameters: parameters }
-    results = @client.search(FHIR::ExplanationOfBenefit, search: search )
+    search = { parameters: parameters }
+    results = @client.search(FHIR::ExplanationOfBenefit, search: search)
 
     capture_search_query(results)
 
     entries = results.resource.entry.map(&:resource)
-    fhir_explanationofbenefits = entries.select {|entry| entry.resourceType == "ExplanationOfBenefit" }
-    fhir_practitioners = entries.select {|entry| entry.resourceType == "Practitioner" }
-    fhir_patients = entries.select {|entry| entry.resourceType == "Patient" }
-    fhir_locations = entries.select {|entry| entry.resourceType == "Location" }
-    fhir_organizations = entries.select {|entry| entry.resourceType == "Organization" }
-    fhir_coverages = entries.select {|entry| entry.resourceType == "Coverage" }
+    fhir_explanationofbenefits = entries.select { |entry| entry.resourceType == "ExplanationOfBenefit" }
+    fhir_practitioners = entries.select { |entry| entry.resourceType == "Practitioner" }
+    fhir_patients = entries.select { |entry| entry.resourceType == "Patient" }
+    fhir_locations = entries.select { |entry| entry.resourceType == "Location" }
+    fhir_organizations = entries.select { |entry| entry.resourceType == "Organization" }
+    fhir_coverages = entries.select { |entry| entry.resourceType == "Coverage" }
 
     # HAPI FHIR Server is not currently supporting _include on either provider or coverage
     ##################### This is a temporary solution ####################
@@ -57,17 +57,15 @@ class ApplicationController < ActionController::Base
     eob_provider_references.each do |reference|
       resource = @client.read(nil, reference).resource
       if resource.present?
-        resource.resourceType == 'Organization' ? fhir_organizations << resource
-                                              : fhir_practitioners << resource
+        resource.resourceType == "Organization" ? fhir_organizations << resource : fhir_practitioners << resource
       end
-
     end
 
     # Get the coverage references from all of the EOBs.
     eob_coverage_references = fhir_explanationofbenefits
-                                .map(&:insurance)
-                                .flatten
-                                .map {|insurance| insurance.coverage.reference }
+      .map(&:insurance)
+      .flatten
+      .map { |insurance| insurance.coverage.reference }
 
     eob_coverage_references.each do |reference|
       fhir_coverage = @client.read(nil, reference)&.resource
@@ -82,21 +80,21 @@ class ApplicationController < ActionController::Base
     locations = fhir_locations.map { |location| Location.new(location) }
     organizations = fhir_organizations.map { |organization| Organization.new(organization) }
     coverages = fhir_coverages.map { |coverage| Coverage.new(coverage, organizations) }
-    explanationofbenefits = fhir_explanationofbenefits.map { |eob| EOB.new(@client, eob, patients, practitioners, locations, organizations, coverages, practitionerroles) }.sort_by { |a|  -a.sortDate }
+    explanationofbenefits = fhir_explanationofbenefits.map { |eob| EOB.new(@client, eob, patients, practitioners, locations, organizations, coverages, practitionerroles) }.sort_by { |a| -a.sortDate }
     @eobs = explanationofbenefits
   end
 
   # load_patient_resources:  Builds and executes a search for a given type restricted to a single patient and the appropriate profile
-  def load_patient_resources(type, profile, patientfield, pid, datefield=nil)
+  def load_patient_resources(type, profile, patientfield, pid, datefield = nil)
     parameters = {}
-#        parameters[patientfield] = "Patient/" + pid
+    #        parameters[patientfield] = "Patient/" + pid
     parameters[patientfield] = pid
     parameters[:_profile] = profile if profile
-#        parameters[:_count] = 1000
+    #        parameters[:_count] = 1000
     if datefield
       parameters[datefield] = []
-      parameters[datefield] << "ge"+ DateTime.parse(start_date).strftime("%Y-%m-%d")   if start_date.present?
-      parameters[datefield] << "le"+ DateTime.parse(end_date).strftime("%Y-%m-%d")    if end_date.present?
+      parameters[datefield] << "ge" + DateTime.parse(start_date).strftime("%Y-%m-%d") if start_date.present?
+      parameters[datefield] << "le" + DateTime.parse(end_date).strftime("%Y-%m-%d") if end_date.present?
     end
     search = { parameters: parameters }
     results = @client.search(type, search: search)
@@ -104,13 +102,13 @@ class ApplicationController < ActionController::Base
   end
 
   # Get Fhir Resources:  Retrieves a referenced resource by ID, and optionally patientID
-  def get_fhir_resources(fhir_client, type, resource_id, patient_id=nil)
+  def get_fhir_resources(fhir_client, type, resource_id, patient_id = nil)
     if patient_id == nil
-        search = { parameters: {  _id: resource_id} }
+      search = { parameters: { _id: resource_id } }
     else
-        search = { parameters: {  _id: resource_id, patient: patient_id} }
+      search = { parameters: { _id: resource_id, patient: patient_id } }
     end
-    results = fhir_client.search(type, search: search )
+    results = fhir_client.search(type, search: search)
     results.resource.entry.map(&:resource)
   end
 
@@ -128,12 +126,12 @@ class ApplicationController < ActionController::Base
 
   def connect_to_server(code = nil)
     puts "==>connect_to_server"
-    redirect_to home_path, alert: 'Your session has expired. Please reconnect!' and return if (session.empty? || session[:iss_url].nil?)
+    redirect_to home_path, alert: "Your session has expired. Please reconnect!" and return if (session.empty? || session[:iss_url].nil?)
     @client = session[:client]
     if @client.present?
       if !!session[:is_auth_server?]
         token_expires_in = session[:token_expiration] - Time.now.to_i
-        if token_expires_in.to_i < 10   # if we are less than 10s from an expiration, refresh
+        if token_expires_in.to_i < 10 # if we are less than 10s from an expiration, refresh
           token = refresh_token()
           return if token.nil?
         end
@@ -148,7 +146,6 @@ class ApplicationController < ActionController::Base
         @client.set_bearer_token(session[:access_token])
         @client.default_json
       end
-
     end
     session[:client] = @client
   end
@@ -178,22 +175,22 @@ class ApplicationController < ActionController::Base
     session[:refresh_token] = rcResult["refresh_token"]
     session[:token_expiration] = Time.now.to_i + rcResult["expires_in"].to_i
     session[:patient_id] = rcResult["patient"]
-    rescue StandardError => exception
-      redirect_to home_path, alert: "Failed to connect, please try again." and return
+  rescue StandardError => exception
+    redirect_to home_path, alert: "Failed to connect, please try again." and return
   end
 
   # Refresh token from the authorization server
   def refresh_token
-    auth = 'Basic ' + Base64.strict_encode64( session[:client_id] + ":" + session[:client_secret]).chomp
+    auth = "Basic " + Base64.strict_encode64(session[:client_id] + ":" + session[:client_secret]).chomp
 
     rcResultJson = RestClient.post(
       session[:token_url],
       {
-        grant_type: 'refresh_token',
+        grant_type: "refresh_token",
         refresh_token: session[:refresh_token],
       },
       {
-        :Authorization => auth
+        :Authorization => auth,
       }
     )
     rcResult = JSON.parse(rcResultJson)
@@ -201,10 +198,10 @@ class ApplicationController < ActionController::Base
     session[:patient_id] = rcResult["patient"]
     session[:access_token] = rcResult["access_token"]
     session[:refresh_token] = rcResult["refresh_token"]
-    session[:token_expiration] = (Time.now.to_i + rcResult["expires_in"].to_i  )
-    rescue StandardError => exception
-      err = "Failed to refresh token: " + exception.message
-      redirect_to home_path, alert: err and return
+    session[:token_expiration] = (Time.now.to_i + rcResult["expires_in"].to_i)
+  rescue StandardError => exception
+    err = "Failed to refresh token: " + exception.message
+    redirect_to home_path, alert: err and return
   end
 
   def capture_search_query(results)
@@ -214,6 +211,4 @@ class ApplicationController < ActionController::Base
       @search = URI.decode(results.request[:url]) if results.request[:url].present?
     end
   end
-
 end
-

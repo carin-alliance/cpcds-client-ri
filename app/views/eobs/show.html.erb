@@ -1,21 +1,22 @@
 <section class='container'>
   <h3>Explanation of Benefit: <%= @eob.id %></h3>
-  <%= render 'partials/query' %>  
+  <%= render "partials/query" %>
   <section class='row'>
     <div class='col-12 card-container'>
-      <%= render 'eob-card' %>
+      <%= render "eob-card" %>
+    </div>
+    <% if @eob.coverage %>
+      <div class='col-12 card-container'>
+        <%= render "coverage-card" %>
+      </div>
+    <% end %>
+    <div class='col-12 card-container'>
+      <%= render "supportinginfo-card" %>
     </div>
     <div class='col-12 card-container'>
-      <%= render 'coverage-card' %>
+      <%= render "detail-card" %>
     </div>
-    <div class='col-12 card-container'>
-      <%= render 'supportinginfo-card' %>
-    </div>
-    <div class='col-12 card-container'>
-      <%= render 'detail-card' %>
-    </div>
-    <%# <div class='col-5' id='map'> %>
-    <%# </div> %>
+    <% # <div class='col-5' id='map'> %>
+    <% # </div> %>
   </section>
 </section>
- 
