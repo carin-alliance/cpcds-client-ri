@@ -37,6 +37,9 @@ class ApplicationController < ActionController::Base
     # parameters[:_format] = "json"
     search = { parameters: parameters }
     results = @client.search(FHIR::ExplanationOfBenefit, search: search)
+    if !(200..206).member?(results.response[:code])
+      redirect_back fallback_location: dashboard_path, alert: "ERROR: #{results.response[:body]}" and return
+    end
 
     capture_search_query(results)
 
