@@ -13,11 +13,11 @@ module AuthHelper
       rcRequest = RestClient::Request.new(
         :method => :get,
         :url => server_url + "/metadata",
-      )
+      ).execute
     rescue StandardError => exception
-      return "#{exception.message}: Please provide a valid FHIR server."
+      return "Unable to connect to the server: #{exception.message}"
     end
-    rcResult = JSON.parse(eval(rcRequest.execute).to_json)
+    rcResult = JSON.parse(eval(rcRequest).to_json)
     is_auth_server?(rcResult)
     rescue StandardError => exception
       return "Something went wrong when trying to get the server metadata. Please verify you provided a valid FHIR server."

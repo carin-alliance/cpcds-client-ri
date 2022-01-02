@@ -27,6 +27,7 @@ gem "rdoc"                      # RDoc for documentation
 gem "chartkick"					        # Integrates chart.js functionality into Ruby
 gem "masonry-rails"             # Wrapper for Masonry JavaScript grid layout library
 gem "dalli"                     # Memcache client
+gem "rack-timeout"              # Abort requests that are taking too long.
 
 group :development, :test do
   gem "pry"                     # Runtime developer console

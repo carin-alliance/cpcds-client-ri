@@ -7,6 +7,8 @@
 ################################################################################
 
 class ApplicationController < ActionController::Base
+  rescue_from Rack::Timeout::RequestTimeoutException, with: :handle_timeout
+
   require "rest-client"
   require "json"
   include AuthHelper
@@ -52,7 +54,7 @@ class ApplicationController < ActionController::Base
     fhir_coverages = entries.select { |entry| entry.resourceType == "Coverage" }
 
     # HAPI FHIR Server is not currently supporting _include on either provider or coverage
-    ##################### This is a temporary solution ####################
+    ##################### TODO: This is a temporary solution ####################
 
     # Get the provider references from all of the EOBs.
     eob_provider_references = fhir_explanationofbenefits.map(&:provider).map(&:reference)
@@ -213,5 +215,12 @@ class ApplicationController < ActionController::Base
       @search = "<Search String in Returned Bundle is empty>"
       @search = URI.decode(results.request[:url]) if results.request[:url].present?
     end
+  end
+
+  private
+  # Handle time out request:
+  def handle_timeout
+    err = "No response from server: Timed out connecting to server. Server is either down or connection is slow."
+    redirect_to home_path, alert: err
   end
 end

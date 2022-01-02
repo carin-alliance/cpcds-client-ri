@@ -26,8 +26,8 @@ class DashboardController < ApplicationController
     # Set auth sessions  with params values
     session[:launch] = params[:launch].present? ? params[:launch].strip : "launch"
     session[:iss_url] = cookies[:iss_url] = params[:iss_url].strip.delete_suffix("/").delete_suffix("/metadata")
-    session[:client_id] = cookies[:client_id] = params[:client_id].strip
-    session[:client_secret] = cookies[:client_secret] = params[:client_secret].strip
+    session[:client_id] = params[:client_id].strip
+    session[:client_secret] = params[:client_secret].strip
     redirect_to home_path, alert: "Please provide a valid server url to connect." and return if session[:iss_url].blank?
     # Get the server metadata
     rcResult = get_server_metadata(session[:iss_url])
@@ -72,6 +72,7 @@ class DashboardController < ApplicationController
 
   def disconnect
     reset_session
+    cookies.clear
     redirect_to home_path, notice: "Server has been disconnected."
   end
 end
