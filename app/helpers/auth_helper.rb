@@ -35,7 +35,8 @@ module AuthHelper
 
   def set_server_auth_url
     # for Onyx     scope = "launch/patient openid fhirUser offline_access user/ExplanationOfBenefit.read user/Coverage.read user/Organization.read user/Patient.read user/Practitioner.read patient/ExplanationOfBenefit.read patient/Coverage.read patient/Organization.read patient/Patient.read patient/Practitioner.read"
-    scope = "launch/patient openid fhirUser offline_access user/*.read patient/*.read"
+    # scope = "launch/patient openid fhirUser offline_access user/*.read patient/*.read"
+    scope = "launch/patient openid fhirUser offline_access patient/*.read"
     scope = scope.gsub(" ", "%20")
     scope = scope.gsub("/", "%2F")
     server_auth_url = session[:auth_url] +
