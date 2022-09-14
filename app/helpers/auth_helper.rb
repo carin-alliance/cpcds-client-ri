@@ -6,8 +6,11 @@
 #
 ################################################################################
 
+# Server auth helpers
 module AuthHelper
-  # Server auth helpers
+  # Checks whether we can retrieve the server's metadata.
+  # @return [Boolean] true if we can retrieve the server's metadata and security components.
+  # @return [String] error message if we can't retrieve the server's metadata and security components.
   def get_server_metadata(server_url)
     begin
       rcRequest = RestClient::Request.new(
