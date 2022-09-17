@@ -1,0 +1,57 @@
+<aside class="mb-0 me-1">
+	<h3>Search By</h3>
+	<article class="card border border-0" style="left: 0; top: 0;">
+		<div class="d-flex flex-column flex-wrap justify-content-between m-0 p-2 w-100">
+			<div class="bg-white mb-2 p-2 border rounded" id="claim-type">
+				<label for="claim-type" class="d-block text-muted fs-6 lh-2 mb-0 mx-auto pb-0" tabindex="-1"> Claim Type </label>
+				<select
+					name="claim-type"
+					id="claim-type"
+					class="selectpicker show-tick p-1 border border-1 mx-0 d-inline-block text-left w-100"
+				>
+					<option value="all">All</option>
+					<option value="institutional">Institutional</option>
+					<option value="oral">Oral</option>
+					<option value="pharmacy">Pharmacy</option>
+					<option value="professional">Professional</option>
+					<option value="vision">Vision</option>
+				</select>
+			</div>
+			<div class="bg-white mb-2 p-2 border rounded" id="claim-status">
+				<label for="claim-status" class="d-block text-muted fs-6 lh-2 mb-0 mx-auto pb-0" tabindex="-1"> Claim Status Code </label>
+				<select
+					name="claim-status"
+					id="claim-status"
+					class="selectpicker show-tick p-1 border border-1 mx-0 d-inline-block text-left w-100"
+				>
+					<option value="all">All</option>
+					<option value="complete">Complete</option>
+					<option value="error">Error</option>
+					<option value="partial">Partial</option>
+					<option value="queued">Queued</option>
+				</select>
+			</div>
+			<div class="bg-white mb-2 p-2 border rounded" id="claim-provider">
+				<label for="claim-provider" class="d-block text-muted fs-6 lh-2 mb-0 mx-auto pb-0" tabindex="-1"> Provider </label>
+				<select
+					name="claim-provider"
+					id="claim-provider"
+					class="selectpicker show-tick p-1 border border-1 mx-0 d-inline-block text-left w-100"
+				>
+					<option value="all">All</option>
+					<% @eobs_provider_names.each do |name| %>
+					<option value="<%= sanitize(name).split(" ").first %> "><%= sanitize(name) %></option>
+					<% end %>
+				</select>
+			</div>
+			<div class="bg-white mb-2 p-2 border rounded" id="claim-date-range">
+				<label for="claim-daterange" class="d-block text-muted fs-6 lh-2 mb-0 mx-auto pb-0" tabindex="-1"> Date Range </label>
+				<select name="claim-daterange" id="claim-daterange" class="p-1 border border-1 mx-0 d-inline-block text-left w-100">
+          <option value="all">All</option>
+          <option value="currentyear">Current Year</option>
+          <option value="lastyear">Last Year </option>
+        </select>
+			</div>
+		</div>
+	</article>
+</aside>

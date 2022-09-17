@@ -15,14 +15,14 @@ CLAIM_TYPE_CS = {
   "oral" => "Oral",
   "pharmacy" => "Pharmacy",
   "professional" => "Professional",
-  "vision" => "Vision"
+  "vision" => "Vision",
 }.freeze
 
 #-------------------------------------------------------------------------------
 # Claim Subtype CS
 CLAIM_SUBTYPE_CS = {
   "inpatient" => "Inpatient",
-  "outpatient" => "Outpatient"
+  "outpatient" => "Outpatient",
 }.freeze
 
 #-------------------------------------------------------------------------------
@@ -51,12 +51,12 @@ SUPPORTING_INFO_CS = {
   "orthodontics" => "Orthodontics",
   "prosthesis" => "Prosthesis",
   "additionalbodysite" => "Additional Body Site",
-  "missingtoothnumber" => "Missing Tooth Number"
+  "missingtoothnumber" => "Missing Tooth Number",
 }.freeze
 
 #-------------------------------------------------------------------------------
 # Adjudication Code System
-ADJUDICATION_CS = {
+TOTAL_CATEGORY_AND_ADJUDICATION_CS = {
   "submitted" => "Submitted Amount",
   "copay" => "CoPay",
   "eligible" => "Eligible Amount",
@@ -75,12 +75,12 @@ ADJUDICATION_CS = {
   "outofnetwork" => "Out of Network",
   "other" => "Other Network",
   "allowedunits" => "Allowed units",
-  "denialreason" => "Denial Reason"
+  "denialreason" => "Denial Reason",
 }.freeze
 
 #-------------------------------------------------------------------------------
 ADA_UNIVERSAL_NS = {
   "1" => "Permanent teeth right maxillary third molar (wisdom tooth)",
-  "2" =>"Permanent teeth right second molar (12-year-molar)"
+  "2" => "Permanent teeth right second molar (12-year-molar)",
 }.freeze
 #-------------------------------------------------------------------------------

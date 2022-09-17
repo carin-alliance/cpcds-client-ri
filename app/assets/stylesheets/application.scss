@@ -1,67 +1,67 @@
 /*
- * This is a manifest file that'll be compiled into application.css, which will include all the 
+ * This is a manifest file that'll be compiled into application.css, which will include all the
  * files listed below.
  *
  * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
  * vendor/assets/stylesheets directory can be referenced here using a relative path.
  *
  * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other 
- * CSS/SCSS files in this directory. Styles in this file should be added after the last require_* 
+ * compiled file so the styles you add here take precedence over styles defined in any other
+ * CSS/SCSS files in this directory. Styles in this file should be added after the last require_*
  * statement. It is generally better to create a new file per style scope.
  *
  *= require_tree .
  *= require_self
  *= require bootstrap-toggle
+ *= require daterangepicker
  */
 
-
-@import 'bootstrap';
-@import 'style';
+@import "bootstrap";
+@import "style";
 
 body {
-    margin:0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 caption {
-    caption-side: top;
-    margin: 1;
-    padding{
-        top:1em
-    }
+	caption-side: top;
+	margin: 1;
+	padding {
+		top: 1em;
+	}
 }
 header.main {
-    text-align: center;
-    @media (min-width: 30em){
-        text-align: left;
-    }
-    background: #282;
-    margin: 0;
-    h1{
-        display:none;
-    }
+	text-align: center;
+	@media (min-width: 30em) {
+		text-align: left;
+	}
+	background: #282;
+	margin: 0;
+	h1 {
+		display: none;
+	}
 }
 
 table {
-    adjudication {
-        font-size: 1em
-    }
-  }
-  
-  td, th {
-    text-overflow: ellipsis;
-    overflow:hidden;
-  }
+	adjudication {
+		font-size: 1em;
+	}
+}
 
-  tr.adjudication{
-        font-size: 0.75em
-  }
+td,
+th {
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
 
-  tr.eobitem{
-    font-size: 1em
- }
- 
+tr.adjudication {
+	font-size: 0.75em;
+}
 
- tr.eobtotal{
-    font-size: 1.25em
- }
+tr.eobitem {
+	font-size: 1em;
+}
+
+tr.eobtotal {
+	font-size: 1.25em;
+}

@@ -7,7 +7,7 @@
 ################################################################################
 
 class EobsController < ApplicationController
-  before_action :connect_to_server, only: [ :index, :show ]
+  before_action :connect_to_server, only: [:index, :show]
 
   # GET /eobs: show a collection of EOBs
   def index
@@ -15,6 +15,7 @@ class EobsController < ApplicationController
     load_fhir_eobs(session[:patient_id])
     @start_date = start_date
     @end_date = end_date
+    @eobs_provider_names = @eobs.map(&:provider).map(&:name)
   end
 
   # GET /eobs/[id]: show a single EOB
@@ -23,9 +24,8 @@ class EobsController < ApplicationController
     # Factor out search for an EOB by id with patient id
     load_fhir_eobs(session[:patient_id], eob_id)
     if @eobs
-      @eob = @eobs.select{|p| p.id == eob_id}[0]
+      @eob = @eobs.select { |p| p.id == eob_id }[0]
     end
-    redirect_back fallback_location: eobs_path, alert: 'Search not found: the EOB requested does not exist.' if @eob.nil?
+    redirect_back fallback_location: eobs_path, alert: "Search not found: the EOB requested does not exist." if @eob.nil?
   end
-
 end

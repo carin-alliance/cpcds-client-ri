@@ -1,11 +1,11 @@
 body {
-	background-color: black;
+	background-color: lightgray;
 	color: #eee;
 	padding-bottom: 20px;
 }
 
 main > .container {
-  padding: 30px 15px;
+	padding: 30px 15px;
 }
 
 .navbar-brand {
@@ -55,7 +55,6 @@ footer {
 	.form-control {
 		width: 600px;
 	}
-
 }
 
 .client-connected {
@@ -116,12 +115,12 @@ div.patient-info {
 }
 
 div.address {
-	margin-left: 0px; 
+	margin-left: 0px;
 	margin-right: 0px;
 }
 
 .connect {
-	margin: 20px auto 20px auto; 
+	margin: 20px auto 20px auto;
 }
 
 .form-control {
@@ -133,15 +132,15 @@ div.address {
 }
 
 .query {
-  border-color: #454d55; 
-  background-color: #343a40; 
-  padding: 10px;
-  word-wrap: break-word !important;
-  margin-bottom: 10px;
+	border-color: #454d55;
+	background-color: #343a40;
+	padding: 10px;
+	word-wrap: break-word !important;
+	margin-bottom: 10px;
 }
 
 div.query {
-  margin-left: 0px;
+	margin-left: 0px;
 }
 
 @media (min-width: 200px) and (max-width: 767px) {
@@ -149,7 +148,8 @@ div.query {
 		display: block;
 		margin: 0 auto;
 
-		.form-control, .btn {
+		.form-control,
+		.btn {
 			width: 300px !important;
 			margin-bottom: 10px;
 		}
@@ -158,9 +158,9 @@ div.query {
 			margin-left: 15px;
 		}
 
-		.col-md-3 { // restores bootstrap class to original state
+		.col-md-3 {
+			// restores bootstrap class to original state
 			padding-left: 15px;
 		}
- 
 	}
 }

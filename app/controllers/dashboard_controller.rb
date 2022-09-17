@@ -63,7 +63,7 @@ class DashboardController < ApplicationController
       code = params[:code]
       @client = connect_to_server(code)
       return if @client.nil?
-      redirect_to dashboard_url, notice: "Signed in with Patient ID: #{session[:patient_id]} "
+      redirect_to eobs_url, notice: "Signed in with Patient ID: #{session[:patient_id]} "
     end
   end
 

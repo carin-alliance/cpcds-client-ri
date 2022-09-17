@@ -1,0 +1,65 @@
+<section class="sidebar-main-content">
+	<div class="eob-list-container">
+		<div class="pagination d-flex justify-content-between align-items-center">
+			<div class="text-small text-info" aria-live="polite" id="total-claims">
+				<%= pluralize(@eobs.size, "claim") %>
+			</div>
+		</div>
+		<div id="eob-list">
+			<% @eobs.each do |eob| %>
+        <% eob_class = "all #{eob.outcome} #{eob.type.downcase}" %>
+        <article tabindex="-1" class="<%= eob_class %>">
+          <div
+            class="d-flex flex-row justify-content-between p-4 m-0 bg-white border border-2 rounded-1"
+          >
+            <div class="d-flex flex-row flex-wrap flex-grow-1 p-1">
+              <div class="d-flex flex-row flex-grow-1 flex-shrink-1 me-0 w-25">
+                <div class="mr-0 flex-grow-1">
+                  <h5 class="pb-2 fw-bold lh-base"><%= sanitize(eob.provider.name) %></h5>
+                  <time class="fs-6 lh-base fw-lighter">
+                    serviced on <%= Date.strptime(eob.created, "%m/%d/%Y") %>
+                  </time>
+                  <p class="mt-2 fs-6 lh-base fw-lighter">
+                    For
+                    <% @patient.names.each do |name| %>
+                      <%= display_human_name(name) %><br />
+                    <% end %>
+                  </p>
+                </div>
+              </div>
+              <div class="d-flex align-items-center justify-content-center ms-0 w-75">
+                <div class="ms-2 ps-4">
+                  <ul class="d-flex flex-grow-1 flex-nonwrap m-0 p-0 list-unstyled">
+
+                    <% eob.total.each do |total| %>
+                      <li class="d-flex flex-column flex-grow-1 flex-shrink-1 justify-content-start">
+                        <p class="mb-2 lh-base pb-2 pe-4 fs-6 fw-lighter h-50"><%= sanitize(total[:category]) %></p>
+                        <div class="fs-5 lh-base fw-normal mt-2 pt-3 h-50">
+                          <%= sanitize(total[:amount]) %>
+                        </div>
+                      </li>
+                    <% end %>
+
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-shrink-0 justify-content-center m-5 py-1 px-0">
+              <a href="<%= eob_path(eob.id) %>" class="d-flex flex-row px-0 py-2 fw-bold text-info lh-base  text-decoration-none" name="View EOB Details" role="button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </article>
+			<% end %>
+      <article class="card d-none flex-row justify-content-center align-items-center text-center m-5  p-5 w-100" id="no-result">
+        <div class="w-100">
+          <h6 class="lh-2 m-4 p-4"> No results found</h6>
+          <%= link_to "See All Claims", eobs_path, class: "btn btn-primary border border-1 rounded d-inline-flex flex-row justify-content-center align-items-center fw-bold lh-2 " %>
+        </div>
+      </article>
+		</div>
+	</div>
+</section>
