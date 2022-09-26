@@ -32,12 +32,15 @@
                   <ul class="d-flex flex-grow-1 flex-nonwrap m-0 p-0 list-unstyled">
 
                     <% eob.total.each do |total| %>
-                      <li class="d-flex flex-column flex-grow-1 flex-shrink-1 justify-content-start">
-                        <p class="mb-2 lh-base pb-2 pe-4 fs-6 fw-lighter h-50"><%= sanitize(total[:category]) %></p>
-                        <div class="fs-5 lh-base fw-normal mt-2 pt-3 h-50">
-                          <%= sanitize(total[:amount]) %>
-                        </div>
-                      </li>
+                      <% categories = ["Submitted Amount", "Eligible Amount", "Benefit Amount", "CoPay", "Member liability", "Drug Cost"] %>
+                      <% if categories.include?(sanitize(total[:category])) %>
+                        <li class="d-flex flex-column flex-grow-1 flex-shrink-1 justify-content-start">
+                          <p class="mb-2 lh-base pb-2 pe-4 fs-6 fw-lighter h-50"><%= sanitize(total[:category]) %></p>
+                          <div class="fs-5 lh-base fw-normal mt-2 pt-3 h-50">
+                            <%= sanitize(total[:amount]) %>
+                          </div>
+                        </li>
+                      <% end %>
                     <% end %>
 
                   </ul>
