@@ -2,16 +2,16 @@
 <html>
   <%= render 'partials/head' %>
   <body>
-    <%= render 'partials/header' %>
-    <div id='content'>
-      <main role='main'>
-        <%= render 'partials/messages' %>
-        <div class="body-padding">
+    <div class='container'>
+      <%= render 'partials/header' %>
+      <div id='content'>
+        <main role='main'>
+          <%= render 'partials/messages' %>
           <%= yield %>
-        </div>
-      </main>
-      <%= render 'partials/footer' %>
+        </main>
+      </div>
     </div>
+    <%= render 'partials/footer' %>
     <%= yield :scripts %>
   </body>
 </html>

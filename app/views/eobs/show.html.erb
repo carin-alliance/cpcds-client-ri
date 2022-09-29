@@ -1,22 +1,29 @@
-<section class='container'>
-  <h3>Explanation of Benefit: <%= @eob.id %></h3>
+<section class="container text-dark mb-2">
+  <div class="d-flex align-items-center bg-white border-bottom fs-5 fw-bold lh-2" style="height: 35px; max-width: 77rem;">
+    <div class="m-2 w-100" style="max-width: 74rem;">
+      <%= link_to 'Return to Claims', eobs_path, class: "bg-light text-primary px-0 d-inline-flex flex-row align-items-center fw-bold lh-base text-decoration-none" %>
+    </div>
+  </div>
   <%= render "partials/query" %>
-  <section class='row'>
-    <div class='col-12 card-container'>
-      <%= render "eob-card" %>
-    </div>
-    <% if @eob.coverage %>
-      <div class='col-12 card-container'>
-        <%= render "coverage-card" %>
+  <div id="eob-details" class="text-dark fs-5 lh-base bg-light border rounded p-3" style="max-width: 77rem;">
+    <div class="d-flex flex-column justify-content-center align-items-center my-2 mx-auto w-100">
+      <h2>Explanation of Benefits (EOB) </h2>
+      <%= render "patient_info" %>
+      <div class="d-flex flex-sm-column flex-md-row flex-nowrap w-100">
+        <div class="d-flex flex-column w-100">
+          <%= render "eob_info_total" %>
+          <% if @eob.careteam.size > 0 %>
+            <%= render "careteam" %>
+          <% end %>
+          <%= render "services_info" %>
+        </div>
+        <div class="d-flex flex-column w-100">
+          <%= render "adjudication_slice" %>
+          <%= render "supporting_info" %>
+          <%= render "diagnosis" %>
+        </div>
       </div>
-    <% end %>
-    <div class='col-12 card-container'>
-      <%= render "supportinginfo-card" %>
+
     </div>
-    <div class='col-12 card-container'>
-      <%= render "detail-card" %>
-    </div>
-    <% # <div class='col-5' id='map'> %>
-    <% # </div> %>
-  </section>
+  </div>
 </section>

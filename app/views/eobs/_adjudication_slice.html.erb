@@ -1,0 +1,16 @@
+<div
+  id="adjudication-slice"
+	class="d-flex flex-sm-column flex-md-row justify-content-around mt-4 py-4 mx-auto fs-6 w-100 bg-light border border-1 rounded w-100"
+>
+  <div class="d-flex flex-column flex-grow-1 flex-shrink-1 mx-2 w-100">
+    <h4 class="w-100 lh-1">Adjudication</h4>
+
+    <% @eob.adjudication.each do |adj| %>
+      <div class="d-flex justify-content-between flex-nonwrap lh-base pt-2 pe-4">
+        <p class="text-left text-secondary fw-bold mb-0 w-100"><%= sanitize(adj[:type]) %></p>
+        <p class="text-right text-secondary mb-0 w-100"><%= sanitize(adj[:value]) %></p>
+      </div>
+    <% end %>
+
+  </div>
+</div>

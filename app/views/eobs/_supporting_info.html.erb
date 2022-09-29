@@ -1,0 +1,14 @@
+<div
+  id="supporting-info"
+	class="d-flex flex-sm-column flex-md-row justify-content-around mt-4 py-4 mx-auto fs-6 w-100 bg-light border border-1 rounded w-100"
+>
+  <div class="d-flex flex-column flex-grow-1 flex-shrink-1 mx-2 w-100">
+    <h4 class="w-100 lh-1">Claim Supporting Information</h4>
+    <% @eob.supportingInfo.each do |sequence, supporting_info| %>
+        <div class="d-flex justify-content-between flex-nonwrap lh-base pt-2 pe-4">
+          <p class="text-left text-secondary fw-bold mb-0 w-100"><%= sanitize(supporting_info[:category]) %></p>
+          <p class="text-right mb-0 w-100" style="font-size: 12px;"><%= sanitize(supporting_info[:info]) %></p>
+        </div>
+    <% end %>
+  </div>
+</div>

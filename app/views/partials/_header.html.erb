@@ -2,7 +2,7 @@
   <nav class='navbar fixed-top navbar-expand-lg bg-dark navbar-dark justify-content-between'>
     <div class='navbar-brand'>
       <%= link_to home_path do %>
-		<%= image_tag 'clipboard.svg', id: 'logo', alt: '' %>
+		<%= image_tag "clipboard.svg", id: "logo", alt: "" %>
         <div class="header-title">Claims and Encounters</div>
       <% end %>
     </div>
@@ -13,13 +13,13 @@
      <div class='collapse navbar-collapse' id='navbarSupportedContent'>
       <ul class='navbar-nav mr-auto'>
         <li>
-          <%= link_to 'Dashboard', dashboard_path, class: 'nav-link' if !@client.nil? %>
+          <%= link_to "Dashboard", dashboard_path, class: "nav-link" if !@client.nil? %>
         </li>
         <li>
-          <%= link_to 'EOBs', eobs_path, class: 'nav-link' if !@client.nil? %>
+          <%= link_to "Claims", eobs_path, class: "nav-link" if !@client.nil? %>
         </li>
         <li>
-          <%= link_to 'Disconnect server', disconnect_path, method: 'delete', class: 'nav-link text-danger' if !@client.nil? %>
+          <%= link_to "Disconnect server", disconnect_path, method: "delete", class: "nav-link text-danger" if !@client.nil? %>
         </li>
       </ul>
     </div>

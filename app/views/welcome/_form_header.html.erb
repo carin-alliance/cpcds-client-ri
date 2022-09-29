@@ -1,0 +1,14 @@
+<h4 class="text-uppercase card-title text-center mb-3">Connect to a FHIR server</h4>
+<% if @client %>
+  <p class="card-subtitle text-success m-auto client-connected text-center">
+    Connected to <%= session[:iss_url] %>
+  </p>
+  <p class="card-subtitle text-success m-auto client-connected text-center">
+    With Patient ID: <%= session[:patient_id] %>
+  </p>
+  <div class="d-flex justify-content-center mb-4">
+    <h5 class="text-center mt-4">Connect to another server or access your dashboard or EOBs from the top menu.</h5>
+  </div>
+<% else %>
+  <p class="card-subtitle text-danger m-auto" style='text-align: center'>No Connection Established</p>
+<% end %>

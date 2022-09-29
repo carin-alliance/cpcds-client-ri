@@ -1,6 +1,8 @@
 <% if @search %>
-  <div class="row col-12 query">
-    Query to server<br />
-    <%= @search %>
-  </div>
+<div class="card bg-light text-dark mb-3" style="max-width: 77rem;">
+	<h3 class="card-header">Query to server</h3>
+	<div class="card-body">
+		<p class="card-text"><%= @search %></p>
+	</div>
+</div>
 <% end %>

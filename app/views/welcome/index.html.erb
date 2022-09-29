@@ -1,43 +1,45 @@
-<section class='container'>
-<h2 class="text-light welcome-text">Connect to a FHIR server</h2>
-	<% if @client %>
-		<p class="text-success m-auto client-connected" style='text-align: center'>
-			Connected to <%= session[:iss_url] %>
-		</p>
-		<p class="text-success m-auto client-connected" style='text-align: center'>
-			With Patient ID: <%= session[:patient_id] %>
-		</p>
-	<%else%>
-		<p class="text-danger m-auto" style='text-align: center'>No Connection Established</p>
-	<% end %>
+<section >
+  <div class="mask d-flex align-items-center vh-50">
+    <div class="container">
+      <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-10 col-md-10 col-lg-12 col-xl-12 h-100">
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body p-5 text-dark">
+              <%= render "form_header" %>
+              <%= form_tag launch_path, method: "get", id: "server-form" do %>
 
-	<section class='d-flex flex-column align-items-center justify-content-center'>
-    <% if @client %>
-      <h5 class="text-light welcome-text mt-4">Connect to another server or access your dashboard or EOBs from the top menu.</h5>
-    <% end %>
-		<div class='row'>
-			<%= form_tag launch_path, method: 'get', class: 'form-inline welcome-form', id: 'server-form' do %>
-				<div class='col'></div>
-				<div class='form-group col-md-7 last'>
-					<label class="float-left"> FHIR Server</label>
-					<%= text_field_tag :iss_url, cookies[:iss_url], class: 'form-control',
-								placeholder: 'http://cpcds-ri.org/cpcds-server/fhir' %>
-					<label class="float-left"> ClientID</label>
-					<%= text_field_tag :client_id, cookies[:client_id], class: 'form-control' %>
-					<label class="float-left"> Client Secret</label>
-					<%= text_field_tag :client_secret, cookies[:client_secret], class: 'form-control' %>
-					<%= button_tag 'Connect', class: 'btn btn-primary col-md-4 connect', id: 'server-url' %>
-				</div>
-				<div class='col'></div>
-			<% end %>
-		</div>
-    <div class='row bg-dark col-8'>
-      <p class='text-info text-center guidance m-2'>
-        All fields are required for authenticated servers.<br/>
-        For unauthenticated severs, please provide the FHIR server url and patient ID in the client secret field.
-      </p>
+                <div class="form-outline mb-2">
+                  <%= text_field_tag :iss_url, cookies[:iss_url], class: "form-control form-control-lg",
+                                                                  placeholder: "http://cpcds-ri.org/cpcds-server/fhir", required: true %>
+                  <label class="form-label">Patient Access FHIR Server <span class="text-danger">**</span></label>
+                </div>
+                <div class="form-outline mb-2">
+                  <%= text_field_tag :client_id, cookies[:client_id], class: "form-control form-control-lg",
+                                                                      placeholder: "Client ID", required: true %>
+                  <label class="form-label">Client ID <span class="text-danger">**</span></label>
+                </div>
+                <div class="form-outline mb-2">
+                  <%= text_field_tag :client_secret, cookies[:client_secret], class: "form-control form-control-lg",
+                                                                              placeholder: "Client secret", required: true %>
+                  <label class="form-label">Client Secret <span class="text-danger">**</span></label>
+                </div>
+                <div class="d-flex justify-content-center">
+                  <%= button_tag "Connect", class: "btn btn-primary btn-block btn-md gradient-custom-4 text-body", id: "server-url" %>
+                </div>
+
+              <% end %>
+              <div class="d-flex justify-content-center my-4">
+                <p class='text-info text-center guidance m-2'>
+                  All fields are required.<br/>
+                  For unauthenticated severs, please provide the FHIR server url and patient ID in the client ID & Secret fields.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-	</section>
+  </div>
 </section>
 
 

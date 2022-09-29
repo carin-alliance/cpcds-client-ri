@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
       parameters[:"service-date"] << "ge#{DateTime.parse(start_date).strftime("%Y-%m-%d")}" if start_date.present?
       parameters[:"service-date"] << "le#{DateTime.parse(end_date).strftime("%Y-%m-%d")}" if end_date.present?
     rescue => exception
-      redirect_back fallback_location: dashboard_path, alert: "Please provide a valid date in the form (dd/mm/yyyy)"
+      redirect_back fallback_location: home_path, alert: "Please provide a valid date in the form (dd/mm/yyyy)"
     end
 
     includelist = ["ExplanationOfBenefit:patient",
@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
     search = { parameters: parameters }
     results = @client.search(FHIR::ExplanationOfBenefit, search: search)
     if !(200..206).member?(results.response[:code])
-      redirect_back fallback_location: dashboard_path, alert: "ERROR: #{results.response[:body]}" and return
+      redirect_to home_path, alert: "ERROR: #{results.response[:body]}" and return
     end
 
     capture_search_query(results)
@@ -157,21 +157,21 @@ class ApplicationController < ActionController::Base
 
   # Get new token from the authorization server
   def get_new_token(code)
-    auth = "Basic " + Base64.strict_encode64(session[:client_id] + ":" + session[:client_secret])
+    auth = "Basic #{Base64.strict_encode64("#{session[:client_id]}:#{session[:client_secret]}").chomp}"
     begin
       result = RestClient.post(session[:token_url],
                                {
         grant_type: "authorization_code",
         code: code,
         #   _format: "json",
-        redirect_uri: CLIENT_URL + "/login",
+        redirect_uri: login_url,
       },
                                {
         :Authorization => auth,
       })
     rescue StandardError => exception
       # reset_session
-      redirect_to home_path, alert: "Failed to connect: " + exception.message and return
+      redirect_to home_path, alert: "Failed to connect: #{exception.message}" and return
     end
 
     rcResult = JSON.parse(result)
@@ -186,8 +186,7 @@ class ApplicationController < ActionController::Base
 
   # Refresh token from the authorization server
   def refresh_token
-    auth = "Basic " + Base64.strict_encode64(session[:client_id] + ":" + session[:client_secret]).chomp
-
+    auth = "Basic #{Base64.strict_encode64("#{session[:client_id]}:#{session[:client_secret]}").chomp}"
     rcResultJson = RestClient.post(
       session[:token_url],
       {
@@ -205,7 +204,7 @@ class ApplicationController < ActionController::Base
     session[:refresh_token] = rcResult["refresh_token"]
     session[:token_expiration] = (Time.now.to_i + rcResult["expires_in"].to_i)
   rescue StandardError => exception
-    err = "Failed to refresh token: " + exception.message
+    err = "Failed to refresh token: #{exception.message}"
     redirect_to home_path, alert: err and return
   end
 
@@ -218,6 +217,7 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
   # Handle time out request:
   def handle_timeout
     err = "No response from server: Timed out connecting to server. Server is either down or connection is slow."
