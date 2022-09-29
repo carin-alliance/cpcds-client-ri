@@ -94,7 +94,7 @@ module ApplicationHelper
     if address.text.present?
     	address_text = address.text
     else
-    	address_text = (address.line + 
+    	address_text = (address.line +
     										[ address.city, address.state, address.postalCode ]).join(', ')
     end
 
@@ -104,7 +104,9 @@ module ApplicationHelper
   #-----------------------------------------------------------------------------
 
   def address_text(address)
-    address_text = (address.line + [ address.city, address.state, address.postalCode ]).join(', ') if address
+    formatted_address = address.line.join("<br/>")
+    formatted_address += "<br/>#{address.city}, #{address.state}, #{address.postalCode}"
+    # address_text = ([line] + [address.city, address.state, address.postalCode ]).join(', ') if address
   end
 
 	#-----------------------------------------------------------------------------
@@ -112,13 +114,13 @@ module ApplicationHelper
   def display_contact_info(address, telecoms)
     contact_info = address_text(address) ||''
     telecoms.each do |telecom|
-      contact_info += "</br>" if contact_info.present?
+      contact_info += "<br/>" if contact_info.present?
       contact_info += "<small>#{display_telecom(telecom)}</small>"
     end
 
     contact_info
   end
-  
+
   #-----------------------------------------------------------------------------
 	def display_postal_code(postal_code)
 	  unless postal_code.nil?
@@ -160,7 +162,7 @@ module ApplicationHelper
 	#-----------------------------------------------------------------------------
 
 	def display_categories(categories)
-		sanitize(categories.each.map { |category| category.text }.join(', '))	
+		sanitize(categories.each.map { |category| category.text }.join(', '))
 	end
 
 	#-----------------------------------------------------------------------------
@@ -179,5 +181,5 @@ module ApplicationHelper
 		value = value.nil? ? hint : value
 		text_field_tag name, value, {:onclick => "if($(this).value == '#{hint}'){$(this).value = ''}", :onblur => "if($(this).value == ''){$(this).value = '#{hint}'}" }.update(options.stringify_keys)
 	end
-	
+
 end
