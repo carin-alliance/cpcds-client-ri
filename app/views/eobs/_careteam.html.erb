@@ -1,0 +1,19 @@
+<div
+   id="careteam"
+	class="d-flex flex-sm-column flex-md-row justify-content-around mt-4 py-4 mx-auto fs-6 w-100 bg-light border border-1 rounded w-100"
+>
+  <div class="d-flex flex-column flex-grow-1 flex-shrink-1 mx-2 w-100">
+    <h4 class="w-100 lh-1">Care Team</h4>
+    <% @eob.careteam.each do |item| %>
+      <article class="flex-grow-1 flex-shrink-1 py-2 border-bottom w-100">
+        <h6 class="flex-shink-1"><%= sanitize(item[:provider]) %></h6>
+        <p class="text-secondary">
+            <small><b>Role: </b><%= sanitize(item[:role]) %> </small> <br>
+            <% if sanitize(item[:qualification]) %>
+              <small><b>Qualification: </b><%= sanitize(item[:qualification]) %></small>
+            <% end %>
+          </p>
+      </article>
+    <% end %>
+  </div>
+</div>

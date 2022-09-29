@@ -1,0 +1,30 @@
+<div
+  id="claim-info-total"
+	class="d-flex flex-sm-column flex-md-row justify-content-around mt-4 py-4 mx-auto fs-6 w-100 bg-light border border-1 rounded"
+>
+  <div id="claim-info" class="d-flex flex-column flex-grow-1 flex-shrink-1 mx-2">
+    <h4 class="w-100 text-primary lh-1">
+      <%= sanitize(@eob.provider.name) %> <br>
+      <small class="bg-secondary text-light fw-bold mx-2 px-2" style="font-size: 14px">
+        <i class="bi bi circle text-warning" style="font-size: 10px">=></i>
+        <%= @eob.outcome %>
+      </small>
+    </h4>
+    <p>
+      <b class="text-secondary">Claim ID: </b><%= @eob.claim_id%> <br>
+      <b class="text-secondary">Submitted On: </b><%= Date.strptime(@eob.created, "%m/%d/%Y") %> <br>
+      <b class="text-secondary">EOB Type: </b><%= sanitize(@eob.type) %> <br>
+    </p>
+  </div>
+  <div id="total-cost" class="d-flex flex-column flex-grow-1 flex-shrink-1 px-2">
+    <h4 class="w-100 mb-2">Total Cost Overview</h4>
+
+    <% @eob.total.each do |total| %>
+      <div class="d-flex justify-content-between flex-nonwrap lh-base pt-2 pe-4">
+        <p class="text-left mb-0"><%= sanitize(total[:category]) %></p>
+        <p class="text-right mb-0"><%= sanitize(total[:amount]) %></p>
+      </div>
+    <% end %>
+
+  </div>
+</div>

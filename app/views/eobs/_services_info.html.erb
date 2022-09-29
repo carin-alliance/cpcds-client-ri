@@ -1,0 +1,45 @@
+<div
+  id="services-info"
+	class="d-flex flex-column justify-content-around mt-2 py-4 mx-auto fs-6 w-100 bg-light border border-1 rounded"
+>
+  <h4 class="w-100 ps-2">Service Details</h4>
+  <% @eob.items.each_with_index do |item, index| %>
+    <div class="border-bottom mt-2 px-2 w-100">
+      <div class="d-flex flex-sm-column flex-md-row flex-nowrap justify-content-between w-100">
+        <article class="flex-grow-1 flex-shrink-1 py-2 w-100">
+          <h6 class="flex-shink-1"><%= sanitize(item[:productOrService]) %></h6>
+          <p class="text-secondary">
+            <small><b>Serviced on: </b><%= sanitize(item[:startDate]) %> </small> <br>
+            <% if sanitize(item[:location]) %>
+              <small><b>Location: </b><%= sanitize(item[:location]) %></small>
+            <% end %>
+          </p>
+        </article>
+        <article class="flex-grow-1 flex-shrink-1 py-2 w-100">
+          <% if item[:adjudication].size > 0 %>
+            <a
+              role="button"
+              class="bg-transparent text-decoration-none text-secondary ms-md-4 ps-md-5 dropdown-toggle"
+              data-bs-toggle="collapse"
+              href=<%= "#service-details-#{index}" %>
+              aria-expanded="false" aria-controls=<%= "service-details-#{index}" %>
+            >
+              Billing Details
+            </a>
+            <div class="collapse" id=<%= "service-details-#{index}" %>>
+              <% item[:adjudication].each do |adj| %>
+                <div class="d-flex justify-content-between flex-nonwrap lh-base pt-2 pe-4">
+                  <p class="text-left mb-0"><%= sanitize(adj[:type]) %></p>
+                  <p class="text-right mb-0"><%= sanitize(adj[:value]) %></p>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-warning">No Billing Details Provided</p>
+          <% end %>
+
+        </article>
+      </div>
+    </div>
+  <% end %>
+</div>

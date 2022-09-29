@@ -1,0 +1,32 @@
+<div
+	id="patient-info"
+	class="d-flex flex-sm-column flex-md-row justify-content-around mt-4 mx-auto px-3 py-4 fs-6 w-100 bg-secondary text-light border rounded"
+>
+  <div>
+    <div id="payor" class="">
+      <% payor = @eob.coverage.payors.first %>
+      <h4 class="text-bolder"><%= sanitize(payor.name) %></h4>
+      <p class="lh-1"><small><%= display_contact_info(payor.addresses.first, payor.telecoms).html_safe %></small></p>
+    </div>
+    <div id="patient" class="ms-0">
+      <p>
+        <% patient_name = display_human_name(@patient.names.first) %>
+        <%= patient_name %> <br>
+        <%= display_contact_info(@patient.addresses.first, @patient.telecoms).html_safe %>
+      </p>
+	  </div>
+  </div>
+
+	<div id="coverage" class="mt-5">
+    <h6 class="text-bolder">Suscriber Details</h6>
+    <p>
+      <b>Name: </b><%= "#{patient_name} (#{sanitize(@eob.coverage.relationship)})" %><br/>
+      <b>Member ID: </b><%= sanitize(@eob.coverage.subscriberId) %> <br>
+      <% @eob.coverage.classes.each do |c| %>
+        <% type = sanitize(c.type).include?("group") ? "Group" : "Plan" %>
+        <b><%= type %> Number: </b><%= sanitize(c.value) %> <br>
+        <b><%= type %> Name: </b><%= sanitize(c.name) %> <br>
+      <% end %>
+    </p>
+  </div>
+</div>
