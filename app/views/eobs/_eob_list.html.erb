@@ -15,7 +15,9 @@
             <div class="d-flex flex-row flex-wrap flex-grow-1 p-1">
               <div class="d-flex flex-row flex-grow-1 flex-shrink-1 me-0 w-25">
                 <div class="mr-0 flex-grow-1">
-                  <h5 class="pb-2 fw-bold lh-base"><%= sanitize(eob.provider.name) %></h5>
+                  <h5 class="pb-2 fw-bold lh-base">
+                    <%= link_to sanitize(eob.provider.name), eob_path(eob.id), class: "text-decoration-none text-info" %>
+                  </h5>
                   <time class="fs-6 lh-base fw-lighter">
                     serviced on <%= Date.strptime(eob.created, "%m/%d/%Y") %>
                   </time>
