@@ -52,6 +52,14 @@ SUPPORTING_INFO_CS = {
   "prosthesis" => "Prosthesis",
   "additionalbodysite" => "Additional Body Site",
   "missingtoothnumber" => "Missing Tooth Number",
+  "patientweight" => "Patient Weight",
+  "ambulancetransportreason" => "Ambulance Transport Reason",
+  "transportationdistance" => "Transportation Distance",
+  "roudtrippurpose" => "Roudtrip Purpose",
+  "stretcherpurpose" => "Stretcher Purpose",
+  "pickuplocation" => "Pickup Location",
+  "dropofflocation" => "Dropoff Location",
+
 }.freeze
 
 #-------------------------------------------------------------------------------
@@ -76,6 +84,11 @@ TOTAL_CATEGORY_AND_ADJUDICATION_CS = {
   "other" => "Other Network",
   "allowedunits" => "Allowed units",
   "denialreason" => "Denial Reason",
+  "adjustmentreason" => "Adjustment Reason",
+  "rejectreason" => "Reject Reason",
+  "billingnetworkstatus" => "Billing Network Status",
+  "renderingnetworkstatus" => "Rendering Network Status",
+  "benefitpaymentstatus" => "Benefit Payment Status",
 }.freeze
 
 #-------------------------------------------------------------------------------
@@ -84,3 +97,21 @@ ADA_UNIVERSAL_NS = {
   "2" => "Permanent teeth right second molar (12-year-molar)",
 }.freeze
 #-------------------------------------------------------------------------------
+LOCATION_CS = {
+  "01" => "Pharmacy",
+  "11" => "Office",
+  "12" => "Home",
+  "13" => "Assisted Living Facility",
+  "14" => "Group Home",
+  "17" => "Walk-in Retail Health Clinic",
+  "20" => "Urgent Care Facility",
+  "21" => "Inpatient Hospital",
+  "22" => "On Campus-Outpatient Hospital",
+  "23" => "Emergency Room-Hospital",
+}.freeze
+#-------------------------------------------------------------------------------
+PRODUCT_SERVICE_CS = {
+  "99231" => "Subsequent Hospital Care",
+  "75710" => "Lower Extremity Angiogram",
+  "37228" => "Angioplasty",
+}.freeze
