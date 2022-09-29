@@ -9,8 +9,8 @@
 class EOB < Resource
   include ActiveModel::Model
   #-----------------------------------------------------------------------------
-  attr_accessor :id, :created, :billingstartdate, :billingenddate, :category, :careteam, :claim_reference, :claim, :facility, :use, :insurer, :provider,
-                :coverage, :items, :fhir_client, :sortDate, :total, :payment, :supportingInfo, :patient, :payeetype, :payeeparty, :type, :adjudication, :outcome, :use
+  attr_accessor :id, :created, :billingstartdate, :billingenddate, :careteam, :claim, :facility, :use, :insurer, :provider, :diagnosis, :sortDate,
+                :coverage, :items, :fhir_client, :total, :payment, :supportingInfo, :patient, :payeetype, :payeeparty, :type, :adjudication, :outcome, :use, :claim_id
 
   def initialize(fhir_client, fhir_eob, patients, practitioners, locations, organizations, coverages, practitionerroles)
     @id = fhir_eob.id
@@ -21,41 +21,21 @@ class EOB < Resource
     end
     @use = fhir_eob.use
     @patient = patients[0].names
-    @sortDate = DateTime.parse(fhir_eob.created).to_i
     @created = dateToString(fhir_eob.created)
+    @sortDate = DateTime.parse(fhir_eob.created).to_i
     @billingstartdate = dateToString(fhir_eob.billablePeriod&.start)
     @billingenddate = dateToString(fhir_eob.billablePeriod&.end)
     insurer_id = get_id_from_reference(fhir_eob.insurer.reference)
     i = elementwithid(organizations, insurer_id)
     @insurer = i ? i : Struct.new(*[:name, :telecoms, :addresses]).new(*["missing", [], []])
     provider_id = get_id_from_reference(fhir_eob.provider.reference)
-    p = (elementwithid(practitioners, provider_id) || elementwithid(organizations, provider_id))
+    p = elementwithid(practitioners + organizations, provider_id)
     @provider = p ? p : Struct.new(*[:name, :telecoms, :addresses]).new(*["missing", [], []])
     @payeetype = codeable_concept_to_string(fhir_eob.payee&.type)
     payeeparty_id = get_id_from_reference(fhir_eob.payee&.party&.reference)
     @payeeparty = fhir_eob.payee ? (elementwithid(patients, payeeparty_id) || elementwithid(practitioners, payeeparty_id) || elementwithid(organizations, payeeparty_id)) : "none"
     @outcome = fhir_eob.outcome
-=begin  @careteam = fhir_eob.careTeam.each_with_object({}) do |member, hash|
-             sequence = member.sequence
-             practitioner =  elementwithid( practitioners, member.provider.reference )
-             name = practitioner.name[0]
-             rendername = name.prefix.join(" ") if name.prefix
-             rendername = rendername + " " + name.given.join(" ") + " " + name.family
-             hash[sequence] = { :name => rendername,
-                                 :role =>  member.role.coding.map {|coding| coding.display}.join(",")
-              }
-    end
-     @careteam = fhir_eob.careTeam
-=end
-    if fhir_eob.diagnosis
-      @diagnosis = fhir_eob.diagnosis.each_with_object({}) do |d, hash|
-        sequence = d.sequence
-        codeable = codingToString(d.diagnosisCodeableConcept.coding)
-        type = codingToString(d.type.map(&:coding).flatten)
-        hash[sequence] = { :code => codeable, :type => type }
-      end
-    end
-
+    @diagnosis = parse_diagnosis(fhir_eob.diagnosis)
     @facility = fhir_eob.facility.display || "<MISSING>"
     @use = fhir_eob.use || "<MISSING>"
     @total = parseTotal(fhir_eob.total)
@@ -67,6 +47,8 @@ class EOB < Resource
     @coverage = elementwithid(coverages, coverage_id)
     @items = parseItems(fhir_eob.item) if fhir_eob.item
     @adjudication = parseAdjudication(fhir_eob.adjudication)
+    @claim_id = fhir_eob.identifier.first.value
+    @careteam = parse_careteam(fhir_eob.careTeam, practitioners + organizations)
   end
 
   def parseTotal(total)
@@ -89,10 +71,18 @@ class EOB < Resource
       info = "#{ADA_UNIVERSAL_NS[info]} (#{info})" if category == "Additional Body Site"  #TODO: to be revised for all EOB profiles
       info = dateToString(member.timingDate) if member.timingDate
       info = ("#{dateToString(member.timingPeriod.start)} - #{dateToString(member.timingPeriod.end)}") if member.timingPeriod
-      info = member.valueBoolean || member.valueString || member.valueQuantity&.value || info
+      info = member.valueBoolean || member.valueString || info
       if member.valueReference
         resource = fhir_client.read(nil, member.valueReference.reference).resource
         info = resource.name
+      elsif member.valueQuantity
+        value = member.valueQuantity.value
+        unit = member.valueQuantity.unit&.delete("[]")
+        info = "#{value} #{unit}"
+      elsif member.reason
+        code = member.reason.code
+        description = member.reason.display
+        info = "#{description} (#{code})"
       end
 
       hash[sequence] = { :category => category, :info => info.to_s }
@@ -104,16 +94,18 @@ class EOB < Resource
     adjudication ||= []
 
     adjudication.map do |item|
-      amount = type = reason = value = "N/A"
-      type = TOTAL_CATEGORY_AND_ADJUDICATION_CS[codingToString(item.category.coding)] || type
-      amount = amountToString(item.amount)
-      reason = item.reason.present? ? codeable_concept_to_string(item.reason) : reason
-      value = item.value || value
+      type = TOTAL_CATEGORY_AND_ADJUDICATION_CS[codingToString(item.category.coding)]
+      value = ""
+     if item.reason
+      value = TOTAL_CATEGORY_AND_ADJUDICATION_CS[codingToString(item.reason.coding)]
+     elsif item.value
+      value = item.value
+     elsif item.amount
+      value = amountToString(item.amount)
+     end
       {
         :type => type,
-        :amount => amount,
         :value => value,
-        :reason => reason,
       }
     end
   end
@@ -122,13 +114,19 @@ class EOB < Resource
     items ||= []
 
     items.map do |item|
-      itemloc = item.locationCodeableConcept.present? ?
-        "#{item.locationCodeableConcept.coding&.first&.display} (#{codingToString(item.locationCodeableConcept.coding)})" : "N/A"
-      itemproductOrService = "#{item.productOrService&.coding&.first&.display} (#{codingToString(item.productOrService&.coding)})"
+      itemloc = ""
+      if item.locationCodeableConcept.present?
+        code = codingToString(item.locationCodeableConcept.coding)
+        display = item.locationCodeableConcept.text || LOCATION_CS[code]
+        itemloc = "#{display} (#{code})"
+      end
+      product_code = codingToString(item.productOrService&.coding)
+      product_description = item.productOrService&.coding&.first&.display || item.productOrService&.text || PRODUCT_SERVICE_CS[product_code]
+      itemproductOrService = "#{product_description} (#{product_code})"
       itemstartDate = item.servicedDate.present? ? dateToString(item.servicedDate) : @billingstartdate
 
       itemadjudication = item.adjudication&.map do |adj|
-        value = amountToString(adj.amount)
+        value = adj.amount ? amountToString(adj.amount) : TOTAL_CATEGORY_AND_ADJUDICATION_CS[codingToString(adj.reason&.coding)]
         type = TOTAL_CATEGORY_AND_ADJUDICATION_CS[codingToString(adj.category.coding)]
         text = adj.category&.text
         adjvalue = { type: type, value: value, text: text }
@@ -147,6 +145,30 @@ class EOB < Resource
         :adjudication => itemadjudication,
         :quantity => item.quantity,
       }
+    end
+  end
+
+  def parse_diagnosis(diagnosis_list)
+    diagnosis_list ||= []
+    diagnosis_list.map do |diagnosis|
+      coding = diagnosis.type&.first&.coding&.first
+      diagnostic_type = coding&.display || coding&.code&.capitalize
+      diagnostic_code = codingToString(diagnosis.diagnosisCodeableConcept&.coding)
+      {type: diagnostic_type, code: diagnostic_code}
+    end
+  end
+
+  def parse_careteam(careteam_list, practitioner_list)
+    careteam_list ||= []
+    careteam_list.map do |careteam|
+      provider_id = get_id_from_reference(careteam.provider.reference)
+      provider_name = elementwithid(practitioner_list, provider_id)&.name&.delete(",")
+      role_coding = careteam.role&.coding&.first
+      provider_role = role_coding&.display || role_coding&.code&.capitalize
+      qualification_coding = careteam.qualification&.coding&.first
+      provider_qualification = qualification_coding&.display ? "#{qualification_coding&.display} (#{qualification_coding&.code})" : qualification_coding&.code
+
+      {provider: provider_name, role: provider_role , qualification: provider_qualification}
     end
   end
 
