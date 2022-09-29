@@ -104,9 +104,11 @@ module ApplicationHelper
   #-----------------------------------------------------------------------------
 
   def address_text(address)
-    formatted_address = address.line.join("<br/>")
-    formatted_address += "<br/>#{address.city}, #{address.state}, #{address.postalCode}"
-    # address_text = ([line] + [address.city, address.state, address.postalCode ]).join(', ') if address
+    formatted_address = ""
+    if address
+      formatted_address = address.line.join("<br/>")
+      formatted_address += "<br/>#{address.city}, #{address.state}, #{address.postalCode}"
+    end
   end
 
 	#-----------------------------------------------------------------------------

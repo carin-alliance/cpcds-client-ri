@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
       parameters[:"service-date"] << "ge#{DateTime.parse(start_date).strftime("%Y-%m-%d")}" if start_date.present?
       parameters[:"service-date"] << "le#{DateTime.parse(end_date).strftime("%Y-%m-%d")}" if end_date.present?
     rescue => exception
-      redirect_back fallback_location: dashboard_path, alert: "Please provide a valid date in the form (dd/mm/yyyy)"
+      redirect_back fallback_location: home_path, alert: "Please provide a valid date in the form (dd/mm/yyyy)"
     end
 
     includelist = ["ExplanationOfBenefit:patient",
@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
     search = { parameters: parameters }
     results = @client.search(FHIR::ExplanationOfBenefit, search: search)
     if !(200..206).member?(results.response[:code])
-      redirect_back fallback_location: dashboard_path, alert: "ERROR: #{results.response[:body]}" and return
+      redirect_to home_path, alert: "ERROR: #{results.response[:body]}" and return
     end
 
     capture_search_query(results)
