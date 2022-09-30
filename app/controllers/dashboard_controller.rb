@@ -30,6 +30,7 @@ class DashboardController < ApplicationController
     session[:iss_url] = cookies[:iss_url] = params[:iss_url].strip.delete_suffix("/").delete_suffix("/metadata")
     session[:client_id] = params[:client_id].strip
     session[:client_secret] = params[:client_secret].strip
+    session[:scope] = params[:scope]&.strip
     # Get the server metadata
     rcResult = get_server_metadata(session[:iss_url])
     redirect_to home_path, alert: rcResult and return if rcResult.class == String
