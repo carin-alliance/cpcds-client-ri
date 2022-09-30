@@ -23,6 +23,11 @@
                                                                               placeholder: "Client secret", required: true %>
                   <label class="form-label">Client Secret <span class="text-danger">**</span></label>
                 </div>
+                <div class="form-outline mb-2">
+                  <%= text_field_tag :scope, cookies[:scope], class: "form-control form-control-lg",
+                                                                              placeholder: "Supported scopes" %>
+                  <label class="form-label">Scopes</label>
+                </div>
                 <div class="d-flex justify-content-center">
                   <%= button_tag "Connect", class: "btn btn-primary btn-block btn-md gradient-custom-4 text-body", id: "server-url" %>
                 </div>
@@ -30,7 +35,7 @@
               <% end %>
               <div class="d-flex justify-content-center my-4">
                 <p class='text-info text-center guidance m-2'>
-                  All fields are required.<br/>
+                  FHIR Server, Client ID, and Client Secret fields are required.<br/>
                   For unauthenticated severs, please provide the FHIR server url and patient ID in the client ID & Secret fields.
                 </p>
               </div>
