@@ -6,7 +6,7 @@
 #
 ################################################################################
 
-class EOB < Resource
+class Eob < Resource
   include ActiveModel::Model
   #-----------------------------------------------------------------------------
   attr_accessor :id, :created, :billingstartdate, :billingenddate, :careteam, :claim, :facility, :use, :insurer, :provider, :diagnosis, :sortDate,
@@ -68,7 +68,7 @@ class EOB < Resource
       category = SUPPORTING_INFO_CS[category_code] || TOTAL_CATEGORY_AND_ADJUDICATION_CS[category_code]
       info = "missing"
       info = codingToString(member.code.coding) if member.code
-      info = "#{ADA_UNIVERSAL_NS[info]} (#{info})" if category == "Additional Body Site"  #TODO: to be revised for all EOB profiles
+      info = "#{ADA_UNIVERSAL_NS[info]} (#{info})" if category == "Additional Body Site"  #TODO: to be revised for all Eob profiles
       info = dateToString(member.timingDate) if member.timingDate
       info = ("#{dateToString(member.timingPeriod.start)} - #{dateToString(member.timingPeriod.end)}") if member.timingPeriod
       info = member.valueBoolean || member.valueString || info

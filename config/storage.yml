@@ -1,11 +1,3 @@
-################################################################################
-#
-# Storage Configuration
-#
-# Copyright (c) 2019 The MITRE Corporation.  All rights reserved.
-#
-################################################################################
-
 test:
   service: Disk
   root: <%= Rails.root.join("tmp/storage") %>
