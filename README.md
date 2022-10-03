@@ -13,6 +13,21 @@ This is an open source reference implementation client for the [Consumer-Directe
 
 The application is hosted on [Heroku](https://www.heroku.com/) and is browseable at <https://cpcds-client-ri.herokuapp.com/home>.
 
+This app works with the [CPCDS reference server](https://github.com/carin-alliance/cpcds-server-ri). Use the following credentials to connect the hosted client with the CPCDS server:
+
+```bash
+Server Base URL: http://cpcds-ri.c3ib.org/cpcds-server/fhir
+Client ID: 6cfecf41-e364-44ab-a06f-77f8b0c56c2b
+Client Secret: XHNdbHQlOrWXQ8eeXHvZal1EDjI3n2ISlqhtP30Zc89Ad2NuzreoorWQ5P8dPrxtk267SJ23mbxlMzjriAGgkaTnm6Y9f1cOas4Z6xhWXxG43bkIKHhawMR6gGDXAuEWc8wXUHteZIi4YCX6E1qAvGdsXS1KBhkUf1CLcGmauhbCMd73CjMugT527mpLnIebuTp4LYDiJag0usCE6B6fYuTWV21AbvydLnLsMsk83T7aobE4p9R0upL2Ph3OFTE1
+```
+
+**Test Patients Login** (username / password)
+
+```txt
+Patient1 / password
+Patient2 / password
+```
+
 ## Running App Locally
 
 ### Prerequisites
