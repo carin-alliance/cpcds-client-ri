@@ -118,7 +118,7 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.1.10)
     crass (1.0.6)
-    dalli (3.2.2)
+    dalli (3.2.3)
     date_time_precision (0.8.1)
     diff-lcs (1.5.0)
     domain_name (0.5.20190701)
