@@ -1,0 +1,12 @@
+version: '1'
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - MEMCACHE_SERVERS=cache:11211
+
+  cache:
+    image: memcached:alpine
+    
