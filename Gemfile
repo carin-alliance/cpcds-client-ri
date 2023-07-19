@@ -1,18 +1,18 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.7.6"
+ruby "2.7.8"
 
-gem "rails", "~> 6.0"       # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem "rails", "~> 6.1"       # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem "sqlite3"
-gem "puma", "~> 3.12.4"         # Use Puma as the app server
-gem "sass-rails", "~> 5.0"      # Use SCSS for stylesheets
-gem "uglifier", ">= 1.3.0"      # Use Uglifier as compressor for JavaScript assets
-gem 'mini_racer', platforms: :ruby  # See https://github.com/rails/execjs#readme for more supported runtimes
+gem "puma", "~> 6.3"         # Use Puma as the app server
+gem "sass-rails"      # Use SCSS for stylesheets
+gem "uglifier"      # Use Uglifier as compressor for JavaScript assets
+gem "mini_racer", platforms: :ruby  # See https://github.com/rails/execjs#readme for more supported runtimes
 
-gem "coffee-rails", "~> 4.2"    # Use CoffeeScript for .coffee assets and views
-gem "turbolinks", "~> 5"        # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem "jbuilder", "~> 2.5"        # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem "coffee-rails", "~> 5.0"    # Use CoffeeScript for .coffee assets and views
+gem "turbolinks", "~> 5.2"        # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
+gem "jbuilder", "~> 2.11"        # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 
 # gem 'redis', '~> 4.0'         # Use Redis adapter to run Action Cable in production
 # gem 'bcrypt', '~> 3.1.7'      # Use ActiveModel has_secure_password
@@ -22,7 +22,7 @@ gem "bootsnap", ">= 1.1.0", require: false  # Reduces boot times through caching
 gem "bootstrap"                 # Wrapper for bootstrap
 gem "jquery-rails"              # Wrapper for jQuery
 gem "bootstrap-toggle-rails"    # Wrapper for bootstrap toggle
-gem "fhir_client", git: "https://github.com/fhir-crucible/fhir_client.git"  # FHIR client from MITRE's crucible project
+gem "fhir_client"               # FHIR client from MITRE's crucible project
 gem "rdoc"                      # RDoc for documentation
 gem "chartkick"					        # Integrates chart.js functionality into Ruby
 gem "masonry-rails"             # Wrapper for Masonry JavaScript grid layout library

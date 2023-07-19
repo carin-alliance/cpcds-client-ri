@@ -1,7 +1,10 @@
-version: '1'
+version: '3.8'
+name: cpcds-client-ri
 services:
   web:
     build: .
+    depends_on:
+      - cache
     ports:
       - "3000:3000"
     environment:
