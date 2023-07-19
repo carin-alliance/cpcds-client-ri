@@ -11,4 +11,4 @@ RUN gem install -N bundler && bundle install --jobs 8
 RUN rake db:setup
 
 EXPOSE 3000
-CMD ["bundle", "exec", "puma"]
+CMD ["rails", "server", "-b", "0.0.0.0"]
