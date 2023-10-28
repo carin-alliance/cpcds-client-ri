@@ -93,3 +93,12 @@ Contributions and suggestions are welcome. You can report a bug or suggest a fea
 ## Copyright
 
 Copyright 2022 The MITRE Corporation
+
+
+## Questions and Contributions
+Questions about the project can be asked in the [CARIN BlueButton stream on the FHIR Zulip Chat](https://chat.fhir.org/#narrow/stream/204607-CARIN-IG-for-Blue-Button.C2.AE).
+
+This project welcomes Pull Requests. Any issues identified with the RI should be submitted via the [GitHub issue tracker](https://github.com/carin-alliance/cpcds-client-ri/issues).
+
+As of October 1, 2022, The Lantana Consulting Group is responsible for the management and maintenance of this Reference Implementation.
+In addition to posting on FHIR Zulip Chat channel mentioned above you can contact [Corey Spears](mailto:corey.spears@lantanagroup.com) for questions or requests.
