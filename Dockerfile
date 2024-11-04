@@ -6,7 +6,7 @@ RUN mkdir -p /app
 WORKDIR /app
 
 COPY . .
-RUN gem install -N bundler && bundle install --jobs 8
+RUN gem install -N bundler -v 2.4.22 && bundle install --jobs 8
 
 RUN rake db:setup
 
