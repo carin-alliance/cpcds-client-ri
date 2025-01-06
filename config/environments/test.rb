@@ -1,4 +1,4 @@
-CLIENT_URL = "http://localhost:4000"
+CLIENT_URL = "http://localhost:3000"
 
 require "active_support/core_ext/integer/time"
 

@@ -11,12 +11,12 @@ This is an open source reference implementation client for the [Consumer-Directe
 
 ## Hosted Application
 
-The application is hosted on [Heroku](https://www.heroku.com/) and is browseable at <https://cpcds-client-ri.herokuapp.com/home>.
+The application is hosted at https://cpcds-client.lantanagroup.com/home
 
 This app works with the [CPCDS reference server](https://github.com/carin-alliance/cpcds-server-ri). Use the following credentials to connect the hosted client with the CPCDS server:
 
 ```bash
-Server Base URL: http://cpcds-ri.c3ib.org/cpcds-server/fhir
+Server Base URL: https://cpcds-server.lantanagroup.com/fhir
 Client ID: 6cfecf41-e364-44ab-a06f-77f8b0c56c2b
 Client Secret: XHNdbHQlOrWXQ8eeXHvZal1EDjI3n2ISlqhtP30Zc89Ad2NuzreoorWQ5P8dPrxtk267SJ23mbxlMzjriAGgkaTnm6Y9f1cOas4Z6xhWXxG43bkIKHhawMR6gGDXAuEWc8wXUHteZIi4YCX6E1qAvGdsXS1KBhkUf1CLcGmauhbCMd73CjMugT527mpLnIebuTp4LYDiJag0usCE6B6fYuTWV21AbvydLnLsMsk83T7aobE4p9R0upL2Ph3OFTE1
 ```
@@ -36,8 +36,7 @@ Make sure you have the following dependencies installed
 
 - **[Ruby](https://www.ruby-lang.org/en/)**
 - **[Rails](https://guides.rubyonrails.org/getting_started.html#creating-a-new-rails-project-installing-rails)**
-- **[PostgreSQL](https://www.postgresql.org/download/)**
-- **[Memcached](https://github.com/memcached/memcached/wiki/Install#installation)**
+- **[Memcached](https://github.com/memcached/memcached/wiki/Install#installation)** (optional)
 
 ### Installation
 
@@ -50,10 +49,10 @@ git clone https://github.com/carin-alliance/cpcds-client-ri.git
 
 ### Running the App
 
-This app uses PostgreSQL for database and memcached for caching systems.
+This app uses SQLite for database and memcached for caching systems.
 
 1. Ensure you have all the prerequisites installed.
-2. Ensure that postgre and memcached are running.
+2. (optional) Ensure that memcached is running.
 3. Change directory to the app directory:
 
     ```bash
@@ -83,8 +82,7 @@ Now you should be able to see the app up and running at `localhost:3000`
 ### Stopping the App
 
 1. Stop the app by doing `control + c`
-2. Stop the postgre server
-3. stop the memcached server
+2. Stop the memcached server
 
 ## Contributing
 
